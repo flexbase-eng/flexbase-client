@@ -1,0 +1,174 @@
+{
+  "name": "flexbase-client",
+  "version": "0.1.0",
+  "description": "Flexbase api client",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Flexbase",
+  "license": "MIT",
+  "homepage": "https://github.com/flexbase-eng/flexbase-client",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:flexbase-eng/flexbase-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flexbase-eng/flexbase-client/issues"
+  },
+  "keywords": [
+    "flexbase"
+  ],
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@flexbase/packr": "^1.0.0",
+    "@types/jest": "^28.1.1",
+    "@types/luxon": "^2.3.2",
+    "@types/node": "^17.0.41",
+    "@types/node-fetch": "^2.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "jest": "^28.1.1",
+    "jest-extended": "^2.0.0",
+    "moq.ts": "^9.0.2",
+    "msw": "^0.42.1",
+    "node-fetch": "^2.6.7",
+    "prettier": "^2.7.0",
+    "ts-jest": "^28.0.4",
+    "ts-node": "^10.8.1",
+    "tsconfig.json": "^1.0.11",
+    "typedoc": "^0.22.17",
+    "typedoc-github-wiki-theme": "^1.0.1",
+    "typedoc-plugin-markdown": "^3.12.1",
+    "typescript": "^4.7.3",
+    "wretch": "^1.7.10"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "docs": "typedoc",
+    "prepare": "yarn run build",
+    "test": "jest --no-cache",
+    "lint": "eslint 'src/**/*.{ts,tsx,json}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
+    "packr": "packr"
+  },
+  "dependencies": {
+    "@flexbase/http-client-middleware": "^1.4.0",
+    "jwt-decode": "^3.1.2",
+    "luxon": "^2.4.0"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tests/tsconfig.tests.json"
+      }
+    },
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "jest-extended",
+      "<rootDir>/tests/setup.ts"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns":[
+      "<rootDir>/node_modules/(?!@flexbase/)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+  ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 200
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "prettier",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "args": "none"
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "args": "none"
+        }
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn",
+      "@typescript-eslint/no-inferrable-types": "off"
+    },
+    "env": {
+      "browser": true,
+      "es2021": true
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "docs",
+    "tests"
+  ],
+  "packr": {
+    "output": "output",
+    "properties": [
+      "name",
+      "version",
+      "description",
+      "main",
+      "module",
+      "types",
+      "homepage",
+      "repository",
+      "bugs",
+      "author",
+      "license",
+      "dependencies",
+      "type",
+      "bin",
+      "keywords"
+    ],
+    "include": [
+      "dist",
+      "README.md",
+      "LICENSE",
+      "yarn.lock"
+    ]
+  }
+}
