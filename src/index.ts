@@ -3,3 +3,4 @@ export { FlexbaseAuthenticationTokenAccessor } from './auth/FlexbaseAuthenticati
 export { convertFlexbaseToken } from './auth/ConvertFlexbaseToken';
 export { Address } from './models/Address';
 export { FlexbasePasswordCredentials } from './models/FlexbasePasswordCredentials';
+export { Invoice } from './models/Invoice';

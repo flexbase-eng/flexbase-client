@@ -17,6 +17,8 @@ test("FlexbaseClient mixins", () => {
     expect(typeof client.exchangePlaidPublicToken).toBe('function');
     expect(typeof client.getPlaidLinkToken).toBe('function');
     expect(typeof client.updatePlaidLinkToken).toBe('function');
+    expect(typeof client.getInvoicesByCompany).toBe('function');
+    expect(typeof client.getInvoicesByUser).toBe('function');
 });
 
 test("FlexbaseClient set auth token", () => {

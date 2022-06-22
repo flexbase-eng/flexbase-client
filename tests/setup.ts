@@ -2,7 +2,7 @@ import { MockedRequest } from 'msw';
 import { server } from './mocks/server/server'
 
 const unhandledRequest = (request: MockedRequest) => {
-  expect(request).fail("Undefined endpoint called: " + request.url);
+  console.error(`Undefined endpoint called:${request.method} ${request.url}`);
 }
 
 beforeAll(() => {

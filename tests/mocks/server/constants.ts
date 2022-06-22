@@ -19,3 +19,7 @@ export const testTokenType = "Test";
 export const plaidLinkToken = "plaid token";
 export const goodPlaidPublicToken = "good token";
 export const badPlaidPublicToken = "bad token";
+
+export const goodCompanyId = "good company";
+export const badCompanyId = "bad company";
+export const errorCompanyId = "error company";
