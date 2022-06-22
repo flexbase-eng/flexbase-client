@@ -14,7 +14,7 @@ export class FlexbaseCardsInvoice extends FlexbaseClientBase {
         includeReversed?: boolean, includeExpired?: boolean): Promise<Invoice[] | null> {
 
         try {
-            let params: any = {};
+            const params: any = {};
 
             if (before) {
                 params.before = before.toISO();
@@ -61,7 +61,7 @@ export class FlexbaseCardsInvoice extends FlexbaseClientBase {
         includeCardholder?: boolean, includeMerchantName?: boolean,
         includeReversed?: boolean, includeExpired?: boolean): Promise<Invoice[] | null> {
         try {
-            let params: any = {};
+            const params: any = {};
 
             if (before) {
                 params.before = before.toISO();
