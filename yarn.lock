@@ -306,10 +306,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@flexbase/http-client-middleware@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-1.4.0.tgz#3b444b20a8d256e42c500875e31fd1b5ef8eadc0"
-  integrity sha512-07abnmtYdyAL3tjKRQHi7pkOtLaTyLWZKbBl5sVCq8q+tb6EDYn8zZLWNR7Q70Ly/bCF/iH52sM58Vthhw5pyg==
+"@flexbase/http-client-middleware@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-1.5.0.tgz#df015c165baa7279f01bebd2362861ebf52ea5a8"
+  integrity sha512-MZWnWDUI2H8M7oq6B2x62P4sr2N5E2f/tm09J3Zk4E+wzSt1FZSmpAS3SI+DfN5eb/Q5e6OA33o2axOZ0NJEdw==
   dependencies:
     luxon "^2.4.0"
 
