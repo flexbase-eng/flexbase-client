@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -58,7 +58,7 @@
     "packr": "packr"
   },
   "dependencies": {
-    "@flexbase/http-client-middleware": "^1.5.0",
+    "@flexbase/http-client-middleware": "^1.6.0",
     "@flexbase/logger": "^1.0.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^2.4.0"

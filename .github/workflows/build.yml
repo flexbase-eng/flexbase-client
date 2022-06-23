@@ -14,13 +14,11 @@ jobs:
     uses: flexbase-eng/.github/.github/workflows/typescript.sonarcloud.yml@main
     with:
       project_key: flexbase-eng_flexbase-client
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    secrets: inherit
 
   publish:
     needs: coverage
     uses: flexbase-eng/.github/.github/workflows/typescript.publish.npm.yml@main
     with:
       tag: beta
-    secrets:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+    secrets: inherit
