@@ -313,6 +313,11 @@
   dependencies:
     luxon "^2.4.0"
 
+"@flexbase/logger@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@flexbase/logger/-/logger-1.0.0.tgz#3893c6f23e125cc71b5ae1a0d3b409db250ecfe6"
+  integrity sha512-4/oeNRBLV3dYbYno6JO1BbkKrAxiElNBIjqahUTugcAJ8V1r2exJpfSnAhpSyuhBK+IxALFF9mCu+R2zlWiytw==
+
 "@flexbase/packr@^1.0.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@flexbase/packr/-/packr-1.2.0.tgz#e5bb439b97912b88b35688070a4291cb60cbbbc0"
