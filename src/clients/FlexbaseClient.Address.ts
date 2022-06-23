@@ -10,13 +10,18 @@ interface AddressPreview {
 }
 
 export class FlexbaseClientAddress extends FlexbaseClientBase {
-    async addressPreview(street1: string | undefined): Promise<Address[]> {
+    /**
+     * Get address suggestions based on the specified street
+     * @param street A partial street address
+     * @returns An array of matched addresses, otherwise an empty array
+     */
+    async addressPreview(street: string | undefined): Promise<Address[]> {
         try {
-            if (!street1) {
+            if (!street) {
                 return [];
             }
 
-            const response = await this.client.url('/address/preview').post({ address: street1 }).json<{ previews: AddressPreview[] }>();
+            const response = await this.client.url('/address/preview').post({ address: street }).json<{ previews: AddressPreview[] }>();
             return response.previews.map(x => {
                 return {
                     street1: x.address,
@@ -28,7 +33,7 @@ export class FlexbaseClientAddress extends FlexbaseClientBase {
                 };
             });
         } catch {
-            // console.error('Unable to get address previews');
+            this.logger.error('Unable to get address previews');
             return [];
         }
     }

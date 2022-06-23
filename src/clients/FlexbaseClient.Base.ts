@@ -1,15 +1,18 @@
 import { AuthenticationTokenAccessor, AuthenticationToken } from '@flexbase/http-client-middleware';
+import { Logger, ConsoleLogger } from '@flexbase/logger';
 import { Wretcher } from 'wretch';
 
 export abstract class FlexbaseClientBase {
     private readonly _client: Wretcher;
+    private readonly _logger: Logger;
     private _tokenAccessor: AuthenticationTokenAccessor<any>;
     private _token: AuthenticationToken | null;
 
-    constructor(client: Wretcher, tokenAccessor: AuthenticationTokenAccessor<any>) {
+    constructor(client: Wretcher, tokenAccessor: AuthenticationTokenAccessor<any>, logger?: Logger) {
         this._client = client;
         this._tokenAccessor = tokenAccessor;
         this._token = null;
+        this._logger = logger || new ConsoleLogger();
     }
 
     protected get client(): Wretcher {
@@ -18,6 +21,10 @@ export abstract class FlexbaseClientBase {
 
     get token(): AuthenticationToken | null {
         return this._token;
+    }
+
+    protected get logger(): Logger {
+        return this._logger;
     }
 
     protected setAuthenticationToken(authToken: AuthenticationToken | null) {

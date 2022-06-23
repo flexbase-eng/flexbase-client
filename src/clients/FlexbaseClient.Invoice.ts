@@ -60,7 +60,7 @@ export class FlexbaseCardsInvoice extends FlexbaseClientBase {
 
             return response.invoices;
         } catch (error) {
-             console.error('Unable to get company transactions', error);
+             this.logger.error('Unable to get company transactions', error);
             return null;
         }
     }
@@ -84,7 +84,7 @@ export class FlexbaseCardsInvoice extends FlexbaseClientBase {
 
             return response.invoices;
         } catch (error) {
-            // console.error('Unable to get company transactions', error);
+            this.logger.error('Unable to get company transactions', error);
             return null;
         }
     }

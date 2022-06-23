@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@flexbase/http-client-middleware": "^1.4.0",
+    "@flexbase/logger": "^1.0.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^2.4.0"
   },
@@ -77,7 +78,7 @@
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest"
     },
-    "transformIgnorePatterns":[
+    "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!@flexbase/)"
     ],
     "collectCoverage": true,
@@ -90,7 +91,7 @@
       "js",
       "jsx",
       "json"
-  ]
+    ]
   },
   "prettier": {
     "semi": true,
