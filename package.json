@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,6 +28,7 @@
     "@types/node-fetch": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
+    "esbuild": "^0.14.47",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^28.1.1",
@@ -36,6 +37,9 @@
     "msw": "^0.42.1",
     "node-fetch": "^2.6.7",
     "prettier": "^2.7.0",
+    "rollup": "^2.75.7",
+    "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-esbuild": "^4.9.1",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.8.1",
     "tsconfig.json": "^1.0.11",
@@ -49,7 +53,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "docs": "typedoc",
     "prepare": "yarn run build",
     "test": "jest --no-cache",
@@ -58,7 +62,7 @@
     "packr": "packr"
   },
   "dependencies": {
-    "@flexbase/http-client-middleware": "^1.6.0",
+    "@flexbase/http-client-middleware": "^1.7.0",
     "@flexbase/logger": "^1.0.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^2.4.0"

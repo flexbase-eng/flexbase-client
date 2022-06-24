@@ -1,17 +1,7 @@
-import { FlexbaseClient } from './clients/FlexbaseClient';
-import { FlexbaseAuthenticationTokenAccessor } from './auth/FlexbaseAuthenticationTokenAccessor';
-import { convertFlexbaseToken } from './auth/ConvertFlexbaseToken';
-import { Address } from './models/Address';
-import { FlexbasePasswordCredentials } from './models/FlexbasePasswordCredentials';
-import { Invoice } from './models/Invoice';
-import { decodeFlexbaseToken } from './auth/DecodeFlexbaseToken';
-
-export {
-    FlexbaseClient,
-    FlexbaseAuthenticationTokenAccessor,
-    convertFlexbaseToken,
-    Address,
-    FlexbasePasswordCredentials,
-    Invoice,
-    decodeFlexbaseToken
-}
+export { FlexbaseClient } from './clients/FlexbaseClient';
+export { FlexbaseAuthenticationTokenAccessor } from './auth/FlexbaseAuthenticationTokenAccessor';
+export { convertFlexbaseToken } from './auth/ConvertFlexbaseToken';
+export type { Address } from './models/Address';
+export { FlexbasePasswordCredentials } from './models/FlexbasePasswordCredentials';
+export type { Invoice } from './models/Invoice';
+export { decodeFlexbaseToken } from './auth/DecodeFlexbaseToken';
