@@ -54,7 +54,7 @@
     "build": "rollup -c",
     "docs": "typedoc",
     "prepare": "yarn run build",
-    "test": "jest --no-cache",
+    "test": "jest --no-cache --coverage",
     "lint": "eslint 'src/**/*.{ts,tsx,json}'",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
     "packr": "packr"
