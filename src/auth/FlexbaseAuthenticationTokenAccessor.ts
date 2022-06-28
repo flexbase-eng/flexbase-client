@@ -3,8 +3,10 @@ import { FlexbasePasswordCredentials } from '../models/FlexbasePasswordCredentia
 import { convertFlexbaseToken } from './ConvertFlexbaseToken';
 
 export class FlexbaseAuthenticationTokenAccessor extends AuthenticationTokenAccessorBase<FlexbasePasswordCredentials> {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     protected generateBody(credentials: FlexbasePasswordCredentials, refreshToken: string | undefined): { url: string; body: any } {
         let url = '';
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         const body: any = {};
 
         if (refreshToken && refreshToken.trim().length !== 0) {
@@ -24,6 +26,7 @@ export class FlexbaseAuthenticationTokenAccessor extends AuthenticationTokenAcce
         return { url, body };
     }
 
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     protected coerceResponse(tokenResponse: any): AuthenticationToken | null {
         return convertFlexbaseToken(tokenResponse);
     }

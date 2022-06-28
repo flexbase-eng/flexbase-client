@@ -6,6 +6,6 @@ export const decodeFlexbaseToken = (token: string) => {
     return {
         email: decoded.email,
         companyId: decoded.companyId,
-        id: decoded.id
+        id: decoded.id,
     };
 };

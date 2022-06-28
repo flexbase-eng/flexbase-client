@@ -1,58 +1,50 @@
-import { DateTime } from "luxon";
-import { Invoice } from "../models/Invoice";
-import { FlexbaseClientBase } from "./FlexbaseClient.Base";
+import { InvoiceOptions } from 'src/models/InvoiceOptions';
+import { Invoice } from '../models/Invoice';
+import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 interface InvoiceResponse {
-    success: boolean,
-    error?: string,
-    invoices: Invoice[]
+    success: boolean;
+    error?: string;
+    invoices: Invoice[];
 }
 
 export class FlexbaseCardsInvoice extends FlexbaseClientBase {
-    private buildParams(before?: DateTime, after?: DateTime, includeCardholder?: boolean, includeMerchantName?: boolean, includeReversed?: boolean, includeExpired?: boolean) {
-
+    private buildParams(options?: InvoiceOptions) {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         const params: any = {};
 
-        if (before) {
-            params.before = before.toISO();
+        if (options?.before) {
+            params.before = options.before.toISO();
         }
 
-        if (after) {
-            params.after = after.toISO();
+        if (options?.after) {
+            params.after = options.after.toISO();
         }
 
-        if (includeCardholder === true) {
+        if (options?.includeCardholder === true) {
             params.inclCardholder = true;
         }
 
-        if (includeMerchantName === true) {
+        if (options?.includeMerchantName === true) {
             params.inclStore = true;
         }
 
-        if (includeReversed === true) {
+        if (options?.includeReversed === true) {
             params.inclReversed = true;
         }
 
-        if (includeExpired === true) {
+        if (options?.includeExpired === true) {
             params.inclExpired = true;
         }
 
         return params;
     }
 
-    async getInvoicesByCompany(companyId: string, before?: DateTime, after?: DateTime,
-        includeCardholder?: boolean, includeMerchantName?: boolean,
-        includeReversed?: boolean, includeExpired?: boolean): Promise<Invoice[] | null> {
-
+    async getInvoicesByCompany(companyId: string, options?: InvoiceOptions): Promise<Invoice[] | null> {
         try {
-            const params = this.buildParams(before, after, includeCardholder, includeMerchantName, includeReversed,
-                includeExpired);
+            const params = this.buildParams(options);
 
-            const response = await this.client
-                .url(`/invoice/company/${companyId}`)
-                .query(params)
-                .get()
-                .json<InvoiceResponse>();
+            const response = await this.client.url(`/invoice/company/${companyId}`).query(params).get().json<InvoiceResponse>();
 
             if (!response.success) {
                 return null;
@@ -60,23 +52,16 @@ export class FlexbaseCardsInvoice extends FlexbaseClientBase {
 
             return response.invoices;
         } catch (error) {
-             this.logger.error('Unable to get company transactions', error);
+            this.logger.error('Unable to get company transactions', error);
             return null;
         }
     }
 
-    async getInvoicesByUser(userId: string, before?: DateTime, after?: DateTime,
-        includeCardholder?: boolean, includeMerchantName?: boolean,
-        includeReversed?: boolean, includeExpired?: boolean): Promise<Invoice[] | null> {
+    async getInvoicesByUser(userId: string, options?: InvoiceOptions): Promise<Invoice[] | null> {
         try {
-            const params = this.buildParams(before, after, includeCardholder, includeMerchantName, includeReversed,
-                includeExpired);
+            const params = this.buildParams(options);
 
-            const response = await this.client
-                .url(`/invoice/user/${userId}`)
-                .query(params)
-                .get()
-                .json<InvoiceResponse>();
+            const response = await this.client.url(`/invoice/user/${userId}`).query(params).get().json<InvoiceResponse>();
 
             if (!response.success) {
                 return null;

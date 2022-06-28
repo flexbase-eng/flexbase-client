@@ -39,7 +39,7 @@ export class FlexbaseClientPlaid extends FlexbaseClientBase {
     /**
      * Exchange a Plaid `public_token`
      * @param public_token The public token issued by [Plaid Link](https://plaid.com/docs/link/)
-     * @param metadata 
+     * @param metadata
      * @returns `true` if successful, otherwise `false`
      */
     async exchangePlaidPublicToken(public_token: string, metadata: unknown): Promise<boolean> {

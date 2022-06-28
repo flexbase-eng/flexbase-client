@@ -5,9 +5,11 @@ import { Wretcher } from 'wretch';
 export abstract class FlexbaseClientBase {
     private readonly _client: Wretcher;
     private readonly _logger: Logger;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     private _tokenAccessor: AuthenticationTokenAccessor<any>;
     private _token: AuthenticationToken | null;
 
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     constructor(client: Wretcher, tokenAccessor: AuthenticationTokenAccessor<any>, logger?: Logger) {
         this._client = client;
         this._tokenAccessor = tokenAccessor;
@@ -37,6 +39,7 @@ export abstract class FlexbaseClientBase {
         };
     }
 
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     protected get tokenAccessor(): AuthenticationTokenAccessor<any> {
         return this._tokenAccessor;
     }
