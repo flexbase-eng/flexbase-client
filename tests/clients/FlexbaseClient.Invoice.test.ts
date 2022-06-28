@@ -36,7 +36,7 @@ test("FlexbaseClient invoice by company with params", async () => {
     const includeReversed = true;
     const includeExpired = true;
 
-    const response = await testFlexbaseClient.getInvoicesByCompany(goodCompanyId, before, after, includeCardholder, includeMerchantName, includeReversed, includeExpired);
+    const response = await testFlexbaseClient.getInvoicesByCompany(goodCompanyId, { before, after, includeCardholder, includeMerchantName, includeReversed, includeExpired });
 
     expect(response).not.toBeNull();
 
@@ -80,7 +80,7 @@ test("FlexbaseClient invoice by user with params", async () => {
     const includeReversed = true;
     const includeExpired = true;
 
-    const response = await testFlexbaseClient.getInvoicesByUser(goodCompanyId, before, after, includeCardholder, includeMerchantName, includeReversed, includeExpired);
+    const response = await testFlexbaseClient.getInvoicesByUser(goodCompanyId, { before, after, includeCardholder, includeMerchantName, includeReversed, includeExpired });
 
     expect(response).not.toBeNull();
 

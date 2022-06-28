@@ -1,4 +1,4 @@
-import { InvoiceOptions } from 'src/models/InvoiceOptions';
+import { InvoiceOptions } from '../models/InvoiceOptions';
 import { Invoice } from '../models/Invoice';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
