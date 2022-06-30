@@ -1,5 +1,5 @@
 import { AuthenticationToken, AuthenticationTokenAccessorBase } from '@flexbase/http-client-middleware';
-import { FlexbasePasswordCredentials } from '../models/FlexbasePasswordCredentials';
+import { FlexbasePasswordCredentials } from '../models/auth/FlexbasePasswordCredentials';
 import { convertFlexbaseToken } from './ConvertFlexbaseToken';
 
 export class FlexbaseAuthenticationTokenAccessor extends AuthenticationTokenAccessorBase<FlexbasePasswordCredentials> {

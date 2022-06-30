@@ -1,4 +1,4 @@
-import { Address } from '../models/Address';
+import { Address } from '../models/Address/Address';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 interface AddressPreview {

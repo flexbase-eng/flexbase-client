@@ -23,3 +23,7 @@ export const badPlaidPublicToken = "bad token";
 export const goodCompanyId = "good company";
 export const badCompanyId = "bad company";
 export const errorCompanyId = "error company";
+
+export const goodUserId = "good_user_id";
+export const badUserId = "bad_user_id";
+export const errorUserId = "error_user_id";

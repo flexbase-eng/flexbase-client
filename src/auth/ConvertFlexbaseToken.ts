@@ -1,8 +1,8 @@
 import { AuthenticationToken } from '@flexbase/http-client-middleware';
 import { DateTime } from 'luxon';
 import jwt_decode from 'jwt-decode';
-import { FlexbaseJwt } from '../models/FlexbaseJwt';
-import { FlexbaseTokenResponse } from '../models/FlexbaseTokenResponse';
+import { FlexbaseJwt } from '../models/auth/FlexbaseJwt';
+import { FlexbaseTokenResponse } from '../models/auth/FlexbaseTokenResponse';
 
 export const convertFlexbaseToken = (tokenResponse: FlexbaseTokenResponse): AuthenticationToken | null => {
     if (!tokenResponse.success) {

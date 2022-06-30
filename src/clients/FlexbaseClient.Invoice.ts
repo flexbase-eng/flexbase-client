@@ -1,5 +1,5 @@
-import { InvoiceOptions } from '../models/InvoiceOptions';
-import { Invoice } from '../models/Invoice';
+import { InvoiceOptions } from '../models/Invoice/InvoiceOptions';
+import { Invoice } from '../models/Invoice/Invoice';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 interface InvoiceResponse {
@@ -8,7 +8,7 @@ interface InvoiceResponse {
     invoices: Invoice[];
 }
 
-export class FlexbaseCardsInvoice extends FlexbaseClientBase {
+export class FlexbaseClientInvoice extends FlexbaseClientBase {
     private buildParams(options?: InvoiceOptions) {
         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         const params: any = {};
