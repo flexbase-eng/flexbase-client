@@ -1,9 +1,12 @@
 import { compose, rest as mockServer } from 'msw'
 import { badPlaidPublicToken, goodPass, goodPlaidPublicToken, goodRefreshToken, goodToken, goodUser, mockUrl, plaidLinkToken, testTokenType, tokenUrl, tokenUrl2 } from './constants';
 import { address_handlers } from './handlers/address';
+import { credit_handlers } from './handlers/credit';
 import { invoice_handlers } from './handlers/invoice';
+import { merchant_handlers } from './handlers/merchant';
 import { person_handlers } from './handlers/person';
 import { plaid_handlers } from './handlers/plaid';
+import { underwriting_handlers } from './handlers/underwriting';
 
 interface TokenRequest {
     grant_type: string,
@@ -71,4 +74,7 @@ export const handlers = [
     ...address_handlers,
     ...invoice_handlers,
     ...person_handlers,
+    ...credit_handlers,
+    ...underwriting_handlers,
+    ...merchant_handlers,
 ]

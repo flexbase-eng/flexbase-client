@@ -9,3 +9,6 @@ export { FlexbaseTokenResponse } from './models/auth/FlexbaseTokenResponse';
 export { Person } from './models/Person/Person';
 export { PersonUpdate } from './models/Person/PersonUpdate';
 export { Phone } from './models/Phone/Phone';
+export { Merchant } from './models/Merchant/Merchant';
+export { CompanyCredit } from './models/Credit/CompanyCredit';
+export { Underwriting } from './models/Underwriting/Underwriting';

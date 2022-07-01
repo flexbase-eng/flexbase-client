@@ -23,9 +23,9 @@ test("FlexbaseClient get person error", async () => {
     expect(response).toBeNull();
 });
 
-test("FlexbaseClient get person no user id", () => {
+test("FlexbaseClient get person no user id", async () => {
 
-    expect(testFlexbaseClient.getPerson('')).rejects.toThrow();   
+    await expect(testFlexbaseClient.getPerson('')).rejects.toThrow();
 });
 
 test("FlexbaseClient update person success", async () => {
@@ -49,9 +49,9 @@ test("FlexbaseClient update person error", async () => {
     expect(response).toBe(false);
 });
 
-test("FlexbaseClient update person no user id", () => {
+test("FlexbaseClient update person no user id", async () => {
 
-    expect(testFlexbaseClient.updatePerson('', {})).rejects.toThrow();   
+    await expect(testFlexbaseClient.updatePerson('', {})).rejects.toThrow();
 });
 
 test("FlexbaseClient update person picture success", async () => {
@@ -75,9 +75,9 @@ test("FlexbaseClient update person picture error", async () => {
     expect(response).toBe(false);
 });
 
-test("FlexbaseClient update person picture no user id", () => {
+test("FlexbaseClient update person picture no user id", async () => {
 
-    expect(testFlexbaseClient.updatePersonPicture('', {})).rejects.toThrow();   
+    await expect(testFlexbaseClient.updatePersonPicture('', {})).rejects.toThrow();
 });
 
 test("FlexbaseClient get person picture success", async () => {
@@ -102,7 +102,7 @@ test("FlexbaseClient get person picture error", async () => {
     expect(response).toBeNull();
 });
 
-test("FlexbaseClient get person picture no user id", () => {
+test("FlexbaseClient get person picture no user id", async () => {
 
-    expect(testFlexbaseClient.getPersonPicture('')).rejects.toThrow();   
+    await expect(testFlexbaseClient.getPersonPicture('')).rejects.toThrow();
 });

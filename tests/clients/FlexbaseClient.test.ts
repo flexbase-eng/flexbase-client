@@ -23,6 +23,7 @@ test("FlexbaseClient mixins", () => {
     expect(typeof client.updatePerson).toBe('function');
     expect(typeof client.updatePersonPicture).toBe('function');
     expect(typeof client.getPersonPicture).toBe('function');
+    expect(typeof client.getMerchant).toBe('function');
 });
 
 test("FlexbaseClient set auth token", () => {

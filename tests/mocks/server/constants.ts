@@ -27,3 +27,7 @@ export const errorCompanyId = "error company";
 export const goodUserId = "good_user_id";
 export const badUserId = "bad_user_id";
 export const errorUserId = "error_user_id";
+
+export const goodApiKey = "good api key";
+export const badApiKey = "bad api key";
+export const errorApiKey = "error api key";
