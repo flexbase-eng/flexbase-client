@@ -1,3 +1,4 @@
+import { Person } from '../models/Person/Person';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { PersonUpdate } from '../models/Person/PersonUpdate';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
@@ -19,7 +20,31 @@ interface PersonUpdateRequest {
     authorizedSignatory?: boolean;
 }
 
+interface PersonResponse extends FlexbaseResponse {
+    usr: Person;
+}
+
 export class FlexbaseClientPerson extends FlexbaseClientBase {
+    async getPerson(userId: string): Promise<Person | null> {
+        if (!userId) {
+            throw new Error('userId is required');
+        }
+
+        try {
+            const response = await this.client.url(`/user/${userId}`).get().json<PersonResponse>();
+
+            if (!response.success) {
+                this.logger.error(`Unable to get person ${userId}`, response);
+                return null;
+            }
+
+            return response.usr;
+        } catch (error) {
+            this.logger.error(`Unable to update person ${userId}`, error);
+            return null;
+        }
+    }
+
     async updatePerson(userId: string, person: PersonUpdate): Promise<boolean> {
         if (!userId) {
             throw new Error('userId is required');

@@ -19,6 +19,7 @@ test("FlexbaseClient mixins", () => {
     expect(typeof client.updatePlaidLinkToken).toBe('function');
     expect(typeof client.getInvoicesByCompany).toBe('function');
     expect(typeof client.getInvoicesByUser).toBe('function');
+    expect(typeof client.getPerson).toBe('function');
     expect(typeof client.updatePerson).toBe('function');
     expect(typeof client.updatePersonPicture).toBe('function');
     expect(typeof client.getPersonPicture).toBe('function');

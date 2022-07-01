@@ -4,6 +4,39 @@ import fs from 'fs';
 import { badUserId, errorUserId, mockUrl } from '../constants';
 
 export const person_handlers = [
+    mockServer.get(mockUrl + "/user/:userId", (request, response, context) => {
+
+        const { userId } = request.params;
+
+        if (!userId || userId === errorUserId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+        else if (userId === badUserId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: "Error message"
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                usr: { id: userId }
+            }),
+
+        );
+
+        return response(res);
+    }),
+
     mockServer.put(mockUrl + "/user/:userId", (request, response, context) => {
 
         const { userId } = request.params;

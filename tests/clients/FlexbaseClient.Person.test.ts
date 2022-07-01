@@ -1,6 +1,33 @@
 import { badUserId, errorUserId, goodUserId } from "../mocks/server/constants";
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
 
+test("FlexbaseClient get person success", async () => {
+
+    const response = await testFlexbaseClient.getPerson(goodUserId);
+
+    expect(response).not.toBeNull();
+    expect(response!.id).toBe(goodUserId);
+});
+
+test("FlexbaseClient get person failure", async () => {
+
+    const response = await testFlexbaseClient.getPerson(badUserId);
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient get person error", async () => {
+
+    const response = await testFlexbaseClient.getPerson(errorUserId);
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient get person no user id", () => {
+
+    expect(testFlexbaseClient.getPerson('')).rejects.toThrow();   
+});
+
 test("FlexbaseClient update person success", async () => {
 
     const response = await testFlexbaseClient.updatePerson(goodUserId, {});
