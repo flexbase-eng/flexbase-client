@@ -1,3 +1,4 @@
+import { PayWithFlexbase, PayWithFlexbaseResponse } from '../models/Credit/PayWithFlexbase';
 import { CompanyCredit } from '../models/Credit/CompanyCredit';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
@@ -12,6 +13,8 @@ interface CompanyCreditResponse extends FlexbaseResponse {
     billDate: string;
     graceDate: string;
 }
+
+interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, FlexbaseResponse {}
 
 export class FlexbaseClientCredit extends FlexbaseClientBase {
     async getCompanyCredit(companyId: string): Promise<CompanyCredit | null> {
@@ -34,6 +37,26 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error(`Unable to get credit for company ${companyId}`, error);
             return null;
+        }
+    }
+
+    async requestPayWithFlexbase(payload: PayWithFlexbase): Promise<PayWithFlexbaseResponse> {
+        if (!payload.apiKey || payload.amount <= 0) {
+            throw new Error('apiKey is required and amount must be greater than 0');
+        }
+
+        try {
+            const response = await this.client.url('/credit/buyNow').post(payload).json<PayWithFlexbaseResponseWrapper>();
+
+            if (!response.success) {
+                this.logger.error('Unable to pay with flexbase', payload);
+                return { approved: false };
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to pay with flexbase', payload, error);
+            return { approved: false };
         }
     }
 }

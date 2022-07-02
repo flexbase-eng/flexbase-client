@@ -15,7 +15,7 @@ export class FlexbaseClientAddress extends FlexbaseClientBase {
      * @param street A partial street address
      * @returns An array of matched addresses, otherwise an empty array
      */
-    async addressPreview(street: string | undefined): Promise<Address[]> {
+    async getAddressPreview(street: string | undefined): Promise<Address[]> {
         try {
             if (!street) {
                 return [];

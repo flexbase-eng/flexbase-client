@@ -13,7 +13,7 @@ test("FlexbaseClient mixins", () => {
 
     const client = new FlexbaseClient(wretch.object(), tokenAccessor.object());
 
-    expect(typeof client.addressPreview).toBe('function');
+    expect(typeof client.getAddressPreview).toBe('function');
     expect(typeof client.exchangePlaidPublicToken).toBe('function');
     expect(typeof client.getPlaidLinkToken).toBe('function');
     expect(typeof client.updatePlaidLinkToken).toBe('function');

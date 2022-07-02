@@ -2,7 +2,7 @@ import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 
 test("FlexbaseClient address preview success", async () => {
 
-    const response = await testFlexbaseClient.addressPreview("test street");
+    const response = await testFlexbaseClient.getAddressPreview("test street");
 
     expect(response).not.toBeNull();
 
@@ -18,7 +18,7 @@ test("FlexbaseClient address preview success", async () => {
 
 test("FlexbaseClient address empty parameter no results", async () => {
 
-    const response = await testFlexbaseClient.addressPreview(undefined);
+    const response = await testFlexbaseClient.getAddressPreview(undefined);
 
     expect(response).not.toBeNull();
     expect(response.length).toBe(0);
@@ -26,7 +26,7 @@ test("FlexbaseClient address empty parameter no results", async () => {
 
 test("FlexbaseClient address error no results", async () => {
 
-    const response = await testFlexbaseClient.addressPreview("error");
+    const response = await testFlexbaseClient.getAddressPreview("error");
 
     expect(response).not.toBeNull();
     expect(response.length).toBe(0);

@@ -31,3 +31,4 @@ export const errorUserId = "error_user_id";
 export const goodApiKey = "good api key";
 export const badApiKey = "bad api key";
 export const errorApiKey = "error api key";
+export const deniedApiKey = "denied api key";
