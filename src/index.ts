@@ -13,3 +13,4 @@ export { Merchant } from './models/Merchant/Merchant';
 export { CompanyCredit } from './models/Credit/CompanyCredit';
 export { Underwriting } from './models/Underwriting/Underwriting';
 export { PayWithFlexbase, PayWithFlexbaseMode, PayWithFlexbaseResponse, PayWithFlexbaseInvoice } from './models/Credit/PayWithFlexbase';
+export { Patron } from './models/Patron/Patron';

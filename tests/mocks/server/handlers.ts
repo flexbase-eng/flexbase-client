@@ -4,6 +4,7 @@ import { address_handlers } from './handlers/address';
 import { credit_handlers } from './handlers/credit';
 import { invoice_handlers } from './handlers/invoice';
 import { merchant_handlers } from './handlers/merchant';
+import { patron_handlers } from './handlers/patron';
 import { person_handlers } from './handlers/person';
 import { plaid_handlers } from './handlers/plaid';
 import { underwriting_handlers } from './handlers/underwriting';
@@ -77,4 +78,5 @@ export const handlers = [
     ...credit_handlers,
     ...underwriting_handlers,
     ...merchant_handlers,
+    ...patron_handlers,
 ]

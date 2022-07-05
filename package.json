@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -102,7 +102,7 @@
     "arrowParens": "avoid",
     "tabWidth": 4,
     "useTabs": false,
-    "printWidth": 200
+    "printWidth": 150
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

@@ -7,6 +7,7 @@ import { FlexbaseClientPerson } from './FlexbaseClient.Person';
 import { FlexbaseClientMerchant } from './FlexbaseClient.Merchant';
 import { FlexbaseClientCredit } from './FlexbaseClient.Credit';
 import { FlexbaseClientUnderwriting } from './FlexbaseClient.Underwriting';
+import { FlexbaseClientPatron } from './FlexbaseClient.Patron';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
 
@@ -17,6 +18,16 @@ export interface FlexbaseClient
         FlexbaseClientPerson,
         FlexbaseClientMerchant,
         FlexbaseClientCredit,
-        FlexbaseClientUnderwriting {}
+        FlexbaseClientUnderwriting,
+        FlexbaseClientPatron {}
 
-applyMixins(FlexbaseClient, [FlexbaseClientAddress, FlexbaseClientPlaid, FlexbaseClientInvoice, FlexbaseClientPerson, FlexbaseClientMerchant, FlexbaseClientCredit, FlexbaseClientUnderwriting]);
+applyMixins(FlexbaseClient, [
+    FlexbaseClientAddress,
+    FlexbaseClientPlaid,
+    FlexbaseClientInvoice,
+    FlexbaseClientPerson,
+    FlexbaseClientMerchant,
+    FlexbaseClientCredit,
+    FlexbaseClientUnderwriting,
+    FlexbaseClientPatron,
+]);
