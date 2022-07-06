@@ -7,10 +7,11 @@ test("FlexbaseClient get projects success", async () => {
     const response = await testFlexbaseClient.getCompanyProjects();
 
     expect(response).not.toBeNull();
+    expect(response?.length).toBeGreaterThan(0);
 
-    const invoice = response![0];
+    const project = response![0];
 
-    expect(invoice.name).toBe('Flexbase');
+    expect(project.name).toBe('Flexbase');
 });
 
 test("FlexbaseClient get projects failure", async () => {
