@@ -97,10 +97,10 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to upload invoice file', error);
             return null;
-        }
-      }
+        }  
+    }
     
-      async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
+    async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
         try {
           const response = await this.client.url(`/invoice/${invoiceId}/summary`).put(invoiceForm).json<InvoiceResponse>();
             
@@ -113,5 +113,5 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
           console.error('Unable to update the invoice', error);
           return null;
         }
-      }
+    }
 }

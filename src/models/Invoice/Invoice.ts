@@ -2,6 +2,7 @@ export interface Invoice {
     cardId: string;
     cardholderName: string;
     createdAt: string;
+    contractId: string;
     description: string;
     docId: string;
     id: string;
