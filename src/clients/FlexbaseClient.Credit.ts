@@ -17,13 +17,17 @@ interface CompanyCreditResponse extends FlexbaseResponse {
 interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, FlexbaseResponse {}
 
 export class FlexbaseClientCredit extends FlexbaseClientBase {
-    async getCompanyCredit(companyId: string): Promise<CompanyCredit | null> {
-        if (!companyId) {
-            throw new Error('companyId is required');
-        }
-
+    async getCompanyCredit(companyId?: string): Promise<CompanyCredit | null> {
         try {
-            const response = await this.client.url(`/servicing/minimumDue?id=${companyId}`).get().json<CompanyCreditResponse>();
+
+            let url = '/servicing/minimumDue';
+
+            if(companyId)
+            {
+                url = url + `?id=${companyId}`;
+            }
+
+            const response = await this.client.url(url).get().json<CompanyCreditResponse>();
 
             if (!response.success) {
                 this.logger.error(`Unable to get credit for company ${companyId}`);

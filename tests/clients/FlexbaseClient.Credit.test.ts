@@ -26,7 +26,11 @@ test("FlexbaseClient get company credit error", async () => {
 
 test("FlexbaseClient get company credit no id", async () => {
 
-    await expect(testFlexbaseClient.getCompanyCredit('')).rejects.toThrow();
+    const response = await testFlexbaseClient.getCompanyCredit();
+
+    expect(response).not.toBeNull();
+    expect(response!.available).toBe(100);
+    expect(response!.total).toBe(1000);
 });
 
 test("FlexbaseClient request pay with flexbase success", async () => {

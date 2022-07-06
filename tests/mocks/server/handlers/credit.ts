@@ -7,7 +7,7 @@ export const credit_handlers = [
 
         const id = request.url.searchParams.get('id');
 
-        if (!id || id === errorCompanyId) {
+        if (id === errorCompanyId) {
             const res = compose(
                 context.status(400),
             );
