@@ -12,6 +12,7 @@ import { FlexbaseClientOnboarding } from './FlexbaseClient.Onboarding';
 import { FlexbaseClientProject } from './FlexbaseClient.Project';
 import { FlexbaseClientDoc } from './FlexbaseClient.Doc';
 import { FlexbaseClientCard } from './FlexbaseClient.Card';
+import { FlexbaseClientCompany } from './FlexbaseClient.Company';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
 
@@ -28,6 +29,7 @@ export interface FlexbaseClient
         FlexbaseClientProject,
         FlexbaseClientDoc,
         FlexbaseClientCard,
+        FlexbaseClientCompany,
         FlexbaseClientPatron {}
 
 applyMixins(FlexbaseClient, [
@@ -43,4 +45,5 @@ applyMixins(FlexbaseClient, [
     FlexbaseClientCard,
     FlexbaseClientPatron,
     FlexbaseClientOnboarding,
+    FlexbaseClientCompany
 ]);
