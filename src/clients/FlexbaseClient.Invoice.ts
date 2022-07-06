@@ -1,6 +1,7 @@
 import { InvoiceOptions } from '../models/Invoice/InvoiceOptions';
 import { Invoice } from '../models/Invoice/Invoice';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
+import { FlexbaseResponse } from '../models/FlexbaseResponse';
 
 interface InvoicesResponse {
     success: boolean;
@@ -8,9 +9,7 @@ interface InvoicesResponse {
     invoices: Invoice[];
 }
 
-interface InvoiceResponse {
-    error: string;
-    success: boolean;
+interface InvoiceResponse extends FlexbaseResponse {
     invoice: Invoice;
   }
 

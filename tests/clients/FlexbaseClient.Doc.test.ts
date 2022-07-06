@@ -3,7 +3,7 @@ import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
 
 test("FlexbaseClient get doc picture success", async () => {
 
-    const response = await testFlexbaseClient.getImage(goodDocId);
+    const response = await testFlexbaseClient.getDocumentImage(goodDocId);
 
     expect(response).not.toBeNull();
     expect(response).toBeInstanceOf(ArrayBuffer);
@@ -11,14 +11,14 @@ test("FlexbaseClient get doc picture success", async () => {
 
 test("FlexbaseClient get doc picture failure", async () => {
 
-    const response = await testFlexbaseClient.getImage(badDocId);
+    const response = await testFlexbaseClient.getDocumentImage(badDocId);
 
     expect(response).toBeNull();
 });
 
 test("FlexbaseClient get doc picture error", async () => {
 
-    const response = await testFlexbaseClient.getImage(errorDocId);
+    const response = await testFlexbaseClient.getDocumentImage(errorDocId);
 
     expect(response).toBeNull();
 });
