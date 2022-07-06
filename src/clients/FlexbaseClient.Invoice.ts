@@ -84,8 +84,8 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
             return null;
         }
     }
-
-    async uploadInvoiceFile(file: File, invoiceId: string): Promise<Invoice[] | null> {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    async uploadInvoiceFile(invoiceId: string, file: any): Promise<Invoice | null> {
         try {
           const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).formData({ file }).post().json();
          

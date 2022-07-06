@@ -24,6 +24,12 @@ export const goodCompanyId = "good company";
 export const badCompanyId = "bad company";
 export const errorCompanyId = "error company";
 
+export const goodInvoiceId = "good invoice";
+export const badInvoiceId = "bad invoice";
+export const errorInvoiceId = "error invoice";
+export const invoiceForm = { contractId: 'good contract', description: 'invoice description'}
+
+
 export const goodUserId = "good_user_id";
 export const badUserId = "bad_user_id";
 export const errorUserId = "error_user_id";
@@ -32,3 +38,7 @@ export const goodApiKey = "good api key";
 export const badApiKey = "bad api key";
 export const errorApiKey = "error api key";
 export const deniedApiKey = "denied api key";
+
+export const goodDocId = "good docId";
+export const badDocId = "bad docId";
+export const errorDocId = "error docId";

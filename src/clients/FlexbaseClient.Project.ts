@@ -17,7 +17,7 @@ export class FlexbaseClientProject extends FlexbaseClientBase {
       return response;
     } catch (error) {
       this.logger.error('Unable to get company projects', error);
-      return [];
+      return null;
     }
   }
 }
