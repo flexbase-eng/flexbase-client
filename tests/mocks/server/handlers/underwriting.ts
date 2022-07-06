@@ -7,7 +7,7 @@ export const underwriting_handlers = [
         const id = request.url.searchParams.get('id');
         const level = Number(request.url.searchParams.get('level'));
 
-        if (!id || id === errorCompanyId) {
+        if (id === errorCompanyId) {
             const res = compose(
                 context.status(400),
             );
