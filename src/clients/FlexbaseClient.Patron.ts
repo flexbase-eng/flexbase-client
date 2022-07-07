@@ -1,14 +1,5 @@
-import { Patron } from '../models/Patron/Patron';
+import { Patron, PatronData } from '../models/Patron/Patron';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
-
-interface PatronData {
-    id?: string;
-    name?: string;
-    address?: string;
-    state?: string;
-    city?: string;
-    postalCode?: string;
-  }
 
 export class FlexbaseClientPatron extends FlexbaseClientBase {
     async getPatrons(patronId?: string): Promise<Patron[]> {

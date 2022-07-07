@@ -8,3 +8,12 @@ export interface Patron {
     address?: Address;
     companyId?: string;
 }
+
+export interface PatronData {
+    id?: string;
+    name?: string;
+    address?: string;
+    state?: string;
+    city?: string;
+    postalCode?: string;
+  }
