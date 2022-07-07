@@ -1,4 +1,4 @@
-import { badCompanyId, errorCompanyId, errorPatronId, goodCompanyId, goodPatronId } from "../mocks/server/constants";
+import { badCompanyId, errorCompanyId, goodCompanyId } from "../mocks/server/constants";
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
 
 test("FlexbaseClient get patrons success", async () => {
