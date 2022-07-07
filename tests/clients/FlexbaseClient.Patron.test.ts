@@ -33,8 +33,27 @@ test("FlexbaseClient get patrons error", async () => {
 
 test("FlexbaseClient add patron success", async () => {
 
-    const response = await testFlexbaseClient.addPatron({ name: 'test', address: '300 WHITE HALL AVE', state: 'AR', city: 'WHITE HALL',postalCode: '71602' });
-
+    const response = await testFlexbaseClient.addOrUpdatePatron({ name: 'test', address: '300 WHITE HALL AVE', state: 'AR', city: 'WHITE HALL', postalCode: '71602' });
     expect(response).not.toBeNull();
+    expect(response?.name).toBe('test');
+    expect(response?.address?.street1).toBe('300 WHITE HALL AVE');
+    expect(response?.address?.state).toBe('AR');
+    expect(response?.address?.city).toBe('WHITE HALL');
+    expect(response?.address?.postalCode).toBe('71602');
 });
+
+test("FlexbaseClient add patron error", async () => {
+    const response = await testFlexbaseClient.addOrUpdatePatron({});
+    expect(response?.id).not.toBe('testId');
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient update patron success", async () => {
+
+    const response = await testFlexbaseClient.addOrUpdatePatron({ id: 'testId', name: 'test2' });
+    expect(response).not.toBeNull();
+    expect(response?.id).toBe('testId');
+    expect(response?.name).toBe('test2');
+});
+
 

@@ -1,6 +1,15 @@
 import { compose, rest as mockServer } from 'msw'
 import { badCompanyId, errorCompanyId, goodCompanyId, mockUrl } from '../constants';
 
+interface PatronData {
+    id?: string;
+    name?: string;
+    address?: string;
+    state?: string;
+    city?: string;
+    postalCode?: string;
+  }
+
 export const patron_handlers = [
     mockServer.get(mockUrl + "/clients/:clientId", (request, response, context) => {
 
@@ -26,7 +35,7 @@ export const patron_handlers = [
                 {
                     id: clientId || goodCompanyId,
                     name: "Test",
-                    tenantId: "Tenant"
+                    tenantId: "Tenant",
                 }
             ]),
 
@@ -42,7 +51,7 @@ export const patron_handlers = [
                 {
                     id: goodCompanyId,
                     name: "Test",
-                    tenantId: "Tenant"
+                    tenantId: "Tenant",
                 }
 
             ]),
@@ -52,20 +61,20 @@ export const patron_handlers = [
         return response(res);
     }),
 
-    mockServer.post(mockUrl + "/clients", (_, response, context) => {
+    mockServer.post(mockUrl + "/clients", (request, response, context) => {
+
+        if(request.body && Object.keys(request.body).length === 0) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
         const res = compose(
             context.status(200),
-            context.json([
-                {
-                    id: 'test',
-                    name: 'test', 
-                    address: '300 WHITE HALL AVE', 
-                    state: 'AR', 
-                    city: 'WHITE HALL',
-                    postalCode: '71602'
-                }
-
-            ]),
+            context.json(
+                request.body
+            ),
 
         );
 
