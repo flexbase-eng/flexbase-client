@@ -1,15 +1,6 @@
 import { compose, rest as mockServer } from 'msw'
 import { badCompanyId, errorCompanyId, goodCompanyId, mockUrl } from '../constants';
 
-interface PatronData {
-    id?: string;
-    name?: string;
-    address?: string;
-    state?: string;
-    city?: string;
-    postalCode?: string;
-  }
-
 export const patron_handlers = [
     mockServer.get(mockUrl + "/clients/:clientId", (request, response, context) => {
 
@@ -73,7 +64,18 @@ export const patron_handlers = [
         const res = compose(
             context.status(200),
             context.json(
-                request.body
+                {
+                    address: "300 WHITE HALL AVE",
+                    city: "test",
+                    companyId: "c4fb8f94-3ec0-4632-9d99-6606269ded1b",
+                    country: "US",
+                    id: "testId",
+                    imageUrl: null,
+                    postalCode: "test",
+                    state: "AR",
+                    name: "test",
+                    tenantId: "testTenant"
+                }
             ),
 
         );
