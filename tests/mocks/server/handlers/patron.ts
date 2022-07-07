@@ -51,4 +51,24 @@ export const patron_handlers = [
 
         return response(res);
     }),
+
+    mockServer.post(mockUrl + "/clients", (_, response, context) => {
+        const res = compose(
+            context.status(200),
+            context.json([
+                {
+                    id: 'test',
+                    name: 'test', 
+                    address: '300 WHITE HALL AVE', 
+                    state: 'AR', 
+                    city: 'WHITE HALL',
+                    postalCode: '71602'
+                }
+
+            ]),
+
+        );
+
+        return response(res);
+    }),
 ]
