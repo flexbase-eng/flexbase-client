@@ -8,6 +8,7 @@ import { FlexbaseClientMerchant } from './FlexbaseClient.Merchant';
 import { FlexbaseClientCredit } from './FlexbaseClient.Credit';
 import { FlexbaseClientUnderwriting } from './FlexbaseClient.Underwriting';
 import { FlexbaseClientPatron } from './FlexbaseClient.Patron';
+import { FlexbaseClientOnboarding } from './FlexbaseClient.Onboarding';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
 
@@ -19,7 +20,8 @@ export interface FlexbaseClient
         FlexbaseClientMerchant,
         FlexbaseClientCredit,
         FlexbaseClientUnderwriting,
-        FlexbaseClientPatron {}
+        FlexbaseClientPatron,
+        FlexbaseClientOnboarding {}
 
 applyMixins(FlexbaseClient, [
     FlexbaseClientAddress,
@@ -30,4 +32,5 @@ applyMixins(FlexbaseClient, [
     FlexbaseClientCredit,
     FlexbaseClientUnderwriting,
     FlexbaseClientPatron,
+    FlexbaseClientOnboarding,
 ]);
