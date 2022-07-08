@@ -10,6 +10,7 @@ import { FlexbaseClientUnderwriting } from './FlexbaseClient.Underwriting';
 import { FlexbaseClientPatron } from './FlexbaseClient.Patron';
 import { FlexbaseClientProject } from './FlexbaseClient.Project';
 import { FlexbaseClientDoc } from './FlexbaseClient.Doc';
+import { FlexbaseClientCard } from './FlexbaseClient.Card';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
 
@@ -23,6 +24,7 @@ export interface FlexbaseClient
         FlexbaseClientUnderwriting,
         FlexbaseClientProject,
         FlexbaseClientDoc,
+        FlexbaseClientCard,
         FlexbaseClientPatron {}
 
 applyMixins(FlexbaseClient, [
@@ -35,5 +37,6 @@ applyMixins(FlexbaseClient, [
     FlexbaseClientUnderwriting,
     FlexbaseClientProject,
     FlexbaseClientDoc,
+    FlexbaseClientCard,
     FlexbaseClientPatron,
 ]);

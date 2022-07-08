@@ -10,6 +10,7 @@ import { plaid_handlers } from './handlers/plaid';
 import { underwriting_handlers } from './handlers/underwriting';
 import { project_handlers } from './handlers/project';
 import { doc_handlers } from './handlers/doc';
+import { card_handlers } from './handlers/card';
 
 interface TokenRequest {
     grant_type: string,
@@ -83,4 +84,5 @@ export const handlers = [
     ...patron_handlers,
     ...project_handlers,
     ...doc_handlers,
+    ...card_handlers,
 ]
