@@ -1,6 +1,6 @@
 import { server } from '../mocks/server/server';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { badUserId, errorUserId, goodUserId } from "../mocks/server/constants";
+import { badUserId, errorUserId, goodUserId, issueCardForm } from "../mocks/server/constants";
 import { card_failure_handlers, card_error_handlers } from '../mocks/server/handlers/card';
 
 
@@ -69,6 +69,31 @@ test("FlexbaseClient get user card failure", async () => {
 test("FlexbaseClient get user card error", async () => {
 
     const response = await testFlexbaseClient.getUserCard(errorUserId);
+
+    expect(response).toBeNull();
+});
+
+// ISSUE CARD
+test("FlexbaseClient issue user card success", async () => {
+
+    const response = await testFlexbaseClient.issueUserCard(goodUserId, issueCardForm);
+
+    expect(response).not.toBeNull();
+
+    expect(response?.cardName).toBe('Card Test');
+    expect(response?.cardNumber).toBe('1234');
+});
+
+test("FlexbaseClient issue user card failure", async () => {
+
+    const response = await testFlexbaseClient.issueUserCard(badUserId, issueCardForm);
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient issue user card error", async () => {
+
+    const response = await testFlexbaseClient.issueUserCard(errorUserId, issueCardForm);
 
     expect(response).toBeNull();
 });

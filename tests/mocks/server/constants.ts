@@ -42,3 +42,5 @@ export const deniedApiKey = "denied api key";
 export const goodDocId = "good docId";
 export const badDocId = "bad docId";
 export const errorDocId = "error docId";
+
+export const issueCardForm = { cardType: 'physical' }
