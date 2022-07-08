@@ -8,6 +8,10 @@ interface CardsResponse extends FlexbaseResponse{
     cards: Card[];
 }
 
+interface CardResponse extends FlexbaseResponse{
+    card: Card;
+}
+
 interface QueryParameters {
     searchTerm?: string;
     status?: string;
@@ -43,5 +47,20 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
           console.error('Unable to get company cards', error);
           return null;
         }
-      }
+    }
+
+    async getUserCard(userId: string): Promise<Card | null> {
+        try {    
+          const response = await this.client.url(`/card/${userId}`).get().json<CardResponse>();
+
+           if (!response.success) {
+              return null;
+           }
+    
+          return response.card;
+        } catch (error) {
+          console.error('Unable to get user card', error);
+          return null;
+        }
+    }
 }
