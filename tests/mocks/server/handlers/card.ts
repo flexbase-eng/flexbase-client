@@ -1,5 +1,5 @@
 import { compose, rest as mockServer } from 'msw'
-import { mockUrl, goodUserId, badUserId, errorUserId } from '../constants';
+import { mockUrl, badUserId, errorUserId, badCardId, errorCardId, goodCardId } from '../constants';
 
 export const card_handlers = [
     mockServer.get(mockUrl + "/card/company", (_, response, context) => {
@@ -10,17 +10,11 @@ export const card_handlers = [
                 success: true,
                 cards: [
                     {
-                        id: "0",
+                        id: goodCardId,
                         cardName: 'Card Test',
                         cardNumber: "1234",
                         status: 'active',
                     },
-                    {
-                        id: "1",
-                        cardName: 'Card Test 2',
-                        cardNumber: "5678",
-                        status: 'issued',
-                    }
                 ]
             }),
 
@@ -54,7 +48,7 @@ export const card_handlers = [
             context.json({
                 success: true,
                 card: {
-                    id: "0",
+                    id: goodCardId,
                     cardName: 'Card Test',
                     cardNumber: "1234",
                     status: 'active',
@@ -91,9 +85,48 @@ export const card_handlers = [
             context.json({
                 success: true,
                 card: {
-                    id: "0",
+                    id: goodCardId,
                     cardName: 'Card Test',
                     cardNumber: "1234",
+                    status: 'active',
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.put(mockUrl + "/card/:cardId", (request, response, context) => {
+
+        const { cardId } = request.params;
+
+        if (!cardId || cardId === errorCardId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        if (cardId === badCardId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: "Error message"
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    id: goodCardId,
+                    cardName: 'Gas Card',
+                    cardNumber: "1234",
+                    creditLimit: 5000,
                     status: 'active',
                 },
             }),

@@ -24,6 +24,17 @@ interface IssueCardForm {
     service?: string,
 }
 
+interface UpdateCardForm {
+    expensesTypes: {
+        amount: number,
+        groups: any,
+    };
+    notifyUse: boolean;
+    shipTo?: Address,
+    creditLimit: number,
+    cardName?: string,
+}
+
 export class FlexbaseClientCard extends FlexbaseClientBase {
     private params({ searchTerm, status }: CardOptions = {}) {
         const params: any = {};
@@ -82,6 +93,21 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
           return response.card
         } catch (error) {
           this.logger.error('Unable to issue card', error);
+          return null;
+        }
+    }
+
+    async updateCard(cardId: string, formData: UpdateCardForm): Promise<Card | null> {
+        try {
+           const response = await this.client.url(`/card/${cardId}`).put(formData).json<CardResponse>();
+
+           if (!response.success) {
+              return null;
+           }
+
+          return response.card
+        } catch (error) {
+          this.logger.error('Unable to update card info', error);
           return null;
         }
     }
