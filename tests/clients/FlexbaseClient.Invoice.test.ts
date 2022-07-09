@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { badCompanyId, errorCompanyId, goodCompanyId } from "../mocks/server/constants";
+import { badCompanyId, badInvoiceId, errorCompanyId, errorInvoiceId, goodCompanyId, goodInvoiceId, invoiceForm } from "../mocks/server/constants";
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
 
 test("FlexbaseClient invoice by company success", async () => {
@@ -87,4 +87,47 @@ test("FlexbaseClient invoice by user with params", async () => {
     const invoice = response![0];
 
     expect(invoice.id).toBe(goodCompanyId);
+});
+
+// invoice
+test("FlexbaseClient update invoice success", async () => {
+    const response = await testFlexbaseClient.updateInvoice(goodInvoiceId, invoiceForm);
+
+    const invoice = response!;
+
+    expect(invoice.id).toBe(goodInvoiceId);
+});
+
+test("FlexbaseClient update invoice failure", async () => {
+    const response = await testFlexbaseClient.updateInvoice(badInvoiceId, invoiceForm);
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient update invoice error", async () => {
+    const response = await testFlexbaseClient.updateInvoice(errorInvoiceId, invoiceForm);
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient update invoice picture success", async () => {
+    const response = await testFlexbaseClient.uploadInvoiceFile(goodInvoiceId, {});
+
+    const invoice = response!;
+
+    expect(invoice.id).toBe(goodInvoiceId);
+});
+
+test("FlexbaseClient update invoice picture failure", async () => {
+
+    const response = await testFlexbaseClient.uploadInvoiceFile(badInvoiceId, {});
+
+    expect(response).toBeNull();
+});
+
+test("FlexbaseClient update invoice picture error", async () => {
+
+    const response = await testFlexbaseClient.uploadInvoiceFile(errorInvoiceId, {});
+
+    expect(response).toBeNull();
 });

@@ -1,4 +1,4 @@
-import { Patron } from '../models/Patron/Patron';
+import { Patron, PatronData } from '../models/Patron/Patron';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 export class FlexbaseClientPatron extends FlexbaseClientBase {
@@ -16,4 +16,17 @@ export class FlexbaseClientPatron extends FlexbaseClientBase {
             return [];
         }
     }
+
+    async addOrUpdatePatron(patronData: PatronData): Promise<Patron | null> {
+        try {
+          return await this.client
+            .url('/clients')
+            .post(patronData)
+            .json();
+  
+        } catch (error) {
+            this.logger.error(`Unable to add or update patron`, error);
+            return null;
+        }
+      }
 }

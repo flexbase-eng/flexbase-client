@@ -1,12 +1,22 @@
 import { InvoiceOptions } from '../models/Invoice/InvoiceOptions';
 import { Invoice } from '../models/Invoice/Invoice';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
+import { FlexbaseResponse } from '../models/FlexbaseResponse';
 
-interface InvoiceResponse {
+interface InvoicesResponse {
     success: boolean;
     error?: string;
     invoices: Invoice[];
 }
+
+interface InvoiceResponse extends FlexbaseResponse {
+    invoice: Invoice;
+  }
+
+interface InvoiceForm {
+    contractId: string;
+    description: string;
+  }
 
 export class FlexbaseClientInvoice extends FlexbaseClientBase {
     private buildParams(options?: InvoiceOptions) {
@@ -44,7 +54,7 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         try {
             const params = this.buildParams(options);
 
-            const response = await this.client.url(`/invoice/company/${companyId}`).query(params).get().json<InvoiceResponse>();
+            const response = await this.client.url(`/invoice/company/${companyId}`).query(params).get().json<InvoicesResponse>();
 
             if (!response.success) {
                 return null;
@@ -61,7 +71,7 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         try {
             const params = this.buildParams(options);
 
-            const response = await this.client.url(`/invoice/user/${userId}`).query(params).get().json<InvoiceResponse>();
+            const response = await this.client.url(`/invoice/user/${userId}`).query(params).get().json<InvoicesResponse>();
 
             if (!response.success) {
                 return null;
@@ -71,6 +81,36 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to get company transactions', error);
             return null;
+        }
+    }
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    async uploadInvoiceFile(invoiceId: string, file: any): Promise<Invoice | null> {
+        try {
+          const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).formData({ file }).post().json();
+         
+            if (!response.success) {
+              return null;
+            }
+
+           return response.invoice;
+        } catch (error) {
+            this.logger.error('Unable to upload invoice file', error);
+            return null;
+        }  
+    }
+    
+    async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
+        try {
+          const response = await this.client.url(`/invoice/${invoiceId}/summary`).put(invoiceForm).json<InvoiceResponse>();
+            
+            if (!response.success) {
+                return null;
+            }
+  
+           return response.invoice;
+        } catch (error) {
+          console.error('Unable to update the invoice', error);
+          return null;
         }
     }
 }

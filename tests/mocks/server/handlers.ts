@@ -21,6 +21,8 @@ import { patron_handlers } from './handlers/patron';
 import { person_handlers } from './handlers/person';
 import { plaid_handlers } from './handlers/plaid';
 import { underwriting_handlers } from './handlers/underwriting';
+import { project_handlers } from './handlers/project';
+import { doc_handlers } from './handlers/doc';
 
 interface TokenRequest {
     grant_type: string;
@@ -88,4 +90,6 @@ export const handlers = [
     ...merchant_handlers,
     ...patron_handlers,
     ...onboarding_handlers,
+    ...project_handlers,
+    ...doc_handlers,
 ];
