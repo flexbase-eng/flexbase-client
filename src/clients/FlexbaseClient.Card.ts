@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from '../models/Card/Card';
 import { Address } from '../models/Address/Address';
-import { CardOptions } from '../models/Card/CardOptions';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 
@@ -18,12 +17,6 @@ interface CardResponse extends FlexbaseResponse{
     card: Card;
 }
 
-interface IssueCardForm {
-    cardType: string,
-    shipTo?: Address,
-    service?: string,
-}
-
 interface UpdateCardForm {
     expensesTypes: {
         amount: number,
@@ -36,7 +29,7 @@ interface UpdateCardForm {
 }
 
 export class FlexbaseClientCard extends FlexbaseClientBase {
-    private params({ searchTerm, status }: CardOptions = {}) {
+    private params({ searchTerm, status }: QueryParameters = {}) {
         const params: any = {};
 
         if (typeof searchTerm === 'string') {
@@ -50,13 +43,14 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         return params;
     }
 
-    async getCompanyCards({ searchTerm, status }: QueryParameters = {}): Promise<Card[] | null> {
+    async getCardsByCompany({ searchTerm, status }: QueryParameters = {}): Promise<Card[] | null> {
         try {
           const params = this.params({ searchTerm, status });
     
           const response = await this.client.url('/card/company').query(params).get().json<CardsResponse>();
 
            if (!response.success) {
+              this.logger.error('Unable to get company cards', response.error);
               return null;
            }
     
@@ -67,11 +61,12 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         }
     }
 
-    async getUserCard(userId: string): Promise<Card | null> {
+    async getCardById(cardId: string): Promise<Card | null> {
         try {    
-          const response = await this.client.url(`/card/${userId}`).get().json<CardResponse>();
+          const response = await this.client.url(`/card/${cardId}`).get().json<CardResponse>();
 
            if (!response.success) {
+              this.logger.error(`Unable to get the card info for ${cardId}`);
               return null;
            }
     
@@ -82,11 +77,12 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         }
     }
 
-    async issueUserCard(userId: string, formData: IssueCardForm): Promise<Card | null> {
+    async issueCard(userId: string, cardType: 'physical' | 'virtual', shipTo?: Address, service?: string): Promise<Card | null> {
         try {
-           const response = await this.client.url(`/card/${userId}/issue`).post(formData).json<CardResponse>();
+           const response = await this.client.url(`/card/${userId}/issue`).post({ cardType, shipTo, service}).json<CardResponse>();
 
            if (!response.success) {
+              this.logger.error('Unable to issue the card', response.error);
               return null;
            }
 
@@ -102,6 +98,7 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
            const response = await this.client.url(`/card/${cardId}`).put(formData).json<CardResponse>();
 
            if (!response.success) {
+              this.logger.error(`Unable to update the card info for ${cardId}`);
               return null;
            }
 

@@ -46,5 +46,5 @@ export const errorDocId = "error docId";
 export const goodCardId = "good card";
 export const badCardId = "bad card";
 export const errorCardId = "error card";
-export const issueCardForm = { cardType: 'physical' }
+export const cardType = "physical";
 export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }

@@ -22,17 +22,17 @@ export const card_handlers = [
         return response(res);
     }),
 
-    mockServer.get(mockUrl + "/card/:userId", (request, response, context) => {
+    mockServer.get(mockUrl + "/card/:cardId", (request, response, context) => {
 
-        const { userId } = request.params;
+        const { cardId } = request.params;
 
-        if (!userId || userId === errorUserId) {
+        if (!cardId || cardId === errorCardId) {
             const res = compose(
                 context.status(400),
             );
             return response(res);
         }
-        else if (userId === badUserId) {
+        else if (cardId === badCardId) {
             const res = compose(
                 context.status(200),
                 context.json({

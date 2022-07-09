@@ -2,7 +2,7 @@
 export interface Card {
     cardName: string;
     cardNumber: string;
-    cardType: string;
+    cardType: 'phisycal' | 'virtual';
     companyId: string;
     creditLimit: null;
     expensesTypes: any;
