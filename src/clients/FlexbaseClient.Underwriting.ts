@@ -2,7 +2,7 @@ import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Underwriting } from '../models/Underwriting/Underwriting';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
-interface UnderwritingResponse extends Underwriting, FlexbaseResponse { }
+interface UnderwritingResponse extends Underwriting, FlexbaseResponse {}
 
 export class FlexbaseClientUnderwriting extends FlexbaseClientBase {
     async requestLevel(level: 1 | 2, companyId?: string): Promise<Underwriting | null> {

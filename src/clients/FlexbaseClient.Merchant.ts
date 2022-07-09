@@ -13,7 +13,11 @@ export class FlexbaseClientMerchant extends FlexbaseClientBase {
         }
 
         try {
-            const response = await this.client.url(`/credit/merchant/${apiKey}`).get().json<MerchantResponse>();
+            const response = await this.client
+                .url(`/credit/merchant/${apiKey}`)
+                .options({ authContext: { isAnonymousRoute: true } }, true)
+                .get()
+                .json<MerchantResponse>();
 
             if (!response.success) {
                 this.logger.error(`Unable to get merchant ${apiKey}`, response.error);
