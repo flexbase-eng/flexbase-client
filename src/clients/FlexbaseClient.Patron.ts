@@ -19,14 +19,10 @@ export class FlexbaseClientPatron extends FlexbaseClientBase {
 
     async addOrUpdatePatron(patronData: PatronData): Promise<Patron | null> {
         try {
-          return await this.client
-            .url('/clients')
-            .post(patronData)
-            .json();
-  
+            return await this.client.url('/clients').post(patronData).json();
         } catch (error) {
             this.logger.error(`Unable to add or update patron`, error);
             return null;
         }
-      }
+    }
 }
