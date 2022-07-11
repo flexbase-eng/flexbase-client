@@ -1,5 +1,5 @@
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
-import IEmployee from '../models/Company/Employee';
+import { Employee } from '../models/Company/Employee';
 
 interface UserInfoPreview {
   firstName?: string;
@@ -7,11 +7,16 @@ interface UserInfoPreview {
   jobTitle?: string;
   email?: string;
   phone?: string;
+  address: string;
+  city: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
   id?: string;
 }
 
 export class FlexbaseClientCompany extends FlexbaseClientBase {
-  async getCompanyUsers(): Promise<IEmployee[]> {
+  async getEmployees(): Promise<Employee[]> {
     try {
       const response = await this.client
         .url('/user')
@@ -27,6 +32,12 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
           jobTitle: x.jobTitle,
           email: x.email,
           phone: x.phone,
+          street1: x.address,
+          street2: null,
+          city: x.city,
+          state: x.state || '',
+          postalCode: x.postalCode || '',
+          country: x.country || '',
           id: x.id,
         };
       });
