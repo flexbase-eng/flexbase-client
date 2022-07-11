@@ -24,6 +24,7 @@ import { underwriting_handlers } from './handlers/underwriting';
 import { project_handlers } from './handlers/project';
 import { doc_handlers } from './handlers/doc';
 import { card_handlers } from './handlers/card';
+import { employees_handlers } from './handlers/employees';
 
 interface TokenRequest {
     grant_type: string;
@@ -95,3 +96,5 @@ export const handlers = [
     ...doc_handlers,
     ...card_handlers,
 ]
+    ...employees_handlers,
+];
