@@ -1,5 +1,5 @@
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
-import { Employee } from '../models/Company/Employee';
+import { Employee } from '../models/Employees/Employee';
 
 interface UserInfoPreview {
   firstName?: string;
@@ -15,7 +15,7 @@ interface UserInfoPreview {
   id?: string;
 }
 
-export class FlexbaseClientCompany extends FlexbaseClientBase {
+export class FlexbaseClientEmployees extends FlexbaseClientBase {
   async getEmployees(): Promise<Employee[]> {
     try {
       const response = await this.client
