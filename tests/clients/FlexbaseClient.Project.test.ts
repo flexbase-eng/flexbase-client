@@ -31,3 +31,39 @@ test("FlexbaseClient get projects error", async () => {
 
     expect(response).toBeNull();
 });
+
+test("FlexbaseClient create project success", async () => {
+
+    const response = await testFlexbaseClient.createOrUpdateProject({ 
+        name: "test name",
+        description: "test description",
+        location: {
+            address: "test address",
+            city: "test city",
+            postalCode: "test code",
+            state: "test state",
+            country: "test country"
+        }
+    });
+    expect(response).not.toBeNull();
+    expect(response?.name).toBe('test name');
+});
+
+test("FlexbaseClient update project success", async () => {
+
+    const response = await testFlexbaseClient.createOrUpdateProject({ 
+        id: 'testId',
+        name: "test name",
+        description: "test description",
+    });
+    expect(response).not.toBeNull();
+    expect(response?.id).toBe('testId');
+    expect(response?.name).toBe('test name');
+});
+
+test("FlexbaseClient create project error", async () => {
+    const response = await testFlexbaseClient.createOrUpdateProject({});
+    expect(response?.id).not.toBe('testId');
+    expect(response).toBeNull();
+});
+
