@@ -34,12 +34,12 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const params: any = {};
 
-        if (typeof searchTerm !== null) {
+        if (searchTerm && searchTerm !== null) {
           params.searchTerm = searchTerm;
         }
       
-        if (typeof status !== null) {
-          params.status = status;
+        if (status && status !== null) {
+            params.status = status;
         }
 
         if (full) {
