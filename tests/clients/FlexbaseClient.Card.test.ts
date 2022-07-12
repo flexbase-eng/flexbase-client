@@ -9,9 +9,9 @@ test("FlexbaseClient get cards success", async () => {
     const response = await testFlexbaseClient.getCardsByCompany();
 
     expect(response).not.toBeNull();
-    expect(response?.length).toBeGreaterThan(0);
+    expect(response?.cards?.length).toBeGreaterThan(0);
 
-    const card = response![0];
+    const card = response.cards![0];
 
     expect(card.id).toBe(goodCardId);
     expect(card.cardName).toBe('Card Test');
@@ -26,7 +26,7 @@ test("FlexbaseClient cards by company with params", async () => {
 
     expect(response).not.toBeNull();
 
-    const card = response![0];
+    const card = response.cards![0];
 
     expect(card.id).toBe(goodCardId);
 });
@@ -37,7 +37,8 @@ test("FlexbaseClient get cards failure", async () => {
 
     const response = await testFlexbaseClient.getCardsByCompany();
 
-    expect(response).toBeNull();
+    expect(response.error).toBe('Unable to get company cards');
+    expect(response.success).toBeFalsy();
 });
 
 test("FlexbaseClient get cards error", async () => {
@@ -46,33 +47,34 @@ test("FlexbaseClient get cards error", async () => {
 
     const response = await testFlexbaseClient.getCardsByCompany();
 
-    expect(response).toBeNull();
+    expect(response.success).toBeFalsy();
 });
 
 // CARD
 test("FlexbaseClient get user card success", async () => {
 
-    const response = await testFlexbaseClient.getCardById(goodCardId);
+    const response = await testFlexbaseClient.getCard(goodCardId);
 
     expect(response).not.toBeNull();
 
-    expect(response?.id).toBe(goodCardId);
-    expect(response?.cardName).toBe('Card Test');
-    expect(response?.cardNumber).toBe('1234');
+    expect(response?.card?.id).toBe(goodCardId);
+    expect(response?.card?.cardName).toBe('Card Test');
+    expect(response?.card?.cardNumber).toBe('1234');
 });
 
 test("FlexbaseClient get user card failure", async () => {
 
-    const response = await testFlexbaseClient.getCardById(badCardId);
+    const response = await testFlexbaseClient.getCard(badCardId);
 
-    expect(response).toBeNull();
+    expect(response.success).toBeFalsy();
 });
 
 test("FlexbaseClient get user card error", async () => {
 
-    const response = await testFlexbaseClient.getCardById(errorCardId);
+    const response = await testFlexbaseClient.getCard(errorCardId);
 
-    expect(response).toBeNull();
+    expect(response.error).toBe('Unable to get the card info');
+    expect(response.card).toBeNull();
 });
 
 // ISSUE CARD
@@ -82,23 +84,24 @@ test("FlexbaseClient issue user card success", async () => {
 
     expect(response).not.toBeNull();
 
-    expect(response?.id).toBe(goodCardId);
-    expect(response?.cardName).toBe('Card Test');
-    expect(response?.cardNumber).toBe('1234');
+    expect(response?.card?.id).toBe(goodCardId);
+    expect(response?.card?.cardName).toBe('Card Test');
+    expect(response?.card?.cardNumber).toBe('1234');
 });
 
 test("FlexbaseClient issue user card failure", async () => {
 
     const response = await testFlexbaseClient.issueCard(badUserId, cardType);
 
-    expect(response).toBeNull();
+    expect(response.success).toBeFalsy();
 });
 
 test("FlexbaseClient issue user card error", async () => {
 
     const response = await testFlexbaseClient.issueCard(errorUserId, cardType);
 
-    expect(response).toBeNull();
+    expect(response.error).toBe('Unable to issue the card');
+    expect(response.card).toBeNull();
 });
 
 // UPDATE CARD
@@ -108,22 +111,24 @@ test("FlexbaseClient update user card success", async () => {
 
     expect(response).not.toBeNull();
 
-    expect(response?.id).toBe(goodCardId);
-    expect(response?.cardName).toBe('Gas Card');
-    expect(response?.cardNumber).toBe('1234');
-    expect(response?.creditLimit).toBe(5000);
+    expect(response?.card?.id).toBe(goodCardId);
+    expect(response?.card?.cardName).toBe('Gas Card');
+    expect(response?.card?.cardNumber).toBe('1234');
+    expect(response?.card?.creditLimit).toBe(5000);
 });
 
 test("FlexbaseClient update user card failure", async () => {
 
     const response = await testFlexbaseClient.updateCard(badCardId, updateCardForm);
 
-    expect(response).toBeNull();
+    expect(response.error).toBe('Error message');
+    expect(response.success).toBeFalsy();
 });
 
 test("FlexbaseClient update user card error", async () => {
 
     const response = await testFlexbaseClient.updateCard(errorCardId, updateCardForm);
 
-    expect(response).toBeNull();
+    expect(response.error).toBe('Unable to update the card info');
+    expect(response.card).toBeNull();
 });
