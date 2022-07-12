@@ -86,7 +86,7 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
 
     async issueCard(userId: string, cardType: 'physical' | 'virtual', shipTo?: Address, service?: string): Promise<CardResponse> {
       try {
-        const response = await this.client.url(`/card/${userId}/issue`).post({ cardType, shipTo, service}).json<CardResponse>();
+        const response = await this.client.url(`/card/${userId}/issue`).post({ cardType, shipTo, service }).json<CardResponse>();
 
         if (!response.success) {
           this.logger.error('Unable to issue the card', response.error);
