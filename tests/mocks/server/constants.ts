@@ -42,3 +42,9 @@ export const deniedApiKey = "denied api key";
 export const goodDocId = "good docId";
 export const badDocId = "bad docId";
 export const errorDocId = "error docId";
+
+export const goodCardId = "good card";
+export const badCardId = "bad card";
+export const errorCardId = "error card";
+export const cardType = "physical";
+export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }
