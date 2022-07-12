@@ -1,4 +1,4 @@
-import { project_failure_handlers, project_error_handlers } from '../mocks/server/handlers/project';
+import { project_error_handlers } from '../mocks/server/handlers/project';
 import { server } from '../mocks/server/server';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 
@@ -38,7 +38,8 @@ test("FlexbaseClient create project success", async () => {
         name: "test name",
         description: "test description",
         location: {
-            address: "test address",
+            street1: "test address",
+            street2: 'test address 2',
             city: "test city",
             postalCode: "test code",
             state: "test state",

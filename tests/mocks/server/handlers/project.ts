@@ -35,7 +35,7 @@ export const project_handlers = [
                 name: "test name",
                 description: "test description",
                 location: {
-                    address: "test address",
+                    street1: "test address",
                     city: "test city",
                     postalCode: "test code",
                     state: "test state"
