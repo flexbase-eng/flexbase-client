@@ -16,4 +16,4 @@ export interface PatronData {
     state?: string;
     city?: string;
     postalCode?: string;
-  }
+}

@@ -19,11 +19,9 @@ interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, Flexba
 export class FlexbaseClientCredit extends FlexbaseClientBase {
     async getCompanyCredit(companyId?: string): Promise<CompanyCredit | null> {
         try {
-
             let url = '/servicing/minimumDue';
 
-            if(companyId)
-            {
+            if (companyId) {
                 url = url + `?id=${companyId}`;
             }
 

@@ -15,3 +15,6 @@ export { Underwriting } from './models/Underwriting/Underwriting';
 export { PayWithFlexbase, PayWithFlexbaseMode, PayWithFlexbaseResponse, PayWithFlexbaseInvoice } from './models/Credit/PayWithFlexbase';
 export { Patron } from './models/Patron/Patron';
 export { Card } from './models/Card/Card';
+export { OnboardingStatus } from './models/Onboarding/OnboardingStatus';
+export { Business } from './models/Business/Business';
+export { BusinessOwner } from './models/Business/BusinessOwner';

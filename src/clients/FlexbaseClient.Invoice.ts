@@ -11,12 +11,12 @@ interface InvoicesResponse {
 
 interface InvoiceResponse extends FlexbaseResponse {
     invoice: Invoice;
-  }
+}
 
 interface InvoiceForm {
     contractId: string;
     description: string;
-  }
+}
 
 export class FlexbaseClientInvoice extends FlexbaseClientBase {
     private buildParams(options?: InvoiceOptions) {
@@ -86,31 +86,31 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     async uploadInvoiceFile(invoiceId: string, file: any): Promise<Invoice | null> {
         try {
-          const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).formData({ file }).post().json();
-         
-            if (!response.success) {
-              return null;
-            }
+            const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).formData({ file }).post().json();
 
-           return response.invoice;
-        } catch (error) {
-            this.logger.error('Unable to upload invoice file', error);
-            return null;
-        }  
-    }
-    
-    async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
-        try {
-          const response = await this.client.url(`/invoice/${invoiceId}/summary`).put(invoiceForm).json<InvoiceResponse>();
-            
             if (!response.success) {
                 return null;
             }
-  
-           return response.invoice;
+
+            return response.invoice;
         } catch (error) {
-          console.error('Unable to update the invoice', error);
-          return null;
+            this.logger.error('Unable to upload invoice file', error);
+            return null;
+        }
+    }
+
+    async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
+        try {
+            const response = await this.client.url(`/invoice/${invoiceId}/summary`).put(invoiceForm).json<InvoiceResponse>();
+
+            if (!response.success) {
+                return null;
+            }
+
+            return response.invoice;
+        } catch (error) {
+            console.error('Unable to update the invoice', error);
+            return null;
         }
     }
 }

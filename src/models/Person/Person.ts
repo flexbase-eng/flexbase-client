@@ -12,4 +12,5 @@ export interface Person {
     authorizedSignatory: boolean;
     address: Address;
     phone: Phone;
+    businessId: string;
 }
