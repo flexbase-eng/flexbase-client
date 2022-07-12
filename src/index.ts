@@ -17,3 +17,4 @@ export { Patron } from './models/Patron/Patron';
 export { OnboardingStatus } from './models/Onboarding/OnboardingStatus';
 export { Business } from './models/Business/Business';
 export { BusinessOwner } from './models/Business/BusinessOwner';
+export { Project } from './models/Project/Project';

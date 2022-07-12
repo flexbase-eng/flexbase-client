@@ -1,3 +1,4 @@
+import { Project } from '../models/Project/Project';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 interface ProjectsResponse {
@@ -7,6 +8,18 @@ interface ProjectsResponse {
     id: string;
     location: Array<string>;
     name: string;
+}
+
+interface CreateProjectResponse {
+  description: string;
+  id: string;
+  location: {
+      address: string;
+      city: string;
+      postalCode: string;
+      state: string;
+  },
+  name: string;
 }
 
 export class FlexbaseClientProject extends FlexbaseClientBase {
@@ -20,4 +33,16 @@ export class FlexbaseClientProject extends FlexbaseClientBase {
             return null;
         }
     }
+  }
+
+  async createOrUpdateProject(projectData: Project): Promise<CreateProjectResponse | null> {
+    try {
+      const response = await this.client.url('/project').post(projectData).json<CreateProjectResponse>();
+
+      return response;
+    } catch (error) {
+      this.logger.error('Unable to create a project', error);
+      return null;
+    }
+  }
 }
