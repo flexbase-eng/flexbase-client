@@ -1,16 +1,17 @@
+/* eslint-disable no-unused-vars */
 export enum Group {
-  "MATERIALSUPPLIERS",
-  "CONVENIENCESTORES",
-  "FOODANDBEVERAGE",
-  "EQUIPMENT",
-  "OFFICESUPPLIESANDCLEANING",
-  "FUELANDGAS",
+  MaterialGroup = "MATERIALSUPPLIERS",
+  ConvenienceStores = "CONVENIENCESTORES",
+  FoodAndBeverage = "FOODANDBEVERAGE",
+  Equipment = "EQUIPMENT",
+  OfficeSupplies ="OFFICESUPPLIESANDCLEANING",
+  FuelAndGas = "FUELANDGAS",
 }
 
 export interface Card {
   cardName: string;
   cardNumber: string;
-  cardType: 'phisycal' | 'virtual';
+  cardType: 'physical' | 'virtual';
   companyId: string;
   creditLimit: null;
   expensesTypes: {

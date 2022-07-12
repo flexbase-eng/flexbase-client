@@ -31,6 +31,7 @@ interface UpdateCardForm {
 
 export class FlexbaseClientCard extends FlexbaseClientBase {
     private params({ searchTerm, status, full }: QueryParameters = {}) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const params: any = {};
 
         if (typeof searchTerm !== null) {
