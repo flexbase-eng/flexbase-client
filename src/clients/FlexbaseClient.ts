@@ -12,7 +12,6 @@ import { FlexbaseClientOnboarding } from './FlexbaseClient.Onboarding';
 import { FlexbaseClientProject } from './FlexbaseClient.Project';
 import { FlexbaseClientDoc } from './FlexbaseClient.Doc';
 import { FlexbaseClientCard } from './FlexbaseClient.Card';
-import { FlexbaseClientCompany } from './FlexbaseClient.Company';
 import { FlexbaseClientEmployees } from './FlexbaseClient.Employees';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
@@ -30,7 +29,6 @@ export interface FlexbaseClient
         FlexbaseClientProject,
         FlexbaseClientDoc,
         FlexbaseClientCard,
-        FlexbaseClientCompany,
         FlexbaseClientEmployees,
         FlexbaseClientPatron {}
 

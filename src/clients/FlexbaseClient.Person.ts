@@ -24,7 +24,7 @@ interface PersonResponse extends FlexbaseResponse {
     usr: Person;
 }
 
-export class FlexbaseClientPerson extends FlexbaseClientBase {
+export class FlexbaseClientPerson extends FlexbaseClientBase {      
     async getPerson(userId: string): Promise<Person | null> {
         if (!userId) {
             throw new Error('userId is required');
