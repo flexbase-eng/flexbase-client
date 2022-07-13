@@ -8,6 +8,7 @@ interface UserInfoPreview {
   email?: string;
   phone?: string;
   address: string;
+  addressLine2?: string | null;
   city: string;
   state?: string;
   postalCode?: string;
@@ -33,7 +34,7 @@ export class FlexbaseClientEmployees extends FlexbaseClientBase {
           email: x.email,
           phone: x.phone,
           street1: x.address,
-          street2: null,
+          street2: x.addressLine2 || null,
           city: x.city,
           state: x.state || '',
           postalCode: x.postalCode || '',
