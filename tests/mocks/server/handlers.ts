@@ -95,6 +95,5 @@ export const handlers = [
     ...project_handlers,
     ...doc_handlers,
     ...card_handlers,
-]
     ...employees_handlers,
 ];
