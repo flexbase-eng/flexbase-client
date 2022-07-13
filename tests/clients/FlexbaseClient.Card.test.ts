@@ -21,8 +21,9 @@ test("FlexbaseClient cards by company with params", async () => {
 
     const searchTerm = 'Card';
     const status = 'active';
+    const full = true;
 
-    const response = await testFlexbaseClient.getCardsByCompany({ searchTerm, status });
+    const response = await testFlexbaseClient.getCardsByCompany({ searchTerm, status, full });
 
     expect(response).not.toBeNull();
 
