@@ -20,11 +20,36 @@ interface PersonUpdateRequest {
     authorizedSignatory?: boolean;
 }
 
+
 interface PersonResponse extends FlexbaseResponse {
     usr: Person;
 }
 
-export class FlexbaseClientPerson extends FlexbaseClientBase {      
+interface EmployeesResponse extends FlexbaseResponse{
+    employees: Person[];
+  }
+
+export class FlexbaseClientPerson extends FlexbaseClientBase {  
+    
+    async getEmployees(): Promise<EmployeesResponse> {
+        try {
+          const response = await this.client
+            .url('/user')
+            .get()
+            .json<EmployeesResponse>();
+
+        if (!response.success) {
+            this.logger.error('Unable to get employees', response.error);
+            return response;
+          }
+          return response;
+
+        } catch (error) {
+          console.error('ALL USERS ERROR', error);
+          return { success: false, error: 'Unable to get employees', employees: [] };
+        }
+      }
+
     async getPerson(userId: string): Promise<Person | null> {
         if (!userId) {
             throw new Error('userId is required');
