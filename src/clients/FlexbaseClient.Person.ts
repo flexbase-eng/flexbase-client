@@ -25,28 +25,20 @@ interface PersonResponse extends FlexbaseResponse {
     usr: Person;
 }
 
-interface EmployeesResponse extends FlexbaseResponse{
-    employees: Person[];
-  }
 
 export class FlexbaseClientPerson extends FlexbaseClientBase {  
     
-    async getEmployees(): Promise<EmployeesResponse> {
+    async getEmployees(): Promise<Person[]> {
         try {
           const response = await this.client
             .url('/user')
             .get()
-            .json<EmployeesResponse>();
-
-        if (!response.success) {
-            this.logger.error('Unable to get employees', response.error);
-            return response;
-          }
+            .json<Person[]>();
           return response;
 
         } catch (error) {
           console.error('ALL USERS ERROR', error);
-          return { success: false, error: 'Unable to get employees', employees: [] };
+          return [];
         }
       }
 
