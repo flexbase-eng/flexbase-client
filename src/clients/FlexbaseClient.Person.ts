@@ -27,14 +27,12 @@ interface PersonResponse extends FlexbaseResponse {
 
 
 export class FlexbaseClientPerson extends FlexbaseClientBase {  
-    
     async getEmployees(): Promise<Person[]> {
         try {
-          const response = await this.client
-            .url('/user')
-            .get()
-            .json<Person[]>();
-          return response;
+          return await this.client
+          .url('/user')
+          .get()
+          .json<Person[]>();
 
         } catch (error) {
           console.error('ALL USERS ERROR', error);
