@@ -9,7 +9,6 @@ test("FlexbaseClient get employees success", async () => {
     const response = await testFlexbaseClient.getEmployees();
 
     expect(response).not.toBeNull();
-    console.info(response);
     expect(response.length).toBeGreaterThan(0);
 
     const employee = response[0];
