@@ -1,26 +1,7 @@
-import { Project } from '../models/Project/Project';
+import { CreateProjectResponse, Project, ProjectsResponse } from '../models/Project/Project';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
-interface ProjectsResponse {
-    companyId: string;
-    contracts: Array<string>;
-    description: string;
-    id: string;
-    location: Array<string>;
-    name: string;
-}
 
-interface CreateProjectResponse {
-  description: string;
-  id: string;
-  location: {
-      address: string;
-      city: string;
-      postalCode: string;
-      state: string;
-  },
-  name: string;
-}
 
 export class FlexbaseClientProject extends FlexbaseClientBase {
     async getCompanyProjects(): Promise<ProjectsResponse[] | null> {
