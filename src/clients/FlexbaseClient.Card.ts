@@ -117,7 +117,7 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
       }
     }
 
-    async updateCardStatus(cardId: string, status: string, last4?: string): Promise<CardResponse> {
+    async updateCardStatus(cardId: string, status: 'active' | 'suspended' | 'terminated', last4?: string): Promise<CardResponse> {
       try {
         const response = await this.client.url('/card/status').put({cardId, status, last4}).json<CardResponse>();
 
