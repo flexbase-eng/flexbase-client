@@ -151,20 +151,6 @@ test("FlexbaseClient activate card", async () => {
     expect(response?.card?.status).toBe('active');
 });
 
-test("FlexbaseClient update card status", async () => {
-
-    const status = 'active';
-
-    const response = await testFlexbaseClient.updateCardStatus(goodCardId, status);
-
-    expect(response).not.toBeNull();
-
-    expect(response?.card?.id).toBe(goodCardId);
-    expect(response?.card?.cardName).toBe('Gas Card');
-    expect(response?.card?.cardNumber).toBe('1234');
-    expect(response?.card?.status).toBe('active');
-});
-
 test("FlexbaseClient update card status failure", async () => {
 
     server.use(...card_failure_handlers);
