@@ -121,6 +121,10 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
       try {
         const response = await this.client.url('/card/status').put({cardId, status, last4}).json<CardResponse>();
 
+        if (!response.success) {
+          this.logger.error('Unable to update the card status', response.error);
+        }
+
         return response;
       } catch (error) {
         this.logger.error('Unable to update the card status', error);
