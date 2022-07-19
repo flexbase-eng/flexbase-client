@@ -116,4 +116,20 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         return { success: false, error: 'Unable to update the card info', card: null };
       }
     }
+
+    async updateCardStatus(cardId: string, status: string, last4?: string): Promise<CardResponse> {
+      try {
+        const response = await this.client.url('/card/status').put({cardId, status, last4}).json<CardResponse>();
+
+        if (!response.success) {
+          this.logger.error('Unable to update the card status');
+          return response;
+        }
+
+        return response;
+      } catch (error) {
+        this.logger.error('Unable to update the card status', error);
+        return { success: false, error: 'Unable to update the card status', card: null };
+      }
+    }
 }
