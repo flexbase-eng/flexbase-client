@@ -133,3 +133,57 @@ test("FlexbaseClient update user card error", async () => {
     expect(response.error).toBe('Unable to update the card info');
     expect(response.card).toBeNull();
 });
+
+// Change card status
+test("FlexbaseClient activate card", async () => {
+
+    const last4 = '1234';
+    const status = 'active';
+    const cardId = goodCardId;
+
+    const response = await testFlexbaseClient.updateCardStatus(cardId, status, last4);
+
+    expect(response).not.toBeNull();
+
+    expect(response?.card?.id).toBe(goodCardId);
+    expect(response?.card?.cardName).toBe('Gas Card');
+    expect(response?.card?.cardNumber).toBe('1234');
+    expect(response?.card?.status).toBe('active');
+});
+
+test("FlexbaseClient update card status", async () => {
+
+    const status = 'active';
+
+    const response = await testFlexbaseClient.updateCardStatus(goodCardId, status);
+
+    expect(response).not.toBeNull();
+
+    expect(response?.card?.id).toBe(goodCardId);
+    expect(response?.card?.cardName).toBe('Gas Card');
+    expect(response?.card?.cardNumber).toBe('1234');
+    expect(response?.card?.status).toBe('active');
+});
+
+test("FlexbaseClient update card status failure", async () => {
+
+    server.use(...card_failure_handlers);
+
+    const status = 'suspended';
+    const response = await testFlexbaseClient.updateCardStatus(badCardId, status);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Error message');
+});
+
+test("FlexbaseClient update card status error", async () => {
+
+    server.use(...card_error_handlers);
+
+    const status = 'suspended';
+    const response = await testFlexbaseClient.updateCardStatus(badCardId, status);
+
+    expect(response.card).toBeNull();
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to update the card status');
+});

@@ -134,6 +134,25 @@ export const card_handlers = [
         );
         return response(res);
     }),
+
+    mockServer.put(mockUrl + "/card/status", (request, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    id: goodCardId,
+                    cardName: 'Gas Card',
+                    cardNumber: "1234",
+                    creditLimit: 5000,
+                    status: 'active',
+                },
+            }),
+
+        );
+        return response(res);
+    }),
 ]
 
 export const card_failure_handlers = [
@@ -143,6 +162,19 @@ export const card_failure_handlers = [
             context.status(200),
             context.json({
                 success: false,               
+            }),
+    
+        );
+        return response(res);
+    }),
+
+    mockServer.put(mockUrl + "/card/status", (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: false,
+                error: "Error message",               
             }),
     
         );
@@ -158,4 +190,13 @@ export const card_error_handlers = [
         );
         return response(res);
     }),
+
+    mockServer.put(mockUrl + "/card/status", (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
+        );
+        return response(res);
+    }),
 ];
+
