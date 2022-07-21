@@ -1,4 +1,4 @@
-import { badUserId, errorUserId, goodUserId } from "../mocks/server/constants";
+import { badUserId, errorUserId, goodUserId, addPersonForm } from "../mocks/server/constants";
 import { employees_error_handlers } from '../mocks/server/handlers/employees';
 import { server } from '../mocks/server/server';
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
@@ -16,6 +16,15 @@ test("FlexbaseClient get employees success", async () => {
     expect(employee.firstName).toBe("Ann");
     expect(employee.jobTitle).toBe("Manager");
 
+});
+
+test("FlexbaseClient add person success", async () => {
+
+    const response = await testFlexbaseClient.addPerson(addPersonForm);
+
+    expect(response?.firstName).toBe("Ann");
+    expect(response?.lastName).toBe("Smith");
+    expect(response?.email).toBe("ann@flexbase.app");
 });
 
 test("FlexbaseClient get employees error", async () => {
@@ -57,23 +66,31 @@ test("FlexbaseClient get person no user id", async () => {
 
 test("FlexbaseClient update person success", async () => {
 
-    const response = await testFlexbaseClient.updatePerson(goodUserId, {});
+    const response = await testFlexbaseClient.updatePerson(goodUserId, 
+    {
+        firstName: "Ann",
+        lastName: "Smith",
+        email: "ann@flexbase.app"
+    });
 
-    expect(response).toBe(true);
+    expect(response).not.toBeNull();
+    expect(response?.firstName).toBe("Ann");
+    expect(response?.lastName).toBe("Smith");
+    expect(response?.email).toBe("ann@flexbase.app");
 });
 
 test("FlexbaseClient update person failure", async () => {
 
     const response = await testFlexbaseClient.updatePerson(badUserId, {});
 
-    expect(response).toBe(false);
+    expect(response).toBeNull;
 });
 
 test("FlexbaseClient update person error", async () => {
 
     const response = await testFlexbaseClient.updatePerson(errorUserId, {});
 
-    expect(response).toBe(false);
+    expect(response).toBeNull;
 });
 
 test("FlexbaseClient update person no user id", async () => {

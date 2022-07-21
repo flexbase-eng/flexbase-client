@@ -18,6 +18,7 @@ interface PersonUpdateRequest {
     postalCode?: string;
     cellPhone?: string;
     authorizedSignatory?: boolean;
+    id?: string;
 }
 
 
@@ -27,12 +28,12 @@ interface PersonResponse extends FlexbaseResponse {
 
 
 export class FlexbaseClientPerson extends FlexbaseClientBase {  
-    async getEmployees(): Promise<Person[]> {
+    async getEmployees(): Promise<PersonUpdateRequest[]> {
         try {
           return await this.client
           .url('/user')
           .get()
-          .json<Person[]>();
+          .json();
 
         } catch (error) {
           console.error('ALL USERS ERROR', error);
@@ -60,7 +61,20 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
         }
     }
 
-    async updatePerson(userId: string, person: PersonUpdate): Promise<boolean> {
+    async addPerson(userForm: PersonUpdateRequest): Promise<Person | null> {
+        try {
+          const result = await this.client
+            .url('/onboarding/user')
+            .post(userForm)
+            .json();
+          return result.newUser;
+        } catch (error) {
+          console.error('SAVE USER ERROR', error);
+          return null;
+        }
+      }
+
+    async updatePerson(userId: string, person: PersonUpdate): Promise<PersonUpdateRequest | null> {
         if (!userId) {
             throw new Error('userId is required');
         }
@@ -82,16 +96,16 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
                 authorizedSignatory: person.authorizedSignatory,
             };
 
-            const response = await this.client.url(`/user/${userId}`).put(request).json<FlexbaseResponse>();
+            const response = await this.client.url(`/user/${userId}`).put(request).json();
 
-            if (response.error) {
+            if (!response.success) {
                 this.logger.error(`Unable to update person ${userId}`, response);
             }
 
-            return response.success;
+            return response.newUser;
         } catch (error) {
             this.logger.error(`Unable to update person ${userId}`, error);
-            return false;
+            return null ;
         }
     }
 
