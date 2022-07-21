@@ -47,4 +47,10 @@ export const goodCardId = "good card";
 export const badCardId = "bad card";
 export const errorCardId = "error card";
 export const cardType = "physical";
+export const addPersonForm = { 
+firstName: "Mariana", 
+lastName: "Murillo 100",
+jobTitle: "Engineerr 100",
+email: "mariana+122@edukathe.org" 
+};
 export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }

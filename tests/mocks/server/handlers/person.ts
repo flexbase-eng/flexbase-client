@@ -37,6 +37,25 @@ export const person_handlers = [
         return response(res);
     }),
 
+
+    mockServer.post(mockUrl + "/onboarding/user", (_,response, context) => {
+
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                newUser: {
+                    firstName: "Ann",
+                    lastName: "Smith",
+                    email: "ann@flexbase.app"
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+
     mockServer.put(mockUrl + "/user/:userId", (request, response, context) => {
 
         const { userId } = request.params;
@@ -52,7 +71,7 @@ export const person_handlers = [
                 context.status(200),
                 context.json({
                     success: false,
-                    error: "Error message"
+                    newUser: {},
                 })
             );
             return response(res);
@@ -61,7 +80,12 @@ export const person_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                success: true
+                success: true,
+                newUser: {
+                    firstName: "Ann",
+                    lastName: "Smith",
+                    email: "ann@flexbase.app"
+                },
             }),
 
         );
