@@ -80,13 +80,11 @@ export const person_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                success: true,
-                newUser: {
                     firstName: "Ann",
                     lastName: "Smith",
                     email: "ann@flexbase.app"
                 },
-            }),
+            ),
 
         );
 
