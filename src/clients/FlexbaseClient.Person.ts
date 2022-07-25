@@ -102,7 +102,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
                 this.logger.error(`Unable to update person ${userId}`, response);
             }
 
-            return response.newUser;
+            return response;
         } catch (error) {
             this.logger.error(`Unable to update person ${userId}`, error);
             return null ;
