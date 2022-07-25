@@ -98,7 +98,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
 
             const response = await this.client.url(`/user/${userId}`).put(request).json();
 
-            if (!response.success) {
+            if (!response) {
                 this.logger.error(`Unable to update person ${userId}`, response);
             }
 
