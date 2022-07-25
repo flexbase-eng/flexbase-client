@@ -36,7 +36,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
           .json();
 
         } catch (error) {
-          console.error('ALL USERS ERROR', error);
+            this.logger.error('ALL USERS ERROR', error);
           return [];
         }
       }
@@ -69,7 +69,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
             .json();
           return result.newUser;
         } catch (error) {
-          console.error('SAVE USER ERROR', error);
+            this.logger.error('SAVE USER ERROR', error);
           return null;
         }
       }
