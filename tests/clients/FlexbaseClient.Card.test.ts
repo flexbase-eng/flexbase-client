@@ -1,6 +1,6 @@
 import { server } from '../mocks/server/server';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCardId, badUserId, errorUserId, goodUserId, updateCardForm, badCardId, errorCardId, cardType } from "../mocks/server/constants";
+import { goodCardId, badUserId, errorUserId, goodUserId, updateCardForm, badCardId, errorCardId, cardType, goodCompanyId } from "../mocks/server/constants";
 import { card_failure_handlers, card_error_handlers } from '../mocks/server/handlers/card';
 
 
@@ -172,4 +172,16 @@ test("FlexbaseClient update card status error", async () => {
     expect(response.card).toBeNull();
     expect(response.success).toBeFalsy();
     expect(response.error).toBe('Unable to update the card status');
+});
+
+test("FlexbaseClient paydebt", async () => {
+
+    const amount = '1000';
+
+    const response = await testFlexbaseClient.payDebt(goodCompanyId, amount);
+    console.info('response', response);
+
+    expect(response).not.toBeNull();
+
+    expect(response?.success).toBe(true);
 });

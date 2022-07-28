@@ -1,5 +1,5 @@
 import { compose, rest as mockServer } from 'msw'
-import { mockUrl, badUserId, errorUserId, badCardId, errorCardId, goodCardId } from '../constants';
+import { mockUrl, badUserId, errorUserId, badCardId, errorCardId, goodCardId, goodCompanyId, goodUserId } from '../constants';
 
 export const card_handlers = [
     mockServer.get(mockUrl + "/card/company", (_, response, context) => {
@@ -89,6 +89,28 @@ export const card_handlers = [
                     cardName: 'Card Test',
                     cardNumber: "1234",
                     status: 'active',
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + "/servicing/payments/stripe", (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    amount: "-1.53",
+                    asOf: "2022-07-28 21:50:40.482+00",
+                    byUser: goodUserId,
+                    companyId: goodCompanyId,
+                    datePosted: "2022-07-28 21:50:40.482+00",
+                    failureReason: null,
+                    id: goodCardId,
+                    status: "succeeded",
                 },
             }),
 
