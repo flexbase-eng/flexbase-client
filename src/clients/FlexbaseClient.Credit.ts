@@ -14,6 +14,21 @@ interface CompanyCreditResponse extends FlexbaseResponse {
     graceDate: string;
 }
 
+interface PayDebtResponse {
+    success: boolean;
+    cardPayment: {
+        amount: string;
+        asOf: string;
+        byUser: string;
+        companyId: string;
+        datePosted: string;
+        failureReason: string | null,
+        id: string;
+        status: string;
+    }
+}
+
+
 interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, FlexbaseResponse {}
 
 export class FlexbaseClientCredit extends FlexbaseClientBase {
@@ -38,6 +53,23 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
             };
         } catch (error) {
             this.logger.error(`Unable to get credit for company ${companyId}`, error);
+            return null;
+        }
+    }
+
+    async payDebt(companyId: string, amount: string): Promise<PayDebtResponse | null> {
+        try {
+
+            const response = await this.client.url('/servicing/payments/stripe').post({ companyId, amount }).json<PayDebtResponse>();
+
+            if (!response.success) {
+                this.logger.error(`Unable to pay debt for company ${companyId}`);
+                return null;
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error(`Unable to pay debt for company ${companyId}`, error);
             return null;
         }
     }
