@@ -63,13 +63,13 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
             const response = await this.client.url('/servicing/payments/stripe').post({ companyId, amount }).json<PayDebtResponse>();
 
             if (!response.success) {
-                this.logger.error(`Unable to pay debt for company ${companyId}`);
+                this.logger.error(`Unable to pay debt`);
                 return null;
             }
 
             return response;
         } catch (error) {
-            this.logger.error(`Unable to pay debt for company ${companyId}`, error);
+            this.logger.error(`Unable to pay debt`, error);
             return null;
         }
     }
