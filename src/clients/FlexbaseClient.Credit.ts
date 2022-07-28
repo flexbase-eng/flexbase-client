@@ -14,8 +14,7 @@ interface CompanyCreditResponse extends FlexbaseResponse {
     graceDate: string;
 }
 
-interface PayDebtResponse {
-    success: boolean;
+interface PayDebtResponse extends FlexbaseResponse {
     cardPayment: {
         amount: string;
         asOf: string;
@@ -25,8 +24,9 @@ interface PayDebtResponse {
         failureReason: string | null,
         id: string;
         status: string;
-    }
+    } | null
 }
+
 
 
 interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, FlexbaseResponse {}
@@ -57,20 +57,19 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
         }
     }
 
-    async payDebt(companyId: string, amount: string): Promise<PayDebtResponse | null> {
+    async payDebt(companyId?: string, amount?: string): Promise<PayDebtResponse> {
         try {
 
             const response = await this.client.url('/servicing/payments/stripe').post({ companyId, amount }).json<PayDebtResponse>();
 
             if (!response.success) {
-                this.logger.error(`Unable to pay debt`);
-                return null;
+                this.logger.error(`Unable to make the pay debt`);
             }
 
             return response;
         } catch (error) {
-            this.logger.error(`Unable to pay debt`, error);
-            return null;
+            this.logger.error(`Unable to make the pay debt`, error);
+            return { success: false, error: 'Unable to make the pay debt', cardPayment: null };
         }
     }
 

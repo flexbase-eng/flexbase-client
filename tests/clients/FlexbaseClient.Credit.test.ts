@@ -75,3 +75,19 @@ test("FlexbaseClient request pay with flexbase invalid payload", async () => {
 
     await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 0, mode: 'immediate' })).rejects.toThrow();
 });
+
+
+test("FlexbaseClient paydebt", async () => {
+
+    const amount = '1000';
+    const response = await testFlexbaseClient.payDebt(goodCompanyId, amount);
+
+    expect(response).not.toBeNull();
+    expect(response.success).toBe(true);
+});
+
+test("FlexbaseClient pay debt error", async () => {
+    const response = await testFlexbaseClient.payDebt();
+    expect(response.success).toBe(false);
+    expect(response.error).toBe('Unable to make the pay debt');
+});

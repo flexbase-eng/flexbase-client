@@ -174,13 +174,3 @@ test("FlexbaseClient update card status error", async () => {
     expect(response.error).toBe('Unable to update the card status');
 });
 
-test("FlexbaseClient paydebt", async () => {
-
-    const amount = '1000';
-
-    const response = await testFlexbaseClient.payDebt(goodCompanyId, amount);
-
-    expect(response).not.toBeNull();
-
-    expect(response?.success).toBe(true);
-});
