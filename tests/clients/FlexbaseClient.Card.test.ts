@@ -179,7 +179,6 @@ test("FlexbaseClient paydebt", async () => {
     const amount = '1000';
 
     const response = await testFlexbaseClient.payDebt(goodCompanyId, amount);
-    console.info('response', response);
 
     expect(response).not.toBeNull();
 
