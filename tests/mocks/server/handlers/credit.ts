@@ -39,14 +39,6 @@ export const credit_handlers = [
 
     mockServer.post(mockUrl + "/servicing/payments/stripe", (request, response, context) => {
 
-        if(request.body && Object.keys(request.body).length === 0) {
-            const res = compose(
-                context.status(400),
-            );
-            return response(res);
-        }
-
-
         const res = compose(
             context.status(200),
             context.json({
@@ -101,6 +93,16 @@ export const credit_handlers = [
 
         );
 
+        return response(res);
+    }),
+];
+
+export const credit_error_handlers = [
+    mockServer.post(mockUrl + "/servicing/payments/stripe", (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
+        );
         return response(res);
     }),
 ];
