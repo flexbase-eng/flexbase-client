@@ -1,5 +1,7 @@
 import { badApiKey, badCompanyId, deniedApiKey, errorApiKey, errorCompanyId, goodApiKey, goodCompanyId } from "../mocks/server/constants";
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
+import { server } from '../mocks/server/server';
+import { credit_error_handlers } from "../mocks/server/handlers/credit";
 
 test("FlexbaseClient get company credit success", async () => {
 
@@ -87,7 +89,8 @@ test("FlexbaseClient paydebt", async () => {
 });
 
 test("FlexbaseClient pay debt error", async () => {
-    const response = await testFlexbaseClient.payDebt();
-    expect(response.success).toBe(false);
+    server.use(...credit_error_handlers);
+
+    const response = await testFlexbaseClient.payDebt('', '');
     expect(response.error).toBe('Unable to make the pay debt');
 });

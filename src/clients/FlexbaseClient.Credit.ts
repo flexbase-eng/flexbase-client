@@ -57,7 +57,7 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
         }
     }
 
-    async payDebt(companyId?: string, amount?: string): Promise<PayDebtResponse> {
+    async payDebt(companyId: string, amount: string): Promise<PayDebtResponse> {
         try {
 
             const response = await this.client.url('/servicing/payments/stripe').post({ companyId, amount }).json<PayDebtResponse>();

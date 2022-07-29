@@ -1,6 +1,6 @@
 import { server } from '../mocks/server/server';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCardId, badUserId, errorUserId, goodUserId, updateCardForm, badCardId, errorCardId, cardType, goodCompanyId } from "../mocks/server/constants";
+import { goodCardId, badUserId, errorUserId, goodUserId, updateCardForm, badCardId, errorCardId, cardType } from "../mocks/server/constants";
 import { card_failure_handlers, card_error_handlers } from '../mocks/server/handlers/card';
 
 
