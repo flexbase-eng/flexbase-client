@@ -16,7 +16,7 @@ test("FlexbaseClient change password failure", async () => {
 
     server.use(...password_failure_handlers);
 
-    const response = await testFlexbaseClient.changePassword(null);
+    const response = await testFlexbaseClient.changePassword('');
 
     expect(response.success).toBe(false);
     expect(response.error).toBe('Unable to change the password');
