@@ -1,5 +1,5 @@
 import { compose, rest as mockServer } from 'msw'
-import { mockUrl, plaidLinkToken, goodPlaidPublicToken, badPlaidPublicToken } from "../constants";
+import { mockUrl } from "../constants";
 
 export const password_handlers = [
     mockServer.post(mockUrl + "/auth/setPass", (_, response, context) => {
