@@ -23,7 +23,7 @@ interface PersonUpdateRequest {
 
 
 interface PersonResponse extends FlexbaseResponse {
-    usr?: Person | null;
+    usr?: Person;
 }
 
 
