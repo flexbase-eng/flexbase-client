@@ -27,6 +27,7 @@ import { card_handlers } from './handlers/card';
 import { employees_handlers } from './handlers/employees';
 import { company_handlers } from './handlers/company';
 import { password_handlers } from './handlers/password';
+import { banking_handlers } from './handlers/banking';
 
 interface TokenRequest {
     grant_type: string;
@@ -100,4 +101,5 @@ export const handlers = [
     ...employees_handlers,
     ...company_handlers,
     ...password_handlers,
+    ...banking_handlers,
 ];
