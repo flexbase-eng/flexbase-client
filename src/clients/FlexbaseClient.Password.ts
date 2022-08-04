@@ -1,10 +1,8 @@
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
-interface validatePassResponse {
+interface ValidatePassResponse extends FlexbaseResponse {
     token: string | null;
-    success?: boolean;
-    error?: string;
 }
 
 export class FlexbaseClientPassword extends FlexbaseClientBase {
@@ -26,18 +24,18 @@ export class FlexbaseClientPassword extends FlexbaseClientBase {
         }
     }
 
-    async validatePassword(email: string, password: string): Promise<validatePassResponse> {
+    async validatePassword(email: string, password: string): Promise<ValidatePassResponse> {
         try {
             const response = await this.client
                 .url(`/auth/token`)
                 .post({ email, password })
-                .json<validatePassResponse>();
+                .json<ValidatePassResponse>();
 
             if (!response.success) {
                 this.logger.error(`failed to validate password`, response.error);
             }
 
-            return  response;
+            return response;
         } catch (error) {
             this.logger.error(`failed to validate password`, error);
             return { success: false, error: 'failed to validate password', token: null };
