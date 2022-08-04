@@ -46,8 +46,6 @@ test("FlexbaseClient get person success", async () => {
 
 test("FlexbaseClient get person error", async () => {
 
-    server.use(...employees_error_handlers);
-
     const response = await testFlexbaseClient.getPerson(errorUserId);
 
     expect(response?.success).toBe(false);
