@@ -40,23 +40,17 @@ test("FlexbaseClient get employees error", async () => {
 test("FlexbaseClient get person success", async () => {
 
     const response = await testFlexbaseClient.getPerson(goodUserId);
-
     expect(response).not.toBeNull();
-    expect(response!.id).toBe(goodUserId);
-});
-
-test("FlexbaseClient get person failure", async () => {
-
-    const response = await testFlexbaseClient.getPerson(badUserId);
-
-    expect(response).toBeNull();
+    expect(response.success).toBe(true);
 });
 
 test("FlexbaseClient get person error", async () => {
 
+    server.use(...employees_error_handlers);
+
     const response = await testFlexbaseClient.getPerson(errorUserId);
 
-    expect(response).toBeNull();
+    expect(response?.success).toBe(false);
 });
 
 test("FlexbaseClient get person no user id", async () => {
