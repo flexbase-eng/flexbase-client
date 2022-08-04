@@ -19,9 +19,7 @@ export const person_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                usr: {
-                    id: goodUserId,
-                },
+                usr: { id: goodUserId },
             }),
         );
         return response(res);
