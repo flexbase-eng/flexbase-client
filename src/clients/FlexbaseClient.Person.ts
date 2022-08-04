@@ -50,7 +50,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
             const response = await this.client.url(`/user/${userId}`).get().json<PersonResponse>();
 
             if (!response.success) {
-                this.logger.error(`Unable to get person ${userId}`, response);
+                this.logger.error(`Unable to get person ${userId}`, response.error);
             }
 
             return response;
