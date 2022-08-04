@@ -15,6 +15,17 @@ export const person_handlers = [
             return response(res);
         }
 
+        else if (userId === badUserId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: "Error message"
+                })
+            );
+            return response(res);
+        }
+
         const res = compose(
             context.status(200),
             context.json({
