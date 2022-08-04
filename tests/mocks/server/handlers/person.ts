@@ -1,7 +1,7 @@
 import { compose, rest as mockServer } from 'msw'
 import path from 'path';
 import fs from 'fs';
-import { badUserId, errorUserId, mockUrl } from '../constants';
+import { badUserId, errorUserId, goodUserId, mockUrl } from '../constants';
 
 export const person_handlers = [
     mockServer.get(mockUrl + "/user/:userId", (request, response, context) => {
@@ -29,7 +29,7 @@ export const person_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                usr: { id: userId }
+                usr: { id: goodUserId },
             }),
 
         );

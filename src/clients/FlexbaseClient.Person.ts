@@ -23,7 +23,7 @@ interface PersonUpdateRequest {
 
 
 interface PersonResponse extends FlexbaseResponse {
-    usr: Person;
+    usr?: Person;
 }
 
 
@@ -41,7 +41,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
         }
       }
 
-    async getPerson(userId: string): Promise<Person | null> {
+      async getPerson(userId: string): Promise<PersonResponse> {
         if (!userId) {
             throw new Error('userId is required');
         }
@@ -50,14 +50,13 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
             const response = await this.client.url(`/user/${userId}`).get().json<PersonResponse>();
 
             if (!response.success) {
-                this.logger.error(`Unable to get person ${userId}`, response);
-                return null;
+                this.logger.error(`Unable to get person ${userId}`, response.error);
             }
 
-            return response.usr;
+            return response;
         } catch (error) {
-            this.logger.error(`Unable to update person ${userId}`, error);
-            return null;
+            this.logger.error(`Unable to get person ${userId}`, error);
+            return { success: false, error: `Unable to get person ${userId}` }
         }
     }
 
