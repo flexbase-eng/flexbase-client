@@ -10,11 +10,10 @@ interface CompanyBalance {
     minimumDue: number;
     billDate: string;
     graceDate: string;
-  }
+}
 
 export class FlexbaseClientCompany extends FlexbaseClientBase {
-
-   async getCompanyBalance(companyId: string): Promise<CompanyBalance | null> {
+    async getCompanyBalance(companyId: string): Promise<CompanyBalance | null> {
         try {
             return this.client.url(`/servicing/minimumDue/${companyId}`).get().json();
         } catch (error) {
