@@ -57,7 +57,8 @@
     "test": "jest --no-cache",
     "lint": "eslint 'src/**/*.{ts,tsx,json}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
-    "packr": "packr"
+    "packr": "packr",
+    "patch": "npm version patch"
   },
   "dependencies": {
     "@flexbase/http-client-middleware": "^1.9.0",
