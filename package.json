@@ -53,15 +53,16 @@
   "scripts": {
     "build": "rollup -c",
     "docs": "typedoc",
-    "prepare": "yarn run build",
+    "prepare": "yarn run build && husky install",
     "test": "jest --no-cache",
-    "lint": "eslint 'src/**/*.{ts,tsx,json}'",
+    "lint": "eslint 'src/**/*.{ts,tsx,json}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
     "packr": "packr"
   },
   "dependencies": {
     "@flexbase/http-client-middleware": "^1.9.0",
     "@flexbase/logger": "^1.2.0",
+    "husky": "^8.0.1",
     "jwt-decode": "^3.1.2",
     "luxon": "^2.4.0",
     "wretch": "^1.7.10"

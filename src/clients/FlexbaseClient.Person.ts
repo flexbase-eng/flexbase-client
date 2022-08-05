@@ -21,25 +21,19 @@ interface PersonUpdateRequest {
     id?: string;
 }
 
-
 interface PersonResponse extends FlexbaseResponse {
     usr?: Person;
 }
 
-
-export class FlexbaseClientPerson extends FlexbaseClientBase {  
+export class FlexbaseClientPerson extends FlexbaseClientBase {
     async getEmployees(): Promise<PersonUpdateRequest[]> {
         try {
-          return await this.client
-          .url('/user')
-          .get()
-          .json();
-
+            return await this.client.url('/user').get().json();
         } catch (error) {
             this.logger.error('ALL USERS ERROR', error);
-          return [];
+            return [];
         }
-      }
+    }
 
     async getPerson(userId: string): Promise<PersonResponse> {
         if (!userId) {
@@ -56,22 +50,19 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error(`Unable to get person ${userId}`, error);
-            return { success: false, error: `Unable to get person ${userId}` }
+            return { success: false, error: `Unable to get person ${userId}` };
         }
     }
 
     async addPerson(userForm: PersonUpdateRequest): Promise<Person | null> {
         try {
-          const result = await this.client
-            .url('/onboarding/user')
-            .post(userForm)
-            .json();
-          return result.newUser;
+            const result = await this.client.url('/onboarding/user').post(userForm).json();
+            return result.newUser;
         } catch (error) {
             this.logger.error('SAVE USER ERROR', error);
-          return null;
+            return null;
         }
-      }
+    }
 
     async updatePerson(userId: string, person: PersonUpdate): Promise<PersonUpdateRequest | null> {
         if (!userId) {
@@ -104,7 +95,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error(`Unable to update person ${userId}`, error);
-            return null ;
+            return null;
         }
     }
 

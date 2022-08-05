@@ -21,13 +21,11 @@ interface PayDebtResponse extends FlexbaseResponse {
         byUser: string;
         companyId: string;
         datePosted: string;
-        failureReason: string | null,
+        failureReason: string | null;
         id: string;
         status: string;
-    } | null
+    } | null;
 }
-
-
 
 interface PayWithFlexbaseResponseWrapper extends PayWithFlexbaseResponse, FlexbaseResponse {}
 
@@ -59,7 +57,6 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
 
     async payDebt(companyId: string, amount: string): Promise<PayDebtResponse> {
         try {
-
             const response = await this.client.url('/servicing/payments/stripe').post({ companyId, amount }).json<PayDebtResponse>();
 
             if (!response.success) {
