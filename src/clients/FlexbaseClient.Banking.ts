@@ -36,8 +36,23 @@ interface StatementResponse extends FlexbaseResponse {
   statement?: Statement[] | string;
 }
 
+interface QueryParameters {
+  isPdf?: string;
+}
+
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
+
+  private bankinParams({ isPdf }: QueryParameters = {}) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const params: any = {};
+
+      if (isPdf) {
+        params.isPdf = true;
+      }
+
+    return params;
+  }
 
     async createBankingApplication(companyId: string): Promise<CreateApplicationResponse> {
         try {
@@ -71,7 +86,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       }
     }
 
-    async getBankingStatements(companyId: string, statementId?: string): Promise<StatementResponse> {
+    async getBankingStatements(companyId: string, statementId?: string, { isPdf }: QueryParameters = {}): Promise<StatementResponse> {
 
       let url = `/banking/${companyId}/statements`;
       let errorMessage = 'Unable to get the list of statements'
@@ -83,7 +98,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
       try {
 
-        const response = await this.client.url(url).get().json<StatementResponse>();
+        const params = this.bankinParams({ isPdf });
+
+        const response = await this.client.url(url).query(params).get().json<StatementResponse>();
 
         if (!response.success) {
           this.logger.error(errorMessage, response.error);
@@ -95,20 +112,4 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return { success: false, error: errorMessage };
       }
     }
-
-    // async getBankingStatementDetail(companyId: string, statementId: string): Promise<StatementResponse> {
-    //   try {
-
-    //     const response = await this.client.url(`/banking/${companyId}/statements/${statementId}`).get().json<StatementResponse>();
-
-    //     if (!response.success) {
-    //       this.logger.error('Unable to get the list of statements', response.error);
-    //     }
-    
-    //     return response;
-    //   } catch (error) {
-    //     this.logger.error('Unable to get the list of statements', error);
-    //     return { success: false, error: 'Unable to get the list of statements' };
-    //   }
-    // }
 }
