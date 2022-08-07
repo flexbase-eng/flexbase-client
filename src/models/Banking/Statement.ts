@@ -1,4 +1,4 @@
-interface Relationship {
+export interface Relationship {
     data: {
       id: string;
       type: string;
