@@ -17,18 +17,18 @@ interface StatementResponse extends FlexbaseResponse {
   statement?: Statement[] | string;
 }
 
-interface QueryParameters {
+interface BankingParameters {
   isPdf?: boolean;
 }
 
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
 
-  private bankinParams({ isPdf }: QueryParameters = {}) {
+  private bankingParams(options?: BankingParameters) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any = {};
 
-      if (isPdf) {
+      if (options?.isPdf) {
         params.isPdf = true;
       }
 
@@ -67,7 +67,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       }
     }
 
-    async getBankingStatements(companyId: string, statementId?: string, { isPdf }: QueryParameters = {}): Promise<StatementResponse> {
+    async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
 
       let url = `/banking/${companyId}/statements`;
       let errorMessage = 'Unable to get the list of statements'
@@ -79,7 +79,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
       try {
 
-        const params = this.bankinParams({ isPdf });
+        const params = this.bankingParams(options);
 
         const response = await this.client.url(url).query(params).get().json<StatementResponse>();
 
