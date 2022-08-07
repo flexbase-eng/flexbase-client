@@ -1,3 +1,4 @@
+import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 
@@ -12,32 +13,12 @@ interface CreateApplicationResponse extends FlexbaseResponse {
     message?: string;
 }
 
-interface Relationship {
-    data: {
-      id: string;
-      type: string;
-    };
-}
-
-interface Statement {
-    id: string;
-    type: "statement";
-    attributes: {
-        period: string;
-    };
-    relationships: {
-        account: Relationship;
-        customer?: Relationship;
-        customers?: Relationship[];
-    }
-}
-
 interface StatementResponse extends FlexbaseResponse {
   statement?: Statement[] | string;
 }
 
 interface QueryParameters {
-  isPdf?: string;
+  isPdf?: boolean;
 }
 
 
@@ -92,7 +73,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       let errorMessage = 'Unable to get the list of statements'
 
         if (statementId) {
-          url = url + `/${statementId}`;
+          url = `${url}/${statementId}`;
           errorMessage = `Unable to get the statement details for statementId ${statementId}`
         }
 
