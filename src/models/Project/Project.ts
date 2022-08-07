@@ -1,10 +1,10 @@
-import { Address } from "../Address/Address";
+import { Address } from '../Address/Address';
 
 export interface Project {
     id?: string;
     name?: string;
     description?: string;
-    location?: Address
+    location?: Address;
 }
 
 export interface ProjectsResponse {
@@ -17,8 +17,8 @@ export interface ProjectsResponse {
 }
 
 export interface CreateProjectResponse {
-  description: string;
-  id: string;
-  location: Address;
-  name: string;
+    description: string;
+    id: string;
+    location: Address;
+    name: string;
 }
