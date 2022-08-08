@@ -19,6 +19,7 @@ interface PersonUpdateRequest {
     cellPhone?: string;
     authorizedSignatory?: boolean;
     id?: string;
+    roles?: string[];
 }
 
 interface PersonResponse extends FlexbaseResponse {
