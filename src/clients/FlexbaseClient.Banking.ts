@@ -1,5 +1,6 @@
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
+import { Payment } from '../models/Banking/Payment';
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -40,6 +41,21 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to get the application status', error);
             return { success: false, error: 'Unable to get the application status' };
+        }
+    }
+
+    async createBankingPayment(companyId: string): Promise<Payment> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/moneymovement`).post().json<Payment>();
+
+            if (!response.success) {
+                this.logger.error('Unable to create a Unit Co. Payment', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to create a Unit Co. Payment', error);
+            return { success: false, error: 'Unable to create a Unit Co. Payment' };
         }
     }
 }
