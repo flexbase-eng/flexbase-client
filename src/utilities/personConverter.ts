@@ -23,5 +23,6 @@ export const personConverter = (user: User): Person => {
         phone: {
             number: user.cellPhone || user.phone || '',
         },
+        roles: user.roles || [],
     };
 };
