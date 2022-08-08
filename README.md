@@ -7,5 +7,5 @@ Typescript client for Flexbase apis
 ## Bumping on Commit
 
 Bump versions before pushing - utilize the following commands after committing:
-`npm run patch`  bumps patch value in package.json
-`npm run minor`  bumps minor value in package.json
+`yarn run patch`  bumps patch value in package.json
+`yarn run minor`  bumps minor value in package.json
