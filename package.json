@@ -58,7 +58,8 @@
     "lint": "eslint 'src/**/*.{ts,tsx,json}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
     "packr": "packr",
-    "patch": "npm version patch"
+    "patch": "npm version patch",
+    "minor": "npm version minor"
   },
   "dependencies": {
     "@flexbase/http-client-middleware": "^1.9.0",
