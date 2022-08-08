@@ -13,4 +13,5 @@ export interface Person {
     address: Address;
     phone: Phone;
     businessId: string;
+    roles: string[];
 }
