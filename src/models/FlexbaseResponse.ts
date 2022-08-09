@@ -1,4 +1,4 @@
 export interface FlexbaseResponse {
     success: boolean;
-    error?: string;
+    error?: string | unknown;
 }

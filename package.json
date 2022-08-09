@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.32.0",
+  "version": "0.33.1",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -57,7 +57,9 @@
     "test": "jest --no-cache",
     "lint": "eslint 'src/**/*.{ts,tsx,json}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
-    "packr": "packr"
+    "packr": "packr",
+    "patch": "npm version patch",
+    "minor": "npm version minor"
   },
   "dependencies": {
     "@flexbase/http-client-middleware": "^1.9.0",
