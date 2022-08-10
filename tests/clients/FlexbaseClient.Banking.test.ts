@@ -1,7 +1,7 @@
 import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, PaymentBodyReq } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -26,7 +26,6 @@ test("FlexbaseClient get application error", async () => {
     const response = await testFlexbaseClient.getBankingApplicationStatus(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the application status');
 });
 
 // CREATE APPLICATION
@@ -53,7 +52,6 @@ test("FlexbaseClient create application error", async () => {
     const response = await testFlexbaseClient.createBankingApplication(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe(`Unable to create the application for the companyId ${errorCompanyId}`);
 });
 
 
@@ -83,7 +81,6 @@ test("FlexbaseClient get statement list error", async () => {
     const response = await testFlexbaseClient.getBankingStatements(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the list of statements');
 });
 
 // GET SINGLE STATEMENT
@@ -117,5 +114,27 @@ test("FlexbaseClient get statement detail error", async () => {
     const response = await testFlexbaseClient.getBankingStatements(errorCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the statement details for statementId 0123');
+});
+
+// PAYMENTS
+test("FlexbaseClient create payment success", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(goodCompanyId, PaymentBodyReq);
+
+    expect(response.success).toBeTruthy();
+});
+
+test("FlexbaseClient create payment failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(badCompanyId, PaymentBodyReq);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to create a Unit Co. Payment')
+});
+
+test("FlexbaseClient create payment error", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(errorCompanyId, PaymentBodyReq);
+
+    expect(response.success).toBeFalsy();
 });

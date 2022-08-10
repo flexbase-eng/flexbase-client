@@ -2,6 +2,7 @@ import { compose, rest as mockServer } from 'msw'
 import { mockUrl, badCompanyId, errorCompanyId } from '../constants';
 
 export const banking_handlers = [
+    // APLICATION
     mockServer.get(mockUrl + "/banking/:companyId/application", (request, response, context) => {
 
         const { companyId } = request.params;
@@ -70,6 +71,7 @@ export const banking_handlers = [
         return response(res);
     }),
 
+    // STATEMENTS
     mockServer.get(mockUrl + "/banking/:companyId/statements", (request, response, context) => {
 
         const { companyId } = request.params;
@@ -125,6 +127,40 @@ export const banking_handlers = [
                 context.json({
                     success: false,
                     error: 'Unable to get the statement details for statementId 0123',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                statement: 'html/pdf document',
+                success: true,
+            }),
+
+        );
+        return response(res);
+    }),
+
+    // PAYMENTS
+    mockServer.post(mockUrl + "/banking/:companyId/moneymovement", (request, response, context) => {
+
+        const { companyId } = request.params;
+
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Unable to create a Unit Co. Payment',
                 })
             );
             return response(res);

@@ -33,6 +33,7 @@ export const invoiceForm = { contractId: 'good contract', description: 'invoice 
 export const goodUserId = "good_user_id";
 export const badUserId = "bad_user_id";
 export const errorUserId = "error_user_id";
+export const addPersonForm = { firstName: "Mariana", lastName: "Murillo 100", jobTitle: "Engineerr 100", email: "mariana+122@edukathe.org" };
 
 export const goodApiKey = "good api key";
 export const badApiKey = "bad api key";
@@ -47,10 +48,7 @@ export const goodCardId = "good card";
 export const badCardId = "bad card";
 export const errorCardId = "error card";
 export const cardType = "physical";
-export const addPersonForm = { 
-firstName: "Mariana", 
-lastName: "Murillo 100",
-jobTitle: "Engineerr 100",
-email: "mariana+122@edukathe.org" 
-};
 export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }
+
+export const counterparty = { routingNumber: "213456787989", accountNumber: "2983433", accountType: "Checking", name: "Jane Doe" }
+export const PaymentBodyReq = { type: 'achPayment', amount: '1000.0', direction: 'credit', description: 'New payment', counterparty }
