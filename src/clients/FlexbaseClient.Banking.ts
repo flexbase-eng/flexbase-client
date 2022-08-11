@@ -2,6 +2,7 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentRequest } from '../models/Banking/Payment';
+import { Counterparty, CounterpartyRequest } from '../models/Banking/Counterparty';
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -20,6 +21,10 @@ interface StatementResponse extends FlexbaseResponse {
 
 interface BankingParameters {
   isPdf?: boolean;
+}
+
+interface CounterpartyResponse extends FlexbaseResponse {
+  ctrParty?: Counterparty;
 }
 
 
@@ -110,4 +115,22 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
           return { success: false, error };
       }
     }
+
+  // COUNTERPARTIES
+  async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
+    try {
+        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty`)
+        .post(counterpartyRequest).json<CounterpartyResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', response.error);
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', error);
+        return { success: false, error };
+    }
+  }
 }

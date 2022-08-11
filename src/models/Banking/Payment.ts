@@ -1,4 +1,4 @@
-import { Counterparty } from "./Counterparty";
+import { CounterpartyForm } from "./Counterparty";
 import { FlexbaseResponse } from "../FlexbaseResponse";
 
 export interface Payment extends FlexbaseResponse {
@@ -24,5 +24,5 @@ export interface PaymentRequest {
     amount: string,
     direction: string,
     description: string,
-    counterparty: Counterparty,
+    counterparty: CounterpartyForm,
 }

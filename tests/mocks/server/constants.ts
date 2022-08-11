@@ -51,4 +51,4 @@ export const cardType = "physical";
 export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }
 
 export const counterparty = { routingNumber: "213456787989", accountNumber: "2983433", accountType: "Checking", name: "Jane Doe" }
-export const PaymentBodyReq = { type: 'achPayment', amount: '1000.0', direction: 'credit', description: 'New payment', counterparty }
+export const paymentBodyReq = { type: 'achPayment', amount: '1000.0', direction: 'credit', description: 'New payment', counterparty }

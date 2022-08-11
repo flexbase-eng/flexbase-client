@@ -1,5 +1,6 @@
 import { compose, rest as mockServer } from 'msw'
-import { mockUrl, badCompanyId, errorCompanyId } from '../constants';
+import { PaymentRequest } from '../../../../src/models/Banking/Payment';
+import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId } from '../constants';
 
 export const banking_handlers = [
     // APLICATION
@@ -147,6 +148,7 @@ export const banking_handlers = [
     mockServer.post(mockUrl + "/banking/:companyId/moneymovement", (request, response, context) => {
 
         const { companyId } = request.params;
+        const body = request.body as PaymentRequest
 
         if (!companyId || companyId === errorCompanyId) {
             const res = compose(
@@ -169,11 +171,55 @@ export const banking_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                statement: 'html/pdf document',
+                id: '01234',
+                companyId: goodCompanyId,
+                payAmount: body.amount,
+                payDescription: body.description,
                 success: true,
             }),
 
         );
         return response(res);
     }),
+
+    // COUNTERPARTIES
+    mockServer.post(mockUrl + "/banking/:companyId/moneymovement/counterparty", (request, response, context) => {
+
+        const { companyId } = request.params;
+        const body = request.body;
+        console.info(body);
+
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                ctrParty: {
+                    id: '01234',
+                    type: "achCounterparty",
+                    companyId: goodCompanyId,
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+    
 ]

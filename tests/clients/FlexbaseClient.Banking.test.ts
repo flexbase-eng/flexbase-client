@@ -1,7 +1,6 @@
-import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId, PaymentBodyReq } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -119,14 +118,19 @@ test("FlexbaseClient get statement detail error", async () => {
 // PAYMENTS
 test("FlexbaseClient create payment success", async () => {
 
-    const response = await testFlexbaseClient.createBankingPayment(goodCompanyId, PaymentBodyReq);
+    const response = await testFlexbaseClient.createBankingPayment(goodCompanyId, paymentBodyReq);
 
     expect(response.success).toBeTruthy();
+
+    expect(response.id).toBe('01234');
+    expect(response.payAmount).toBe('1000.0');
+    expect(response.companyId).toBe(goodCompanyId);
+    expect(response.payDescription).toBe('New payment');
 });
 
 test("FlexbaseClient create payment failure", async () => {
 
-    const response = await testFlexbaseClient.createBankingPayment(badCompanyId, PaymentBodyReq);
+    const response = await testFlexbaseClient.createBankingPayment(badCompanyId, paymentBodyReq);
 
     expect(response.success).toBeFalsy();
     expect(response.error).toBe('Unable to create a Unit Co. Payment')
@@ -134,7 +138,34 @@ test("FlexbaseClient create payment failure", async () => {
 
 test("FlexbaseClient create payment error", async () => {
 
-    const response = await testFlexbaseClient.createBankingPayment(errorCompanyId, PaymentBodyReq);
+    const response = await testFlexbaseClient.createBankingPayment(errorCompanyId, paymentBodyReq);
+
+    expect(response.success).toBeFalsy();
+});
+
+// COUNTERPARTIES
+test("FlexbaseClient create counterparty success", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(goodCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeTruthy();
+    
+    expect(response?.ctrParty?.id).toBe('01234');
+    expect(response?.ctrParty?.type).toBe('achCounterparty');
+    expect(response?.ctrParty?.companyId).toBe(goodCompanyId);
+});
+
+test("FlexbaseClient create counterparty failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(badCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists')
+});
+
+test("FlexbaseClient create counterparty error", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(errorCompanyId, { type: 'achCounterparty', counterparty });
 
     expect(response.success).toBeFalsy();
 });
