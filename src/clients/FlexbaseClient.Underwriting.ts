@@ -13,7 +13,7 @@ export class FlexbaseClientUnderwriting extends FlexbaseClientBase {
                 url = url + `&id=${companyId}`;
             }
 
-            const response = await this.client.url(url).get().json<UnderwritingResponse>();
+            const response = await this.client.url(url).put().json<UnderwritingResponse>();
 
             if (!response.success) {
                 this.logger.error(`Unable to underwrite company ${companyId}`);

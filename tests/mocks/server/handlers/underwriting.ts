@@ -2,7 +2,7 @@ import { compose, rest as mockServer } from 'msw'
 import { badCompanyId, errorCompanyId, mockUrl } from '../constants';
 
 export const underwriting_handlers = [
-    mockServer.get(mockUrl + "/underwriting/updateLevel", (request, response, context) => {
+    mockServer.put(mockUrl + "/underwriting/updateLevel", (request, response, context) => {
 
         const id = request.url.searchParams.get('id');
         const level = Number(request.url.searchParams.get('level'));
