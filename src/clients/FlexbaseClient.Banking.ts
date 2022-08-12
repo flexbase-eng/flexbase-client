@@ -2,7 +2,7 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentRequest } from '../models/Banking/Payment';
-import { Counterparty, CounterpartyRequest } from '../models/Banking/Counterparty';
+import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -24,7 +24,11 @@ interface BankingParameters {
 }
 
 interface CounterpartyResponse extends FlexbaseResponse {
-  ctrParty?: Counterparty;
+  ctrParty?: CtrParty;
+}
+
+interface CounterpartiesListResponse extends FlexbaseResponse {
+  data?: Counterparty[];
 }
 
 
@@ -130,6 +134,23 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', error);
+        return { success: false, error };
+    }
+  }
+
+  async getBankingCounterparties(companyId: string, listRequest: ListRequest): Promise<CounterpartiesListResponse> {
+    try {
+        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
+        .post(listRequest).json<CounterpartiesListResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'Error calling Unit Co. Banking Counterparties', response.error);
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('Error calling Unit Co. Banking Counterparties', error);
         return { success: false, error };
     }
   }
