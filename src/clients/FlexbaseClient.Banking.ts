@@ -138,7 +138,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async getBankingCounterparties(companyId: string, listRequest: ListRequest): Promise<CounterpartiesListResponse> {
+  async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
     try {
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
         .post(listRequest).json<CounterpartiesListResponse>();

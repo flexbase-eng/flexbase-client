@@ -144,6 +144,7 @@ test("FlexbaseClient create payment error", async () => {
 });
 
 // COUNTERPARTIES
+// CREATE COUNTERPARTY
 test("FlexbaseClient create counterparty success", async () => {
 
     const response = await testFlexbaseClient.createBankingCounterparty(goodCompanyId, { type: 'achCounterparty', counterparty });
@@ -166,6 +167,37 @@ test("FlexbaseClient create counterparty failure", async () => {
 test("FlexbaseClient create counterparty error", async () => {
 
     const response = await testFlexbaseClient.createBankingCounterparty(errorCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET COUNTERPARTIES LIST
+test("FlexbaseClient get counterparties list success", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+    
+    const ctrParty = response.data![0];
+    expect(ctrParty?.id).toBe('01234');
+    expect(ctrParty?.type).toBe('achCounterparty');
+    expect(ctrParty?.attributes?.name).toBe('April Oniel');
+    expect(ctrParty?.attributes?.routingNumber).toBe('812345679');
+    expect(ctrParty?.attributes?.accountNumber).toBe('1000000001');
+    expect(ctrParty?.attributes?.tags?.companyId).toBe(goodCompanyId);
+});
+
+test("FlexbaseClient get counterparties list failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Error calling Unit Co. Banking Counterparties')
+});
+
+test("FlexbaseClient get counterparties list error", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(errorCompanyId);
 
     expect(response.success).toBeFalsy();
 });

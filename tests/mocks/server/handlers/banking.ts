@@ -186,8 +186,6 @@ export const banking_handlers = [
     mockServer.post(mockUrl + "/banking/:companyId/moneymovement/counterparty", (request, response, context) => {
 
         const { companyId } = request.params;
-        const body = request.body;
-        console.info(body);
 
         if (!companyId || companyId === errorCompanyId) {
             const res = compose(
@@ -216,6 +214,52 @@ export const banking_handlers = [
                     type: "achCounterparty",
                     companyId: goodCompanyId,
                 },
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + "/banking/:companyId/moneymovement/counterparty/list", (request, response, context) => {
+
+        const { companyId } = request.params;
+
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Error calling Unit Co. Banking Counterparties',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                data: [
+                    {
+                        id: '01234',
+                        type: "achCounterparty",
+                        attributes: {
+                            name: "April Oniel",
+                            routingNumber: "812345679",
+                            accountNumber: "1000000001",
+                            tags: {
+                                companyId: goodCompanyId,
+                            }
+                        },
+                    }
+                ],
             }),
 
         );
