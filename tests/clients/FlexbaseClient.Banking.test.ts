@@ -1,7 +1,6 @@
-import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -26,7 +25,6 @@ test("FlexbaseClient get application error", async () => {
     const response = await testFlexbaseClient.getBankingApplicationStatus(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the application status');
 });
 
 // CREATE APPLICATION
@@ -53,7 +51,6 @@ test("FlexbaseClient create application error", async () => {
     const response = await testFlexbaseClient.createBankingApplication(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe(`Unable to create the application for the companyId ${errorCompanyId}`);
 });
 
 
@@ -83,7 +80,6 @@ test("FlexbaseClient get statement list error", async () => {
     const response = await testFlexbaseClient.getBankingStatements(errorCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the list of statements');
 });
 
 // GET SINGLE STATEMENT
@@ -117,5 +113,91 @@ test("FlexbaseClient get statement detail error", async () => {
     const response = await testFlexbaseClient.getBankingStatements(errorCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to get the statement details for statementId 0123');
+});
+
+// PAYMENTS
+test("FlexbaseClient create payment success", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(goodCompanyId, paymentBodyReq);
+
+    expect(response.success).toBeTruthy();
+
+    expect(response.id).toBe('01234');
+    expect(response.payAmount).toBe('1000.0');
+    expect(response.companyId).toBe(goodCompanyId);
+    expect(response.payDescription).toBe('New payment');
+});
+
+test("FlexbaseClient create payment failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(badCompanyId, paymentBodyReq);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to create a Unit Co. Payment')
+});
+
+test("FlexbaseClient create payment error", async () => {
+
+    const response = await testFlexbaseClient.createBankingPayment(errorCompanyId, paymentBodyReq);
+
+    expect(response.success).toBeFalsy();
+});
+
+// COUNTERPARTIES
+// CREATE COUNTERPARTY
+test("FlexbaseClient create counterparty success", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(goodCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeTruthy();
+    
+    expect(response?.ctrParty?.id).toBe('01234');
+    expect(response?.ctrParty?.type).toBe('achCounterparty');
+    expect(response?.ctrParty?.companyId).toBe(goodCompanyId);
+});
+
+test("FlexbaseClient create counterparty failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(badCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists')
+});
+
+test("FlexbaseClient create counterparty error", async () => {
+
+    const response = await testFlexbaseClient.createBankingCounterparty(errorCompanyId, { type: 'achCounterparty', counterparty });
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET COUNTERPARTIES LIST
+test("FlexbaseClient get counterparties list success", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+    
+    const ctrParty = response.data![0];
+    expect(ctrParty?.id).toBe('01234');
+    expect(ctrParty?.type).toBe('achCounterparty');
+    expect(ctrParty?.attributes?.name).toBe('April Oniel');
+    expect(ctrParty?.attributes?.routingNumber).toBe('812345679');
+    expect(ctrParty?.attributes?.accountNumber).toBe('1000000001');
+    expect(ctrParty?.attributes?.tags?.companyId).toBe(goodCompanyId);
+});
+
+test("FlexbaseClient get counterparties list failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Error calling Unit Co. Banking Counterparties')
+});
+
+test("FlexbaseClient get counterparties list error", async () => {
+
+    const response = await testFlexbaseClient.getBankingCounterparties(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
 });

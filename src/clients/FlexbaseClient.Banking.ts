@@ -1,6 +1,8 @@
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
+import { Payment, PaymentRequest } from '../models/Banking/Payment';
+import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -21,6 +23,14 @@ interface BankingParameters {
   isPdf?: boolean;
 }
 
+interface CounterpartyResponse extends FlexbaseResponse {
+  ctrParty?: CtrParty;
+}
+
+interface CounterpartiesListResponse extends FlexbaseResponse {
+  data?: Counterparty[];
+}
+
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
 
@@ -35,6 +45,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     return params;
   }
 
+  // APPLICATION
     async createBankingApplication(companyId: string): Promise<CreateApplicationResponse> {
         try {
             const response = await this.client.url(`/banking/${companyId}/application`).post().json<CreateApplicationResponse>();
@@ -46,7 +57,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error(`Unable to create the application for the companyId ${companyId}`, error);
-            return { success: false, error: `Unable to create the application for the companyId ${companyId}` };
+            return { success: false, error };
         }
     }
 
@@ -61,10 +72,11 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('Unable to get the application status', error);
-            return { success: false, error: 'Unable to get the application status' };
+            return { success: false, error };
         }
     }
-
+  
+  // STATEMENTS  
     async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
 
       let url = `/banking/${companyId}/statements`;
@@ -88,7 +100,58 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
       } catch (error) {
         this.logger.error(errorMessage, error);
-        return { success: false, error: errorMessage };
+        return { success: false, error };
       }
     }
+
+  // PAYMENTS
+    async createBankingPayment(companyId: string, paymentRequest: PaymentRequest): Promise<Payment> {
+      try {
+          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(paymentRequest).json<Payment>();
+
+          if (!response.success) {
+              this.logger.error('Unable to create a Unit Co. Payment', response.error);
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('Unable to create a Unit Co. Payment', error);
+          return { success: false, error };
+      }
+    }
+
+  // COUNTERPARTIES
+  async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
+    try {
+        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty`)
+        .post(counterpartyRequest).json<CounterpartyResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', response.error);
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', error);
+        return { success: false, error };
+    }
+  }
+
+  async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
+    try {
+        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
+        .post(listRequest).json<CounterpartiesListResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'Error calling Unit Co. Banking Counterparties', response.error);
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('Error calling Unit Co. Banking Counterparties', error);
+        return { success: false, error };
+    }
+  }
 }
