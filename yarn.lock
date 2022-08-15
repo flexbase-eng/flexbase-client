@@ -306,17 +306,17 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@flexbase/http-client-middleware@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-1.9.0.tgz#4097d6fa99fbe8c56888c8fe3527dbf5607f3928"
-  integrity sha512-YfYLieJM4tQogXnsZsBksHlU0CMXuppAnociqoniVFGI4DN3/+pZptehQG8iky0FF/LQZwyxUg1CZgZGyBhpQg==
+"@flexbase/http-client-middleware@^1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-1.9.4.tgz#5baed0a89e32d16df090db477aa7114fe2d9e11a"
+  integrity sha512-rGYrmXeYoZeq5y5cv0OScxS55/Z9sH7xBoIzluvCDiQNCN+qqTCCKj/aeAeqZES2CnsG1tQNguwbFzYhDWhOyA==
   dependencies:
     luxon "^2.4.0"
 
-"@flexbase/logger@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@flexbase/logger/-/logger-1.2.0.tgz#f8971057d648196a0bc825d9bdcf0053a476fea7"
-  integrity sha512-nf6gabnufiptoALbUwRjXbPuUtXJOfUSLN3GMB441N6j7NXPkFe7+DQIGdUlGk3H3CW5Gpwb9HZBH7BiAk8iqQ==
+"@flexbase/logger@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@flexbase/logger/-/logger-1.3.1.tgz#faf0586798c9653055af4a5976fa1f4b53acb3fb"
+  integrity sha512-PCjEl6GZfMEPt4n4MOV8kCQ1Jo60i2qVgY6Z8HAudBmyGuMZ/Cv8p4qLekzyWlJJJ3R8tCCIEqEzQVHppq4l5w==
 
 "@flexbase/packr@^1.0.0":
   version "1.2.0"
