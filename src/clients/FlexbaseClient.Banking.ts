@@ -2,7 +2,7 @@ import { Deposit } from '../models/Banking/Deposit';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
-import { Payment, PaymentRequest } from '../models/Banking/Payment';
+import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -106,9 +106,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
   // PAYMENTS
-    async createBankingPayment(companyId: string, paymentRequest: PaymentRequest): Promise<Payment> {
+    async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<Payment> {
       try {
-          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(paymentRequest).json<Payment>();
+          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<Payment>();
 
           if (!response.success) {
               this.logger.error('Unable to create a Unit Co. Payment', response.error);
@@ -160,7 +160,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  // DEPOSITS
+  // DEPOSIT
   async getBankingAccount(companyId: string): Promise<Deposit> {
     try {
         const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();

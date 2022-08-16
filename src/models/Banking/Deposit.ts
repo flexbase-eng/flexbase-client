@@ -1,5 +1,5 @@
 import { FlexbaseResponse } from "../FlexbaseResponse";
-import { RelationshipData } from "./Constants";
+import { Relationship } from "./Constants";
 
 export interface DepositAttributes {
     accountNumber: string;
@@ -12,9 +12,9 @@ export interface DepositAttributes {
     name: string;
     routingNumber: string;
     status: string;
-        tags: {
-            [key: string]: string;
-        }
+    tags: {
+        [key: string]: string;
+    }
     updatedAt: string;
 }
 
@@ -22,8 +22,8 @@ export interface Deposit extends FlexbaseResponse {
     attributes?: DepositAttributes;
     id?: string
     relationships?: {
-        customer: RelationshipData;
-        org: RelationshipData;
+        customer: Relationship;
+        org: Relationship;
     }
     type?: string;
 }

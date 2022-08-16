@@ -1,4 +1,4 @@
-import { RelationshipData } from "./Constants";
+import { Relationship } from "./Constants";
 
 export interface Statement {
     id: string;
@@ -7,8 +7,8 @@ export interface Statement {
         period: string;
     };
     relationships: {
-        account: RelationshipData;
-        customer?: RelationshipData;
-        customers?: RelationshipData[];
+        account: Relationship;
+        customer?: Relationship;
+        customers?: Relationship[];
     }
 }

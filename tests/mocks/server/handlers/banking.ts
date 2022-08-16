@@ -1,5 +1,5 @@
 import { compose, rest as mockServer } from 'msw'
-import { PaymentRequest } from '../../../../src/models/Banking/Payment';
+import { PaymentForm } from '../../../../src/models/Banking/Payment';
 import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId } from '../constants';
 
 export const banking_handlers = [
@@ -148,7 +148,7 @@ export const banking_handlers = [
     mockServer.post(mockUrl + "/banking/:companyId/moneymovement", (request, response, context) => {
 
         const { companyId } = request.params;
-        const body = request.body as PaymentRequest
+        const body = request.body as PaymentForm
 
         if (!companyId || companyId === errorCompanyId) {
             const res = compose(

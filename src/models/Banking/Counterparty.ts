@@ -1,4 +1,4 @@
-import { RelationshipData } from "./Constants";
+import { Relationship } from "./Constants";
 
 export interface CtrParty {
     accessToken: string;
@@ -32,7 +32,7 @@ export interface Counterparty {
     id: string;
     attributes: CounterpartyAttributes;
     relationships: {
-        customer: RelationshipData;
+        customer: Relationship;
     }
 }
 
