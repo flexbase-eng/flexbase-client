@@ -1,3 +1,5 @@
+import { RelationshipData } from "./Constants";
+
 export interface CtrParty {
     accessToken: string;
     asOf: string;
@@ -12,7 +14,7 @@ export interface CtrParty {
     tenantId: string;
 }
 
-export interface Attributes {
+export interface CounterpartyAttributes {
     name: string;
     routingNumber: string;
     accountNumber: string;
@@ -25,19 +27,12 @@ export interface Attributes {
     }
 }
 
-export interface Costumer {
-    data: {
-        type: string;
-        id: string;
-    }
-}
-
 export interface Counterparty {
     type: string;
     id: string;
-    attributes: Attributes;
+    attributes: CounterpartyAttributes;
     relationships: {
-        customer: Costumer;
+        customer: RelationshipData;
     }
 }
 

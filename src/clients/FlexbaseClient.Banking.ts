@@ -1,3 +1,4 @@
+import { Deposit } from 'src/models/Banking/Deposit';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
@@ -128,12 +129,17 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
         if (!response.success) {
             this.logger.error(
-              'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', response.error);
+              'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
+              response.error
+            );
         }
 
         return response;
     } catch (error) {
-        this.logger.error('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists', error);
+        this.logger.error(
+          'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
+          error
+        );
         return { success: false, error };
     }
   }
@@ -144,13 +150,31 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         .post(listRequest).json<CounterpartiesListResponse>();
 
         if (!response.success) {
-            this.logger.error(
-              'Error calling Unit Co. Banking Counterparties', response.error);
+            this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
         }
 
         return response;
     } catch (error) {
         this.logger.error('Error calling Unit Co. Banking Counterparties', error);
+        return { success: false, error };
+    }
+  }
+
+  // DEPOSITS
+  async getBankingAccount(companyId: string): Promise<Deposit> {
+    try {
+        const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get a banking deposit account, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

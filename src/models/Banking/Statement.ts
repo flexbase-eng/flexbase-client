@@ -1,19 +1,14 @@
-export interface Relationship {
-    data: {
-      id: string;
-      type: string;
-    };
-}
+import { RelationshipData } from "./Constants";
 
 export interface Statement {
     id: string;
-    type: "statement";
+    type: string;
     attributes: {
         period: string;
     };
     relationships: {
-        account: Relationship;
-        customer?: Relationship;
-        customers?: Relationship[];
+        account: RelationshipData;
+        customer?: RelationshipData;
+        customers?: RelationshipData[];
     }
 }
