@@ -1,4 +1,4 @@
-import { Deposit } from 'src/models/Banking/Deposit';
+import { Deposit } from '../models/Banking/Deposit';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';

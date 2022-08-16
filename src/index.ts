@@ -19,4 +19,4 @@ export { OnboardingStatus } from './models/Onboarding/OnboardingStatus';
 export { Business } from './models/Business/Business';
 export { BusinessOwner } from './models/Business/BusinessOwner';
 export { Project, ProjectsResponse, CreateProjectResponse } from './models/Project/Project';
-export { Statement, Relationship } from './models/Banking/Statement';
+export { Statement } from './models/Banking/Statement';

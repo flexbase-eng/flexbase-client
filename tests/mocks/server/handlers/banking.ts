@@ -266,4 +266,43 @@ export const banking_handlers = [
         return response(res);
     }),
     
+    // DEPOSITS
+    mockServer.get(mockUrl + "/banking/:companyId/deposits", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get a banking deposit account, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                id: '01234',
+                type: 'depositAccount',
+                attributes: {
+                    balance: 30000,
+                    depositProduct: 'checking',
+                    accountNumber: '000123456789',
+                },
+                success: true,
+            }),
+
+        );
+        return response(res);
+    }),
 ]
