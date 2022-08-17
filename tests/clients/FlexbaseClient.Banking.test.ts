@@ -201,3 +201,32 @@ test("FlexbaseClient get counterparties list error", async () => {
 
     expect(response.success).toBeFalsy();
 });
+
+// GET DEPOSIT ACCOUNT INFO
+test("FlexbaseClient get deposit account info success", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccount(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+    
+    expect(response?.id).toBe('01234');
+    expect(response?.type).toBe('depositAccount');
+    expect(response?.attributes?.balance).toBe(30000);
+    expect(response?.attributes?.depositProduct).toBe('checking');
+    expect(response?.attributes?.accountNumber).toBe('000123456789');
+});
+
+test("FlexbaseClient get deposit account info failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccount(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get a banking deposit account, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient get deposit account info error", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccount(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});

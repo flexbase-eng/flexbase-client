@@ -1,13 +1,8 @@
-export interface Relationship {
-    data: {
-      id: string;
-      type: string;
-    };
-}
+import { Relationship } from "./Constants";
 
 export interface Statement {
     id: string;
-    type: "statement";
+    type: string;
     attributes: {
         period: string;
     };

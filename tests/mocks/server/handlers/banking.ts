@@ -1,5 +1,5 @@
 import { compose, rest as mockServer } from 'msw'
-import { PaymentRequest } from '../../../../src/models/Banking/Payment';
+import { PaymentForm } from '../../../../src/models/Banking/Payment';
 import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId } from '../constants';
 
 export const banking_handlers = [
@@ -148,7 +148,7 @@ export const banking_handlers = [
     mockServer.post(mockUrl + "/banking/:companyId/moneymovement", (request, response, context) => {
 
         const { companyId } = request.params;
-        const body = request.body as PaymentRequest
+        const body = request.body as PaymentForm
 
         if (!companyId || companyId === errorCompanyId) {
             const res = compose(
@@ -266,4 +266,43 @@ export const banking_handlers = [
         return response(res);
     }),
     
+    // DEPOSITS
+    mockServer.get(mockUrl + "/banking/:companyId/deposits", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get a banking deposit account, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                id: '01234',
+                type: 'depositAccount',
+                attributes: {
+                    balance: 30000,
+                    depositProduct: 'checking',
+                    accountNumber: '000123456789',
+                },
+                success: true,
+            }),
+
+        );
+        return response(res);
+    }),
 ]

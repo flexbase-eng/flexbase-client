@@ -19,7 +19,7 @@ export interface Payment extends FlexbaseResponse {
 	version?: number,
 }
 
-export interface PaymentRequest {
+export interface PaymentForm {
     type: string,
     amount: string,
     direction: string,
