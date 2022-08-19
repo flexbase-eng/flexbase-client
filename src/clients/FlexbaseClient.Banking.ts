@@ -12,6 +12,8 @@ interface BankingParameters {
   pageOffset?: number;
   fromDate?: DateTime;
   toDate?: DateTime;
+  period?: DateTime;
+  sort?: string;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -68,6 +70,14 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         params.pageOffset = options.pageOffset;
       }
 
+      if (options?.period) {
+        params.period = options.period.toISO();
+      }
+
+      if (options?.sort) {
+        params.sort = options.sort;
+      }
+
     return params;
   }
 
@@ -108,10 +118,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       let url = `/banking/${companyId}/statements`;
       let errorMessage = 'Unable to get the list of statements'
 
-        if (statementId) {
+      if (statementId) {
           url = `${url}/${statementId}`;
           errorMessage = `Unable to get the statement details for statementId ${statementId}`
-        }
+      }
 
       try {
 
