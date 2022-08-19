@@ -38,7 +38,7 @@ interface CounterpartiesListResponse extends FlexbaseResponse {
 }
 
 interface DepositHistoryResponse extends FlexbaseResponse {
-  statement?: DepositHistory;
+  statement?: DepositHistory[];
 }
 
 
@@ -61,11 +61,11 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       }
 
       if (options?.pageLimit) {
-        params.isPdf = options.toDate;
+        params.pageLimit = options.pageLimit;
       }
 
       if (options?.pageOffset) {
-        params.isPdf = options.pageOffset;
+        params.pageOffset = options.pageOffset;
       }
 
     return params;
@@ -217,14 +217,14 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
         if (!response.success) {
             this.logger.error(
-              'While trying to get a banking deposit history, an unhandled exception was thrown',
+              'While trying to get banking deposit history, an unhandled exception was thrown',
               response.error
             );
         }
 
         return response;
     } catch (error) {
-        this.logger.error('While trying to get a banking deposit history, an unhandled exception was thrown', error);
+        this.logger.error('While trying to get banking deposit history, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }
