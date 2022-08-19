@@ -1,9 +1,18 @@
-import { Deposit } from '../models/Banking/Deposit';
+import { DateTime } from 'luxon';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
+import { Deposit, DepositHistory } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
+
+interface BankingParameters {
+  isPdf?: boolean;
+  pageLimit?: number;
+  pageOffset?: number;
+  fromDate?: DateTime;
+  toDate?: DateTime;
+}
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -20,16 +29,16 @@ interface StatementResponse extends FlexbaseResponse {
   statement?: Statement[] | string;
 }
 
-interface BankingParameters {
-  isPdf?: boolean;
-}
-
 interface CounterpartyResponse extends FlexbaseResponse {
   ctrParty?: CtrParty;
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
   data?: Counterparty[];
+}
+
+interface DepositHistoryResponse extends FlexbaseResponse {
+  statement?: DepositHistory;
 }
 
 
@@ -41,6 +50,22 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
       if (options?.isPdf) {
         params.isPdf = true;
+      }
+
+      if (options?.fromDate) {
+        params.fromDate = options.fromDate.toISO();
+      }
+
+      if (options?.toDate) {
+        params.toDate = options.toDate.toISO();
+      }
+
+      if (options?.pageLimit) {
+        params.isPdf = options.toDate;
+      }
+
+      if (options?.pageOffset) {
+        params.isPdf = options.pageOffset;
       }
 
     return params;
@@ -175,6 +200,31 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  async getBankingAccountHistory(companyId: string, options?: BankingParameters): Promise<DepositHistoryResponse> {
+    try {
+
+        const params = this.bankingParams(options);
+
+        const response = await this.client
+        .url(`/banking/${companyId}/deposits/history`)
+        .query(params)
+        .get()
+        .json<DepositHistoryResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get a banking deposit history, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to get a banking deposit history, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }
