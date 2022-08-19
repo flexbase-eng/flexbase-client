@@ -28,13 +28,6 @@ export interface Deposit extends FlexbaseResponse {
     type?: string;
 }
 
-export interface DepositHistoryParams {
-    pageLimit: number;
-    pageOffset: number;
-    fromDate: string;
-    toDate: string;
-}
-
 export interface DepositHistoryAttributes {
     date: string;
     hold: number;
