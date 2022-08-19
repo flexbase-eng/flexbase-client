@@ -322,7 +322,7 @@ export const banking_handlers = [
                 context.status(200),
                 context.json({
                     success: false,
-                    error: 'While trying to get banking deposit history, an unhandled exception was thrown',
+                    error: 'While trying to get banking deposit balance history, an unhandled exception was thrown',
                 })
             );
             return response(res);

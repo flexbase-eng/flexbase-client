@@ -3,7 +3,7 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
-import { Deposit, DepositHistory } from '../models/Banking/Deposit';
+import { Deposit, DepositBalance } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
 
 interface BankingParameters {
@@ -39,8 +39,8 @@ interface CounterpartiesListResponse extends FlexbaseResponse {
   data?: Counterparty[];
 }
 
-interface DepositHistoryResponse extends FlexbaseResponse {
-  statement?: DepositHistory[];
+interface DepositBalanceResponse extends FlexbaseResponse {
+  statement?: DepositBalance[];
 }
 
 
@@ -214,7 +214,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async getBankingAccountHistory(companyId: string, options?: BankingParameters): Promise<DepositHistoryResponse> {
+  async getBankingAccountBalance(companyId: string, options?: BankingParameters): Promise<DepositBalanceResponse> {
     try {
 
         const params = this.bankingParams(options);
@@ -223,18 +223,18 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         .url(`/banking/${companyId}/deposits/history`)
         .query(params)
         .get()
-        .json<DepositHistoryResponse>();
+        .json<DepositBalanceResponse>();
 
         if (!response.success) {
             this.logger.error(
-              'While trying to get banking deposit history, an unhandled exception was thrown',
+              'While trying to get banking deposit balance history, an unhandled exception was thrown',
               response.error
             );
         }
 
         return response;
     } catch (error) {
-        this.logger.error('While trying to get banking deposit history, an unhandled exception was thrown', error);
+        this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

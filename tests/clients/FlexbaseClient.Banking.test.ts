@@ -236,8 +236,7 @@ test("FlexbaseClient get deposit account info error", async () => {
 // GET DEPOSIT ACCOUNT HISTORY
 test("FlexbaseClient get deposit account history success", async () => {
 
-    const response = await testFlexbaseClient.getBankingAccountHistory(goodCompanyId);
-    console.info(response);
+    const response = await testFlexbaseClient.getBankingAccountBalance(goodCompanyId);
 
     expect(response.success).toBeTruthy();
 
@@ -259,7 +258,7 @@ test("FlexbaseClient get deposit account history success with params", async () 
     const toDate = DateTime.fromISO('2022-08-18');
     const fromDate = DateTime.fromISO('2022-04-20');
 
-    const response = await testFlexbaseClient.getBankingAccountHistory(goodCompanyId, {
+    const response = await testFlexbaseClient.getBankingAccountBalance(goodCompanyId, {
         pageLimit, pageOffset, fromDate, toDate
     });
 
@@ -278,15 +277,15 @@ test("FlexbaseClient get deposit account history success with params", async () 
 
 test("FlexbaseClient get deposit account history failure", async () => {
 
-    const response = await testFlexbaseClient.getBankingAccountHistory(badCompanyId);
+    const response = await testFlexbaseClient.getBankingAccountBalance(badCompanyId);
 
     expect(response.success).toBeFalsy();
-    expect(response.error).toBe('While trying to get banking deposit history, an unhandled exception was thrown')
+    expect(response.error).toBe('While trying to get banking deposit balance history, an unhandled exception was thrown')
 });
 
 test("FlexbaseClient get deposit account history error", async () => {
 
-    const response = await testFlexbaseClient.getBankingAccountHistory(errorCompanyId);
+    const response = await testFlexbaseClient.getBankingAccountBalance(errorCompanyId);
 
     expect(response.success).toBeFalsy();
 });
