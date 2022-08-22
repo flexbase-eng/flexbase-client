@@ -50,32 +50,18 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any = {};
 
-      if (options?.isPdf) {
-        params.isPdf = true;
-      }
-
-      if (options?.fromDate) {
-        params.fromDate = options.fromDate.toISO();
-      }
-
-      if (options?.toDate) {
-        params.toDate = options.toDate.toISO();
-      }
-
-      if (options?.pageLimit) {
-        params.pageLimit = options.pageLimit;
-      }
-
-      if (options?.pageOffset) {
-        params.pageOffset = options.pageOffset;
-      }
-
-      if (options?.period) {
-        params.period = options.period.toISO();
-      }
-
-      if (options?.sort) {
-        params.sort = options.sort;
+      let property: keyof BankingParameters ;
+      for (property in options) {
+          if (options && Object.hasOwn(options, property)) {
+              if (typeof options[property] === 'object') {
+                  const newDate = options[property] as DateTime
+                  params[property] = newDate.toISO();
+              } else if (typeof options[property] === 'boolean') {
+                  params[property] = true;
+              } else {
+                  params[property] = options[property];
+              }
+          }
       }
 
     return params;
