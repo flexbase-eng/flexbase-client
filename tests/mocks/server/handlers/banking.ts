@@ -305,4 +305,49 @@ export const banking_handlers = [
         );
         return response(res);
     }),
+
+    mockServer.get(mockUrl + "/banking/:companyId/deposits/history", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get banking deposit balance history, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                statement: [
+                    {
+                        id: '01234',
+                        type: 'accountEndOfDay',
+                        attributes: {
+                            available: 30000,
+                            balance: 30000,
+                            date: '2022-08-18',
+                            hold: 0,
+                            overdraftLimit: 0,
+                        },
+                    }
+                ]
+            }),
+
+        );
+        return response(res);
+    }),
 ]

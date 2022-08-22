@@ -27,3 +27,21 @@ export interface Deposit extends FlexbaseResponse {
     }
     type?: string;
 }
+
+export interface DepositBalanceAttributes {
+    date: string;
+    hold: number;
+    balance: number;
+    available: number;
+    overdraftLimit: number;
+}
+
+export interface DepositBalance {
+    id: number;
+    type: string;
+    attributes: DepositBalanceAttributes;
+    relationships: {
+        account: Relationship;
+        customer: Relationship;
+    }
+}

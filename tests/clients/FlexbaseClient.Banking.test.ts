@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty } from "../mocks/server/constants";
@@ -202,6 +203,7 @@ test("FlexbaseClient get counterparties list error", async () => {
     expect(response.success).toBeFalsy();
 });
 
+// DEPOSITS
 // GET DEPOSIT ACCOUNT INFO
 test("FlexbaseClient get deposit account info success", async () => {
 
@@ -227,6 +229,63 @@ test("FlexbaseClient get deposit account info failure", async () => {
 test("FlexbaseClient get deposit account info error", async () => {
 
     const response = await testFlexbaseClient.getBankingAccount(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET DEPOSIT ACCOUNT HISTORY
+test("FlexbaseClient get deposit account history success", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountBalance(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+
+    const statement = response?.statement![0];
+    
+    expect(statement?.id).toBe('01234');
+    expect(statement?.attributes?.hold).toBe(0);
+    expect(statement?.type).toBe('accountEndOfDay');
+    expect(statement?.attributes?.balance).toBe(30000);
+    expect(statement?.attributes?.available).toBe(30000);
+    expect(statement?.attributes?.overdraftLimit).toBe(0);
+    expect(statement?.attributes?.date).toBe('2022-08-18');
+});
+
+test("FlexbaseClient get deposit account history success with params", async () => {
+
+    const pageLimit = 10;
+    const pageOffset = 1;
+    const toDate = DateTime.fromISO('2022-08-18');
+    const fromDate = DateTime.fromISO('2022-04-20');
+
+    const response = await testFlexbaseClient.getBankingAccountBalance(goodCompanyId, {
+        pageLimit, pageOffset, fromDate, toDate
+    });
+
+    expect(response.success).toBeTruthy();
+
+    const statement = response?.statement![0];
+    
+    expect(statement?.id).toBe('01234');
+    expect(statement?.attributes?.hold).toBe(0);
+    expect(statement?.type).toBe('accountEndOfDay');
+    expect(statement?.attributes?.balance).toBe(30000);
+    expect(statement?.attributes?.available).toBe(30000);
+    expect(statement?.attributes?.overdraftLimit).toBe(0);
+    expect(statement?.attributes?.date).toBe('2022-08-18');
+});
+
+test("FlexbaseClient get deposit account history failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountBalance(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get banking deposit balance history, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient get deposit account history error", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountBalance(errorCompanyId);
 
     expect(response.success).toBeFalsy();
 });

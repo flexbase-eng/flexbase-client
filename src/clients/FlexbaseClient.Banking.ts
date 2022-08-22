@@ -1,9 +1,20 @@
-import { Deposit } from '../models/Banking/Deposit';
+import { DateTime } from 'luxon';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
+import { Deposit, DepositBalance } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
+
+interface BankingParameters {
+  isPdf?: boolean;
+  pageLimit?: number;
+  pageOffset?: number;
+  fromDate?: DateTime;
+  toDate?: DateTime;
+  period?: DateTime;
+  sort?: string;
+}
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
@@ -20,16 +31,16 @@ interface StatementResponse extends FlexbaseResponse {
   statement?: Statement[] | string;
 }
 
-interface BankingParameters {
-  isPdf?: boolean;
-}
-
 interface CounterpartyResponse extends FlexbaseResponse {
   ctrParty?: CtrParty;
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
   data?: Counterparty[];
+}
+
+interface DepositBalanceResponse extends FlexbaseResponse {
+  statement?: DepositBalance[];
 }
 
 
@@ -39,8 +50,18 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any = {};
 
-      if (options?.isPdf) {
-        params.isPdf = true;
+      let property: keyof BankingParameters ;
+      for (property in options) {
+          if (options && Object.hasOwn(options, property)) {
+              if (typeof options[property] === 'object') {
+                  const newDate = options[property] as DateTime
+                  params[property] = newDate.toISO();
+              } else if (typeof options[property] === 'boolean') {
+                  params[property] = true;
+              } else {
+                  params[property] = options[property];
+              }
+          }
       }
 
     return params;
@@ -83,10 +104,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
       let url = `/banking/${companyId}/statements`;
       let errorMessage = 'Unable to get the list of statements'
 
-        if (statementId) {
+      if (statementId) {
           url = `${url}/${statementId}`;
           errorMessage = `Unable to get the statement details for statementId ${statementId}`
-        }
+      }
 
       try {
 
@@ -175,6 +196,31 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  async getBankingAccountBalance(companyId: string, options?: BankingParameters): Promise<DepositBalanceResponse> {
+    try {
+
+        const params = this.bankingParams(options);
+
+        const response = await this.client
+        .url(`/banking/${companyId}/deposits/history`)
+        .query(params)
+        .get()
+        .json<DepositBalanceResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get banking deposit balance history, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }
