@@ -39,6 +39,18 @@ export abstract class FlexbaseClientBase {
         };
     }
 
+    protected updateAuthToken(authToken: string): void {
+        if (this._token?.token) {
+            this._token.token = authToken;
+        }
+        this.client._options = {
+            ...this.client._options,
+            authContext: {
+                token: this._token,
+            },
+        };
+    }
+
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     protected get tokenAccessor(): AuthenticationTokenAccessor<any> {
         return this._tokenAccessor;

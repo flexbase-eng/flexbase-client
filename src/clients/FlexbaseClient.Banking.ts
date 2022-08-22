@@ -7,13 +7,13 @@ import { Deposit, DepositBalance } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
 
 interface BankingParameters {
-  isPdf?: boolean;
-  pageLimit?: number;
-  pageOffset?: number;
-  fromDate?: DateTime;
-  toDate?: DateTime;
-  period?: DateTime;
-  sort?: string;
+    isPdf?: boolean;
+    pageLimit?: number;
+    pageOffset?: number;
+    fromDate?: DateTime;
+    toDate?: DateTime;
+    period?: DateTime;
+    sort?: string;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -28,46 +28,44 @@ interface CreateApplicationResponse extends FlexbaseResponse {
 }
 
 interface StatementResponse extends FlexbaseResponse {
-  statement?: Statement[] | string;
+    statement?: Statement[] | string;
 }
 
 interface CounterpartyResponse extends FlexbaseResponse {
-  ctrParty?: CtrParty;
+    ctrParty?: CtrParty;
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
-  data?: Counterparty[];
+    data?: Counterparty[];
 }
 
 interface DepositBalanceResponse extends FlexbaseResponse {
-  statement?: DepositBalance[];
+    statement?: DepositBalance[];
 }
 
-
 export class FlexbaseClientBanking extends FlexbaseClientBase {
+    private bankingParams(options?: BankingParameters) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const params: any = {};
 
-  private bankingParams(options?: BankingParameters) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const params: any = {};
+        let property: keyof BankingParameters;
+        for (property in options) {
+            if (options && Object.hasOwn(options, property)) {
+                if (typeof options[property] === 'object') {
+                    const newDate = options[property] as DateTime;
+                    params[property] = newDate.toISO();
+                } else if (typeof options[property] === 'boolean') {
+                    params[property] = true;
+                } else {
+                    params[property] = options[property];
+                }
+            }
+        }
 
-      let property: keyof BankingParameters ;
-      for (property in options) {
-          if (options && Object.hasOwn(options, property)) {
-              if (typeof options[property] === 'object') {
-                  const newDate = options[property] as DateTime
-                  params[property] = newDate.toISO();
-              } else if (typeof options[property] === 'boolean') {
-                  params[property] = true;
-              } else {
-                  params[property] = options[property];
-              }
-          }
-      }
+        return params;
+    }
 
-    return params;
-  }
-
-  // APPLICATION
+    // APPLICATION
     async createBankingApplication(companyId: string): Promise<CreateApplicationResponse> {
         try {
             const response = await this.client.url(`/banking/${companyId}/application`).post().json<CreateApplicationResponse>();
@@ -97,131 +95,122 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return { success: false, error };
         }
     }
-  
-  // STATEMENTS  
+
+    // STATEMENTS
     async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
+        let url = `/banking/${companyId}/statements`;
+        let errorMessage = 'Unable to get the list of statements';
 
-      let url = `/banking/${companyId}/statements`;
-      let errorMessage = 'Unable to get the list of statements'
-
-      if (statementId) {
-          url = `${url}/${statementId}`;
-          errorMessage = `Unable to get the statement details for statementId ${statementId}`
-      }
-
-      try {
-
-        const params = this.bankingParams(options);
-
-        const response = await this.client.url(url).query(params).get().json<StatementResponse>();
-
-        if (!response.success) {
-          this.logger.error(errorMessage, response.error);
+        if (statementId) {
+            url = `${url}/${statementId}`;
+            errorMessage = `Unable to get the statement details for statementId ${statementId}`;
         }
-    
-        return response;
-      } catch (error) {
-        this.logger.error(errorMessage, error);
-        return { success: false, error };
-      }
+
+        try {
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(url).query(params).get().json<StatementResponse>();
+
+            if (!response.success) {
+                this.logger.error(errorMessage, response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error(errorMessage, error);
+            return { success: false, error };
+        }
     }
 
-  // PAYMENTS
+    // PAYMENTS
     async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<Payment> {
-      try {
-          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<Payment>();
+        try {
+            const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<Payment>();
 
-          if (!response.success) {
-              this.logger.error('Unable to create a Unit Co. Payment', response.error);
-          }
+            if (!response.success) {
+                this.logger.error('Unable to create a Unit Co. Payment', response.error);
+            }
 
-          return response;
-      } catch (error) {
-          this.logger.error('Unable to create a Unit Co. Payment', error);
-          return { success: false, error };
-      }
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to create a Unit Co. Payment', error);
+            return { success: false, error };
+        }
     }
 
-  // COUNTERPARTIES
-  async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
-    try {
-        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty`)
-        .post(counterpartyRequest).json<CounterpartyResponse>();
+    // COUNTERPARTIES
+    async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
+        try {
+            const response = await this.client
+                .url(`/banking/${companyId}/moneymovement/counterparty`)
+                .post(counterpartyRequest)
+                .json<CounterpartyResponse>();
 
-        if (!response.success) {
+            if (!response.success) {
+                this.logger.error(
+                    'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
+                    response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
             this.logger.error(
-              'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
-              response.error
+                'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
+                error
             );
+            return { success: false, error };
         }
-
-        return response;
-    } catch (error) {
-        this.logger.error(
-          'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
-          error
-        );
-        return { success: false, error };
     }
-  }
 
-  async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
-    try {
-        const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-        .post(listRequest).json<CounterpartiesListResponse>();
+    async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
+        try {
+            const response = await this.client
+                .url(`/banking/${companyId}/moneymovement/counterparty/list`)
+                .post(listRequest)
+                .json<CounterpartiesListResponse>();
 
-        if (!response.success) {
-            this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
+            if (!response.success) {
+                this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Error calling Unit Co. Banking Counterparties', error);
+            return { success: false, error };
         }
-
-        return response;
-    } catch (error) {
-        this.logger.error('Error calling Unit Co. Banking Counterparties', error);
-        return { success: false, error };
     }
-  }
 
-  // DEPOSIT
-  async getBankingAccount(companyId: string): Promise<Deposit> {
-    try {
-        const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();
+    // DEPOSIT
+    async getBankingAccount(companyId: string): Promise<Deposit> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();
 
-        if (!response.success) {
-            this.logger.error(
-              'While trying to get a banking deposit account, an unhandled exception was thrown',
-              response.error
-            );
+            if (!response.success) {
+                this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', error);
+            return { success: false, error };
         }
-
-        return response;
-    } catch (error) {
-        this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', error);
-        return { success: false, error };
     }
-  }
 
-  async getBankingAccountBalance(companyId: string, options?: BankingParameters): Promise<DepositBalanceResponse> {
-    try {
+    async getBankingAccountBalance(companyId: string, options?: BankingParameters): Promise<DepositBalanceResponse> {
+        try {
+            const params = this.bankingParams(options);
 
-        const params = this.bankingParams(options);
+            const response = await this.client.url(`/banking/${companyId}/deposits/history`).query(params).get().json<DepositBalanceResponse>();
 
-        const response = await this.client
-        .url(`/banking/${companyId}/deposits/history`)
-        .query(params)
-        .get()
-        .json<DepositBalanceResponse>();
+            if (!response.success) {
+                this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', response.error);
+            }
 
-        if (!response.success) {
-            this.logger.error(
-              'While trying to get banking deposit balance history, an unhandled exception was thrown',
-              response.error
-            );
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', error);
+            return { success: false, error };
         }
-
-        return response;
-    } catch (error) {
-        this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', error);
-        return { success: false, error };
     }
-  }
 }

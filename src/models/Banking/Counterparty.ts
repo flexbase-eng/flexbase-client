@@ -1,4 +1,4 @@
-import { Relationship } from "./Constants";
+import { Relationship } from './Constants';
 
 export interface CtrParty {
     accessToken: string;
@@ -24,7 +24,7 @@ export interface CounterpartyAttributes {
     createdAt: string;
     tags: {
         [key: string]: string;
-    }
+    };
 }
 
 export interface Counterparty {
@@ -33,7 +33,7 @@ export interface Counterparty {
     attributes: CounterpartyAttributes;
     relationships: {
         customer: Relationship;
-    }
+    };
 }
 
 export interface CounterpartyForm {
@@ -55,4 +55,5 @@ export interface ListRequest {
     customerId: string;
     tags: {
         [key: string]: string;
-    }}
+    };
+}

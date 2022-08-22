@@ -1,28 +1,28 @@
-import { CounterpartyForm } from "./Counterparty";
-import { FlexbaseResponse } from "../FlexbaseResponse";
+import { CounterpartyForm } from './Counterparty';
+import { FlexbaseResponse } from '../FlexbaseResponse';
 
 export interface Payment extends FlexbaseResponse {
-	id?: string,
-	asOf?: string,
-	byUser?: string,
-	companyId?: string,
-	createdAt?: string,
-	payAmount?: string,
-	payAmountCents?: string,
-	payDescription?: string,
-	payDirection?: string,
-	payCtrParty?: string,
-	status?: string,
-	type?: string,
-	ucCustomerId?: string,
-	ucDepositId?: string,
-	version?: number,
+    id?: string;
+    asOf?: string;
+    byUser?: string;
+    companyId?: string;
+    createdAt?: string;
+    payAmount?: string;
+    payAmountCents?: string;
+    payDescription?: string;
+    payDirection?: string;
+    payCtrParty?: string;
+    status?: string;
+    type?: string;
+    ucCustomerId?: string;
+    ucDepositId?: string;
+    version?: number;
 }
 
 export interface PaymentForm {
-    type: string,
-    amount: string,
-    direction: string,
-    description: string,
-    counterparty: CounterpartyForm,
+    type: string;
+    amount: string;
+    direction: string;
+    description: string;
+    counterparty: CounterpartyForm;
 }
