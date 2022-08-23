@@ -37,7 +37,7 @@ test("FlexbaseClient get company credit no id", async () => {
 
 test("FlexbaseClient request pay with flexbase success", async () => {
 
-    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 1000, session: "test", mode: 'immediate' });
+    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 1000, session: "test", mode: 'immediate', bnplRequest: 'test' });
 
     expect(response).not.toBeNull();
     expect(response!.approved).toBe(true);
@@ -49,7 +49,7 @@ test("FlexbaseClient request pay with flexbase success", async () => {
 
 test("FlexbaseClient request pay with flexbase failure", async () => {
 
-    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: badApiKey, amount: 1000, mode: 'immediate' });
+    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: badApiKey, amount: 1000, mode: 'immediate', bnplRequest: 'test' });
 
     expect(response).not.toBeNull();
     expect(response!.approved).toBe(false);
@@ -57,7 +57,7 @@ test("FlexbaseClient request pay with flexbase failure", async () => {
 
 test("FlexbaseClient request pay with flexbase error", async () => {
 
-    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: errorApiKey, amount: 1000, mode: 'immediate' });
+    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: errorApiKey, amount: 1000, mode: 'immediate', bnplRequest: 'test' });
 
     expect(response).not.toBeNull();
     expect(response!.approved).toBe(false);
@@ -65,7 +65,7 @@ test("FlexbaseClient request pay with flexbase error", async () => {
 
 test("FlexbaseClient request pay with flexbase denied", async () => {
 
-    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: deniedApiKey, amount: 1000, mode: 'immediate' });
+    const response = await testFlexbaseClient.requestPayWithFlexbase({apiKey: deniedApiKey, amount: 1000, mode: 'immediate', bnplRequest: 'test' });
 
     expect(response).not.toBeNull();
     expect(response!.approved).toBe(false);
@@ -73,9 +73,12 @@ test("FlexbaseClient request pay with flexbase denied", async () => {
 
 test("FlexbaseClient request pay with flexbase invalid payload", async () => {
 
-    await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: '', amount: 1000, mode: 'immediate' })).rejects.toThrow();
+    await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: '', amount: 1000, mode: 'immediate', bnplRequest: 'test' })).rejects.toThrow();
 
-    await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 0, mode: 'immediate' })).rejects.toThrow();
+    await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 0, mode: 'immediate', bnplRequest: 'test' })).rejects.toThrow();
+
+    await expect(testFlexbaseClient.requestPayWithFlexbase({apiKey: goodApiKey, amount: 0, mode: 'immediate', bnplRequest: '' })).rejects.toThrow();
+
 });
 
 
@@ -94,3 +97,25 @@ test("FlexbaseClient pay debt error", async () => {
     const response = await testFlexbaseClient.payDebt('', '');
     expect(response.error).toBe('Unable to make the pay debt');
 });
+
+
+
+describe('Get BNPL request', () => {
+    test('Should successfully return the request', async () => {
+        const response = await testFlexbaseClient.getBnplRequest('12345');
+        expect(response.status).toBeTruthy();
+    });
+
+    test('Should throw an error if ID is not provided', async () => {
+        await expect(testFlexbaseClient.getBnplRequest('' as any)).rejects.toThrow('ID is required');
+    });
+
+    test('Should throw an error if not found', async () => {
+        await expect(testFlexbaseClient.getBnplRequest(badCompanyId)).rejects.toThrow('Could not find BNPL request.');
+    });
+
+    test('Should error', async () => {
+        await expect(testFlexbaseClient.getBnplRequest(errorCompanyId)).rejects.toThrow();
+    });
+
+})
