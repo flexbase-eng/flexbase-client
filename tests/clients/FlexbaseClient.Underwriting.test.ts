@@ -35,5 +35,25 @@ describe('Underwriting', () => {
         expect(response!.maxLimit).toBe(1000);
         expect(response!.level).toBe(1);
     });
+
+    describe('Get BNPL request', () => {
+        test('Should successfully return the request', async () => {
+            const response = await testFlexbaseClient.getBnplRequest('12345');
+            expect(response.status).toBeTruthy();
+        });
+
+        test('Should throw an error if ID is not provided', async () => {
+            await expect(testFlexbaseClient.getBnplRequest('' as any)).rejects.toThrow('ID is required');
+        });
+
+        test('Should throw an error if not found', async () => {
+            await expect(testFlexbaseClient.getBnplRequest(badCompanyId)).rejects.toThrow('Could not find BNPL request.');
+        });
+
+        test('Should error', async () => {
+            await expect(testFlexbaseClient.getBnplRequest(errorCompanyId)).rejects.toThrow();
+        });
+
+    })
 })
 

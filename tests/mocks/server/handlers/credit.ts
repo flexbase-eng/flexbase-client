@@ -1,10 +1,10 @@
-import { compose, rest as mockServer } from 'msw'
+import { compose, rest as mockServer } from 'msw';
 import { PayWithFlexbase } from '../../../../src/index';
 import { badApiKey, badCompanyId, errorApiKey, errorCompanyId, goodApiKey, goodCardId, goodCompanyId, goodUserId, mockUrl } from '../constants';
+import { RequestPayWithFlexbaseResponse } from '../../../../src/models/Credit/PayWithFlexbase';
 
 export const credit_handlers = [
     mockServer.get(mockUrl + "/servicing/minimumDue", (request, response, context) => {
-
         const id = request.url.searchParams.get('id');
 
         if (id === errorCompanyId) {
@@ -59,7 +59,6 @@ export const credit_handlers = [
         return response(res);
     }),
 
-
     mockServer.post<PayWithFlexbase>(mockUrl + "/credit/buyNow", (request, response, context) => {
 
         const { apiKey, amount, session } = request.body;
@@ -95,6 +94,41 @@ export const credit_handlers = [
 
         return response(res);
     }),
+
+    mockServer.get(`${mockUrl}/credit/request/:id`, (request, response, context) => {
+        const { id } = request.params;
+
+        if (id === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        if (id === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: "Error message"
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json<RequestPayWithFlexbaseResponse>({
+                success: true,
+                id: id as string,
+                status: 'pending',
+                amount: 1234.00
+            }),
+
+        );
+
+        return response(res);
+    })
 ];
 
 export const credit_error_handlers = [

@@ -1,4 +1,5 @@
 import { Merchant } from '../Merchant/Merchant';
+import { FlexbaseResponse } from '../FlexbaseResponse';
 
 export type PayWithFlexbaseMode = 'immediate';
 
@@ -21,4 +22,12 @@ export interface PayWithFlexbaseInvoice {
     amount: number;
     status: string;
     session: string;
+}
+
+
+// This isn't confusingly named at all
+export interface RequestPayWithFlexbaseResponse extends FlexbaseResponse {
+    id: string;
+    amount: number;
+    status: 'pending' | 'consumed';
 }

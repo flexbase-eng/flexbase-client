@@ -1,4 +1,8 @@
-import { PayWithFlexbase, PayWithFlexbaseResponse } from '../models/Credit/PayWithFlexbase';
+import {
+    PayWithFlexbase,
+    PayWithFlexbaseResponse,
+    RequestPayWithFlexbaseResponse
+} from '../models/Credit/PayWithFlexbase';
 import { CompanyCredit } from '../models/Credit/CompanyCredit';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
@@ -88,5 +92,20 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
             this.logger.error('Unable to pay with flexbase', payload, error);
             return { approved: false };
         }
+    }
+
+    async getBnplRequest(id: string): Promise<RequestPayWithFlexbaseResponse> {
+        if (!id ) {
+            throw new Error('ID is required');
+        }
+
+        const result = await this.client.url(`/credit/request/${id}`).get().json<RequestPayWithFlexbaseResponse>();
+
+        if (!result.success) {
+            this.logger.error('Error retrieving BNPL request');
+            throw new Error('Could not find BNPL request.');
+        }
+
+        return result;
     }
 }
