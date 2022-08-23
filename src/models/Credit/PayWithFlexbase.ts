@@ -9,7 +9,7 @@ export interface PayWithFlexbase {
     session?: string;
     mode: PayWithFlexbaseMode;
     description?: string;
-    bnplRequest: string;
+    requestId: string;
 }
 
 export interface PayWithFlexbaseResponse {

@@ -76,7 +76,7 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
             throw new Error('apiKey is required and amount must be greater than 0');
         }
 
-        if (!payload.bnplRequest) {
+        if (!payload.requestId) {
             throw new Error('A BNPL request ID is required to initiate Pay with Flexbase');
         }
 
