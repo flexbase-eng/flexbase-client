@@ -1,11 +1,8 @@
-import {
-    PayWithFlexbase,
-    PayWithFlexbaseResponse,
-    RequestPayWithFlexbaseResponse
-} from '../models/Credit/PayWithFlexbase';
+import { PayWithFlexbase, PayWithFlexbaseResponse, RequestPayWithFlexbaseResponse } from '../models/Credit/PayWithFlexbase';
 import { CompanyCredit } from '../models/Credit/CompanyCredit';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
+import { n } from 'msw/lib/glossary-58eca5a8';
 
 interface CompanyCreditResponse extends FlexbaseResponse {
     availableLimit: number;
@@ -80,7 +77,7 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
         }
 
         if (!payload.bnplRequest) {
-            throw new Error('A BNPL request ID is required to initiate Pay with Flexbase')
+            throw new Error('A BNPL request ID is required to initiate Pay with Flexbase');
         }
 
         try {
@@ -98,18 +95,23 @@ export class FlexbaseClientCredit extends FlexbaseClientBase {
         }
     }
 
-    async getBnplRequest(id: string): Promise<RequestPayWithFlexbaseResponse> {
-        if (!id ) {
+    async getBnplRequest(id: string): Promise<RequestPayWithFlexbaseResponse | null> {
+        if (!id) {
             throw new Error('ID is required');
         }
 
-        const result = await this.client.url(`/credit/request/${id}`).get().json<RequestPayWithFlexbaseResponse>();
+        try {
+            const result = await this.client.url(`/credit/request/${id}`).get().json<RequestPayWithFlexbaseResponse>();
 
-        if (!result.success) {
-            this.logger.error('Error retrieving BNPL request');
-            throw new Error('Could not find BNPL request.');
+            if (!result.success) {
+                this.logger.error('Error retrieving BNPL request');
+                return null;
+            }
+
+            return result;
+        } catch (error) {
+            this.logger.error('Error retrieving BNPL request', error);
+            return null;
         }
-
-        return result;
     }
 }

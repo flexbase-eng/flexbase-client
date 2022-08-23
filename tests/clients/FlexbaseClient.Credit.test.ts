@@ -103,19 +103,21 @@ test("FlexbaseClient pay debt error", async () => {
 describe('Get BNPL request', () => {
     test('Should successfully return the request', async () => {
         const response = await testFlexbaseClient.getBnplRequest('12345');
-        expect(response.status).toBeTruthy();
+        expect(response?.status).toBeTruthy();
     });
 
     test('Should throw an error if ID is not provided', async () => {
         await expect(testFlexbaseClient.getBnplRequest('' as any)).rejects.toThrow('ID is required');
     });
 
-    test('Should throw an error if not found', async () => {
-        await expect(testFlexbaseClient.getBnplRequest(badCompanyId)).rejects.toThrow('Could not find BNPL request.');
+    test('Should return null if not found', async () => {
+        const result = await testFlexbaseClient.getBnplRequest(badCompanyId);
+        expect(result).toBeNull();
     });
 
     test('Should error', async () => {
-        await expect(testFlexbaseClient.getBnplRequest(errorCompanyId)).rejects.toThrow();
+        const result = await testFlexbaseClient.getBnplRequest(errorCompanyId);
+        expect(result).toBeNull();
     });
 
 })

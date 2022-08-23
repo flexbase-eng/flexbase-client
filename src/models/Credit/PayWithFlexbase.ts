@@ -25,7 +25,6 @@ export interface PayWithFlexbaseInvoice {
     session: string;
 }
 
-
 // This isn't confusingly named at all
 export interface RequestPayWithFlexbaseResponse extends FlexbaseResponse {
     id: string;
