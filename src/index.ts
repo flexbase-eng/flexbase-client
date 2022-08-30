@@ -21,6 +21,6 @@ export { BusinessOwner } from './models/Business/BusinessOwner';
 export { Project, ProjectsResponse, CreateProjectResponse } from './models/Project/Project';
 export { Statement } from './models/Banking/Statement';
 export { Relationship } from './models/Banking/Constants';
-export { Counterparty, CounterpartyAttributes, CounterpartyForm, CounterpartyRequest, CtrParty } from './models/Banking/Counterparty';
+export { Counterparty, CounterpartyForm, CounterpartyRequest, CtrParty } from './models/Banking/Counterparty';
 export { Deposit, DepositBalance, DepositBalanceAttributes } from './models/Banking/Deposit';
 export { Payment, PaymentForm } from './models/Banking/Payment';

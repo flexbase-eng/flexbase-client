@@ -179,13 +179,12 @@ test("FlexbaseClient get counterparties list success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    const ctrParty = response.data![0];
+    const ctrParty = response.counterparties![0];
     expect(ctrParty?.id).toBe('01234');
     expect(ctrParty?.type).toBe('achCounterparty');
-    expect(ctrParty?.attributes?.name).toBe('April Oniel');
-    expect(ctrParty?.attributes?.routingNumber).toBe('812345679');
-    expect(ctrParty?.attributes?.accountNumber).toBe('1000000001');
-    expect(ctrParty?.attributes?.tags?.companyId).toBe(goodCompanyId);
+    expect(ctrParty?.name).toBe('April Oniel');
+    expect(ctrParty?.routingNumber).toBe('812345679');
+    expect(ctrParty?.accountNumber).toBe('1000000001');
 });
 
 test("FlexbaseClient get counterparties list failure", async () => {
@@ -211,11 +210,13 @@ test("FlexbaseClient get deposit account info success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    expect(response?.id).toBe('01234');
-    expect(response?.type).toBe('depositAccount');
-    expect(response?.attributes?.balance).toBe(30000);
-    expect(response?.attributes?.depositProduct).toBe('checking');
-    expect(response?.attributes?.accountNumber).toBe('000123456789');
+    const mainAccount = response?.accounts![0];
+
+    expect(mainAccount?.id).toBe('01234');
+    expect(mainAccount?.type).toBe('depositAccount');
+    expect(mainAccount?.balance).toBe(30000);
+    expect(mainAccount?.depositProduct).toBe('checking');
+    expect(mainAccount?.accountNumber).toBe('000123456789');
 });
 
 test("FlexbaseClient get deposit account info failure", async () => {
