@@ -234,6 +234,7 @@ test("FlexbaseClient get deposit account info error", async () => {
     expect(response.success).toBeFalsy();
 });
 
+// DEPOSIT
 // GET DEPOSIT ACCOUNT HISTORY
 test("FlexbaseClient get deposit account history success", async () => {
 
@@ -287,6 +288,32 @@ test("FlexbaseClient get deposit account history failure", async () => {
 test("FlexbaseClient get deposit account history error", async () => {
 
     const response = await testFlexbaseClient.getBankingAccountBalance(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET DEPOSIT ACCOUNT LIMITS
+test("FlexbaseClient get deposit account limits success", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.type).toBe('limits');
+    expect(response?.attributes?.ach.limits.dailyCredit).toBe(50000);
+    expect(response?.attributes?.card.limits.dailyWithdrawal).toBe(500000);
+});
+
+test("FlexbaseClient get deposit account limits failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get banking deposit limits, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient get deposit account limits error", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(errorCompanyId);
 
     expect(response.success).toBeFalsy();
 });

@@ -348,4 +348,49 @@ export const banking_handlers = [
         );
         return response(res);
     }),
+
+    mockServer.get(mockUrl + "/banking/:companyId/deposits/limits", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get banking deposit limits, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                type: "limits",
+                attributes: {
+                    card: {
+                        limits: {
+                            dailyWithdrawal: 500000
+                        },
+                    },
+                    ach: {
+                        limits: {
+                            dailyCredit: 50000
+                        },
+                    },
+                },
+            }),
+
+        );
+        return response(res);
+    }),
 ]
