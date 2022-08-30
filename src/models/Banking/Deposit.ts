@@ -1,31 +1,23 @@
-import { FlexbaseResponse } from "../FlexbaseResponse";
 import { Relationship } from "./Constants";
 
-export interface DepositAttributes {
+export interface Deposit {
     accountNumber: string;
+    asOf: string;
     available: number;
     balance: number;
+    byUser: string;
+    companyId: string;
     createdAt: string;
-    currency: string;
     depositProduct: string;
-    hold: number;
+    id: string;
     name: string;
+    isDefault: string;
     routingNumber: string;
     status: string;
-    tags: {
-        [key: string]: string;
-    }
-    updatedAt: string;
-}
-
-export interface Deposit extends FlexbaseResponse {
-    attributes?: DepositAttributes;
-    id?: string
-    relationships?: {
-        customer: Relationship;
-        org: Relationship;
-    }
-    type?: string;
+    tenantId: string;
+    type: string;
+    ucCustomerId: string;
+    ucDepositId: string;
 }
 
 export interface DepositBalanceAttributes {

@@ -4,7 +4,7 @@ import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { Deposit, DepositBalance } from '../models/Banking/Deposit';
-import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
+import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
 
 interface BankingParameters {
   isPdf?: boolean;
@@ -14,6 +14,8 @@ interface BankingParameters {
   toDate?: DateTime;
   period?: DateTime;
   sort?: string;
+  limit?: number;
+  offset?: number;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -36,7 +38,11 @@ interface CounterpartyResponse extends FlexbaseResponse {
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
-  data?: Counterparty[];
+  counterparties?: Counterparty[];
+}
+
+interface DepositsResponse extends FlexbaseResponse {
+  accounts?: Deposit[];
 }
 
 interface DepositBalanceResponse extends FlexbaseResponse {
@@ -165,10 +171,13 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
+  async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<CounterpartiesListResponse> {
     try {
+
+        const params = this.bankingParams(options);
+
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-        .post(listRequest).json<CounterpartiesListResponse>();
+        .query(params).get().json<CounterpartiesListResponse>();
 
         if (!response.success) {
             this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
@@ -182,9 +191,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
   }
 
   // DEPOSIT
-  async getBankingAccount(companyId: string): Promise<Deposit> {
+  async getBankingAccount(companyId: string): Promise<DepositsResponse> {
     try {
-        const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();
+        const response = await this.client.url(`/banking/${companyId}/deposits/list`).get().json<DepositsResponse>();
 
         if (!response.success) {
             this.logger.error(
