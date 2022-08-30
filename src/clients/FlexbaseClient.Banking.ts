@@ -3,7 +3,7 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
-import { Deposit, DepositBalance } from '../models/Banking/Deposit';
+import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
 
 interface BankingParameters {
@@ -230,6 +230,25 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  async getBankingAccountLimits(companyId: string): Promise<DepositLimits> {
+    try {
+
+        const response = await this.client.url(`/banking/${companyId}/deposits/limits`).get().json<DepositLimits>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get banking deposit limits, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

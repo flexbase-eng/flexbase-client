@@ -1,3 +1,4 @@
+import { FlexbaseResponse } from "../FlexbaseResponse";
 import { Relationship } from "./Constants";
 
 export interface Deposit {
@@ -35,5 +36,60 @@ export interface DepositBalance {
     relationships: {
         account: Relationship;
         customer: Relationship;
+    }
+}
+
+export interface AchLimits {
+    dailyCredit: number;
+    dailyDebit: number;
+    dailyDebitSoft: number;
+    monthlyCredit: number;
+    monthlyDebit: number;
+    monthlyDebitSoft: number;
+}
+
+export interface AchBalance {
+    credits: number;
+    debits: number;
+}
+
+export interface CardLimits {
+    dailyCardTransaction: number;
+    dailyDeposit: number;
+    dailyPurchase: number;
+    dailyWithdrawal: number;
+}
+
+export interface CardTotalsDaily {
+    cardTransactions: number;
+    deposits: number;
+    purchases: number;
+    withdrawals: number;
+}
+
+export interface CheckDepositLimits {
+    daily: number;
+    dailySoft: number;
+    monthly: number;
+    monthlySoft: number;
+}
+
+export interface DepositLimits extends FlexbaseResponse {
+    type?: string;
+    attributes?: {
+        ach: {
+            limits: AchLimits;
+            totalsDaily: AchBalance;
+            totalsMonthly: AchBalance;
+        };
+        card: {
+            limits: CardLimits;
+            totalsDaily: CardTotalsDaily;
+        };
+        checkDeposit: {
+            limits: CheckDepositLimits;
+            totalsDaily: number;
+            totalsMonthly: number;
+        };
     }
 }
