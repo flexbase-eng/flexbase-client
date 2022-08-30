@@ -21,6 +21,7 @@ export interface Deposit {
     ucDepositId: string;
 }
 
+// DEPOSIT BALANCE
 export interface DepositBalanceAttributes {
     date: string;
     hold: number;
@@ -39,7 +40,8 @@ export interface DepositBalance {
     }
 }
 
-export interface AchLimits {
+// DEPOSIT LIMITS
+interface AchLimits {
     dailyCredit: number;
     dailyDebit: number;
     dailyDebitSoft: number;
@@ -48,48 +50,56 @@ export interface AchLimits {
     monthlyDebitSoft: number;
 }
 
-export interface AchBalance {
+interface AchBalance {
     credits: number;
     debits: number;
 }
 
-export interface CardLimits {
+interface CardLimits {
     dailyCardTransaction: number;
     dailyDeposit: number;
     dailyPurchase: number;
     dailyWithdrawal: number;
 }
 
-export interface CardTotalsDaily {
+interface CardTotalsDaily {
     cardTransactions: number;
     deposits: number;
     purchases: number;
     withdrawals: number;
 }
 
-export interface CheckDepositLimits {
+interface CheckDepositLimits {
     daily: number;
     dailySoft: number;
     monthly: number;
     monthlySoft: number;
 }
 
+interface AchAttributes {
+    limits: AchLimits;
+    totalsDaily: AchBalance;
+    totalsMonthly: AchBalance;
+}
+
+interface CardAttributes {
+    limits: CardLimits;
+    totalsDaily: CardTotalsDaily;
+}
+
+interface CheckDepositAttributes {
+    limits: CheckDepositLimits;
+    totalsDaily: number;
+    totalsMonthly: number;
+}
+
+export interface DepositLimitsAttributes {
+    ach: AchAttributes;
+    card: CardAttributes;
+    checkDeposit: CheckDepositAttributes;
+}
+
 export interface DepositLimits extends FlexbaseResponse {
     type?: string;
-    attributes?: {
-        ach: {
-            limits: AchLimits;
-            totalsDaily: AchBalance;
-            totalsMonthly: AchBalance;
-        };
-        card: {
-            limits: CardLimits;
-            totalsDaily: CardTotalsDaily;
-        };
-        checkDeposit: {
-            limits: CheckDepositLimits;
-            totalsDaily: number;
-            totalsMonthly: number;
-        };
-    }
+    attributes?: DepositLimitsAttributes;
 }
