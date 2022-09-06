@@ -34,7 +34,7 @@ interface StatementResponse extends FlexbaseResponse {
 }
 
 interface CounterpartyResponse extends FlexbaseResponse {
-  ctrParty?: CtrParty;
+  counterparty?: CtrParty;
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
@@ -47,6 +47,10 @@ interface DepositsResponse extends FlexbaseResponse {
 
 interface DepositBalanceResponse extends FlexbaseResponse {
   statement?: DepositBalance[];
+}
+
+interface PaymentResponse extends FlexbaseResponse {
+  payment?: Payment
 }
 
 
@@ -133,9 +137,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
   // PAYMENTS
-    async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<Payment> {
+    async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<PaymentResponse> {
       try {
-          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<Payment>();
+          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<PaymentResponse>();
 
           if (!response.success) {
               this.logger.error('Unable to create a Unit Co. Payment', response.error);

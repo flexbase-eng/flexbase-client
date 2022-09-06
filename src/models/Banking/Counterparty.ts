@@ -9,7 +9,6 @@ export interface CtrParty {
     ucCounterpartyId: string;
     ucCustomerId: string;
     version: number;
-    tenantId: string;
 }
 
 export interface Counterparty {
