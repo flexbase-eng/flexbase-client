@@ -171,11 +171,13 @@ export const banking_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                id: '01234',
-                companyId: goodCompanyId,
-                payAmount: body.amount,
-                payDescription: body.description,
                 success: true,
+                payment: { 
+                    id: '01234',
+                    companyId: goodCompanyId,
+                    payAmount: body.amount,
+                    payDescription: body.description,
+                }
             }),
 
         );
@@ -209,7 +211,7 @@ export const banking_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                ctrParty: {
+                counterparty: {
                     id: '01234',
                     type: "achCounterparty",
                     companyId: goodCompanyId,
@@ -220,7 +222,7 @@ export const banking_handlers = [
         return response(res);
     }),
 
-    mockServer.post(mockUrl + "/banking/:companyId/moneymovement/counterparty/list", (request, response, context) => {
+    mockServer.get(mockUrl + "/banking/:companyId/moneymovement/counterparty/list", (request, response, context) => {
 
         const { companyId } = request.params;
 
@@ -246,18 +248,13 @@ export const banking_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                data: [
+                counterparties: [
                     {
                         id: '01234',
                         type: "achCounterparty",
-                        attributes: {
-                            name: "April Oniel",
-                            routingNumber: "812345679",
-                            accountNumber: "1000000001",
-                            tags: {
-                                companyId: goodCompanyId,
-                            }
-                        },
+                        name: "April Oniel",
+                        routingNumber: "812345679",
+                        accountNumber: "1000000001",
                     }
                 ],
             }),
@@ -267,7 +264,7 @@ export const banking_handlers = [
     }),
     
     // DEPOSITS
-    mockServer.get(mockUrl + "/banking/:companyId/deposits", (request, response, context) => {
+    mockServer.get(mockUrl + "/banking/:companyId/deposits/list", (request, response, context) => {
 
         const { companyId } = request.params;
         
@@ -292,14 +289,17 @@ export const banking_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                id: '01234',
-                type: 'depositAccount',
-                attributes: {
-                    balance: 30000,
-                    depositProduct: 'checking',
-                    accountNumber: '000123456789',
-                },
                 success: true,
+                accounts: [
+                    {
+                        id: '01234',
+                        type: 'depositAccount',
+                        balance: 30000,
+                        depositProduct: 'checking',
+                        accountNumber: '000123456789',
+                        success: true,
+                    }
+                ]
             }),
 
         );
@@ -345,6 +345,51 @@ export const banking_handlers = [
                         },
                     }
                 ]
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.get(mockUrl + "/banking/:companyId/deposits/limits", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get banking deposit limits, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                type: "limits",
+                attributes: {
+                    card: {
+                        limits: {
+                            dailyWithdrawal: 500000
+                        },
+                    },
+                    ach: {
+                        limits: {
+                            dailyCredit: 50000
+                        },
+                    },
+                },
             }),
 
         );

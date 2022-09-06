@@ -1,5 +1,3 @@
-import { Relationship } from "./Constants";
-
 export interface CtrParty {
     accessToken: string;
     asOf: string;
@@ -11,35 +9,38 @@ export interface CtrParty {
     ucCounterpartyId: string;
     ucCustomerId: string;
     version: number;
-    tenantId: string;
 }
 
-export interface CounterpartyAttributes {
+export interface Counterparty {
+    accessToken: string;
+    asOf: string;
+    byUser: string;
+    companyId: string;
+    createdAt: string;
+    id: string;
+    type: string;
+    ucCounterpartyId: string;
+    ucCustomerId: string;
+    version: number;
     name: string;
     routingNumber: string;
     accountNumber: string;
     accountType: string;
-    type: string;
-    permissions: string;
-    createdAt: string;
-    tags: {
-        [key: string]: string;
-    }
 }
 
-export interface Counterparty {
-    type: string;
-    id: string;
-    attributes: CounterpartyAttributes;
-    relationships: {
-        customer: Relationship;
-    }
+export interface Address {
+    city: string;
+    state: string;
+    street: string;
+    country: string;
+    postalCode: string;
 }
 
 export interface CounterpartyForm {
     routingNumber: string;
     accountNumber: string;
     accountType: string;
+    address?: Address;
     type?: string;
     name: string;
 }
@@ -48,11 +49,3 @@ export interface CounterpartyRequest {
     type: string;
     counterparty: CounterpartyForm;
 }
-
-export interface ListRequest {
-    limit: number;
-    offset: number;
-    customerId: string;
-    tags: {
-        [key: string]: string;
-    }}

@@ -123,10 +123,10 @@ test("FlexbaseClient create payment success", async () => {
 
     expect(response.success).toBeTruthy();
 
-    expect(response.id).toBe('01234');
-    expect(response.payAmount).toBe('1000.0');
-    expect(response.companyId).toBe(goodCompanyId);
-    expect(response.payDescription).toBe('New payment');
+    expect(response?.payment?.id).toBe('01234');
+    expect(response?.payment?.payAmount).toBe('1000.0');
+    expect(response?.payment?.companyId).toBe(goodCompanyId);
+    expect(response?.payment?.payDescription).toBe('New payment');
 });
 
 test("FlexbaseClient create payment failure", async () => {
@@ -152,9 +152,9 @@ test("FlexbaseClient create counterparty success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    expect(response?.ctrParty?.id).toBe('01234');
-    expect(response?.ctrParty?.type).toBe('achCounterparty');
-    expect(response?.ctrParty?.companyId).toBe(goodCompanyId);
+    expect(response?.counterparty?.id).toBe('01234');
+    expect(response?.counterparty?.type).toBe('achCounterparty');
+    expect(response?.counterparty?.companyId).toBe(goodCompanyId);
 });
 
 test("FlexbaseClient create counterparty failure", async () => {
@@ -179,13 +179,12 @@ test("FlexbaseClient get counterparties list success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    const ctrParty = response.data![0];
+    const ctrParty = response.counterparties![0];
     expect(ctrParty?.id).toBe('01234');
     expect(ctrParty?.type).toBe('achCounterparty');
-    expect(ctrParty?.attributes?.name).toBe('April Oniel');
-    expect(ctrParty?.attributes?.routingNumber).toBe('812345679');
-    expect(ctrParty?.attributes?.accountNumber).toBe('1000000001');
-    expect(ctrParty?.attributes?.tags?.companyId).toBe(goodCompanyId);
+    expect(ctrParty?.name).toBe('April Oniel');
+    expect(ctrParty?.routingNumber).toBe('812345679');
+    expect(ctrParty?.accountNumber).toBe('1000000001');
 });
 
 test("FlexbaseClient get counterparties list failure", async () => {
@@ -211,11 +210,13 @@ test("FlexbaseClient get deposit account info success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    expect(response?.id).toBe('01234');
-    expect(response?.type).toBe('depositAccount');
-    expect(response?.attributes?.balance).toBe(30000);
-    expect(response?.attributes?.depositProduct).toBe('checking');
-    expect(response?.attributes?.accountNumber).toBe('000123456789');
+    const mainAccount = response?.accounts![0];
+
+    expect(mainAccount?.id).toBe('01234');
+    expect(mainAccount?.type).toBe('depositAccount');
+    expect(mainAccount?.balance).toBe(30000);
+    expect(mainAccount?.depositProduct).toBe('checking');
+    expect(mainAccount?.accountNumber).toBe('000123456789');
 });
 
 test("FlexbaseClient get deposit account info failure", async () => {
@@ -233,6 +234,7 @@ test("FlexbaseClient get deposit account info error", async () => {
     expect(response.success).toBeFalsy();
 });
 
+// DEPOSIT
 // GET DEPOSIT ACCOUNT HISTORY
 test("FlexbaseClient get deposit account history success", async () => {
 
@@ -286,6 +288,32 @@ test("FlexbaseClient get deposit account history failure", async () => {
 test("FlexbaseClient get deposit account history error", async () => {
 
     const response = await testFlexbaseClient.getBankingAccountBalance(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET DEPOSIT ACCOUNT LIMITS
+test("FlexbaseClient get deposit account limits success", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.type).toBe('limits');
+    expect(response?.attributes?.ach.limits.dailyCredit).toBe(50000);
+    expect(response?.attributes?.card.limits.dailyWithdrawal).toBe(500000);
+});
+
+test("FlexbaseClient get deposit account limits failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get banking deposit limits, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient get deposit account limits error", async () => {
+
+    const response = await testFlexbaseClient.getBankingAccountLimits(errorCompanyId);
 
     expect(response.success).toBeFalsy();
 });
