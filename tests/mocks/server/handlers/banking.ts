@@ -171,11 +171,13 @@ export const banking_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                id: '01234',
-                companyId: goodCompanyId,
-                payAmount: body.amount,
-                payDescription: body.description,
                 success: true,
+                payment: { 
+                    id: '01234',
+                    companyId: goodCompanyId,
+                    payAmount: body.amount,
+                    payDescription: body.description,
+                }
             }),
 
         );
@@ -209,7 +211,7 @@ export const banking_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                ctrParty: {
+                counterparty: {
                     id: '01234',
                     type: "achCounterparty",
                     companyId: goodCompanyId,

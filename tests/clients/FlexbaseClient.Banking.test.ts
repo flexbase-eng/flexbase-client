@@ -123,10 +123,10 @@ test("FlexbaseClient create payment success", async () => {
 
     expect(response.success).toBeTruthy();
 
-    expect(response.id).toBe('01234');
-    expect(response.payAmount).toBe('1000.0');
-    expect(response.companyId).toBe(goodCompanyId);
-    expect(response.payDescription).toBe('New payment');
+    expect(response?.payment?.id).toBe('01234');
+    expect(response?.payment?.payAmount).toBe('1000.0');
+    expect(response?.payment?.companyId).toBe(goodCompanyId);
+    expect(response?.payment?.payDescription).toBe('New payment');
 });
 
 test("FlexbaseClient create payment failure", async () => {
@@ -152,9 +152,9 @@ test("FlexbaseClient create counterparty success", async () => {
 
     expect(response.success).toBeTruthy();
     
-    expect(response?.ctrParty?.id).toBe('01234');
-    expect(response?.ctrParty?.type).toBe('achCounterparty');
-    expect(response?.ctrParty?.companyId).toBe(goodCompanyId);
+    expect(response?.counterparty?.id).toBe('01234');
+    expect(response?.counterparty?.type).toBe('achCounterparty');
+    expect(response?.counterparty?.companyId).toBe(goodCompanyId);
 });
 
 test("FlexbaseClient create counterparty failure", async () => {
