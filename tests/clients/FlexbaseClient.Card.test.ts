@@ -116,6 +116,7 @@ test("FlexbaseClient update user card success", async () => {
     expect(response?.card?.cardName).toBe('Gas Card');
     expect(response?.card?.cardNumber).toBe('1234');
     expect(response?.card?.creditLimit).toBe(5000);
+    expect(response?.card?.expensesTypes?.interval).toBe('monthly');
 });
 
 test("FlexbaseClient update user card failure", async () => {

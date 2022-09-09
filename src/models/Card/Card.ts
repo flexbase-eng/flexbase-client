@@ -17,6 +17,7 @@ export interface Card {
     expensesTypes: {
         amount: number;
         groups: Group[];
+        interval: string;
     };
     expirationDate: string;
     holder: string;

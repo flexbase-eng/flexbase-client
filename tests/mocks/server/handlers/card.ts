@@ -128,6 +128,11 @@ export const card_handlers = [
                     cardNumber: "1234",
                     creditLimit: 5000,
                     status: 'active',
+                    expensesTypes: {
+                        amount: 5000,
+                        groups: ['MATERIALSUPPLIERS'],
+                        interval: 'monthly',
+                    },
                 },
             }),
 

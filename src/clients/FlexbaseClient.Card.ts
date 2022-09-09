@@ -21,6 +21,7 @@ interface UpdateCardForm {
     expensesTypes: {
         amount: number;
         groups: Group[];
+        interval: string;
     };
     notifyUse: boolean;
     shipTo?: Address;
