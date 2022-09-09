@@ -48,7 +48,7 @@ export const goodCardId = "good card";
 export const badCardId = "bad card";
 export const errorCardId = "error card";
 export const cardType = "physical";
-export const updateCardForm = { expensesTypes: { amount: 5000, groups: [] }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }
+export const updateCardForm = { expensesTypes: { amount: 5000, groups: [], interval: 'monthly' }, notifyUse: true, creditLimit: 5000, cardName: 'Gas Card' }
 
 export const counterparty = { routingNumber: "213456787989", accountNumber: "2983433", accountType: "Checking", name: "Jane Doe" }
 export const paymentBodyReq = { type: 'achPayment', amount: '1000.0', accountId: '01234', direction: 'credit', description: 'New payment', counterparty }
