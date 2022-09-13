@@ -12,6 +12,12 @@ interface CompanyBalance {
     graceDate: string;
 }
 
+interface Payment {
+    amount: string;
+    status: string;
+    datePosted: string;
+}
+
 export class FlexbaseClientCompany extends FlexbaseClientBase {
     async getCompanyBalance(companyId: string): Promise<CompanyBalance | null> {
         try {
@@ -19,6 +25,15 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error(`Unable to get company balance data`, error);
             return null;
+        }
+    }
+
+    async getCompanyPayments(): Promise<Payment[]> {
+        try {
+            return await this.client.url('/servicing/payments').get().json();
+        } catch (error) {
+            this.logger.error(`Unable to get company balance data`, error);
+            return [];
         }
     }
 }
