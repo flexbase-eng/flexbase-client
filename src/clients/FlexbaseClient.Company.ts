@@ -32,7 +32,7 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         try {
             return await this.client.url('/servicing/payments').get().json();
         } catch (error) {
-            this.logger.error(`Unable to get company balance data`, error);
+            this.logger.error(`Unable to get company payments`, error);
             return [];
         }
     }
