@@ -33,4 +33,22 @@ export const company_handlers = [
         
         return response(res);
     }),
-]
+
+    mockServer.get(mockUrl + "/servicing/payments", (_, response, context) => {
+
+
+        const res = compose(
+            context.status(200),
+            context.json([
+                {
+                    status: 'succeeded',
+                    amount: '100.00',
+                    datePosted: '2022-07-31',
+                }
+            ]),
+
+        );
+        
+        return response(res);
+    }),
+];
