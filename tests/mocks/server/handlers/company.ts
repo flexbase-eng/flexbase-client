@@ -44,6 +44,7 @@ export const company_handlers = [
                     status: 'succeeded',
                     amount: '100.00',
                     datePosted: '2022-07-31',
+                    origin: 'manual',
                 }
             ]),
 
