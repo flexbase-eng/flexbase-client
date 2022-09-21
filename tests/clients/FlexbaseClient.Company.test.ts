@@ -25,6 +25,4 @@ test("FlexbaseClient get company payments", async () => {
     expect(payments.datePosted).toBe("2022-07-31");
     expect(payments.amount).toBe("100.00");
     expect(payments.origin).toBe("manual");
-    
-
 });

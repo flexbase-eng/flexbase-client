@@ -33,7 +33,6 @@ export const company_handlers = [
         
         return response(res);
     }),
-
     mockServer.get(mockUrl + "/servicing/payments", (_, response, context) => {
 
 
