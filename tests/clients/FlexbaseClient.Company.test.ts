@@ -20,9 +20,11 @@ test("FlexbaseClient get company payments", async () => {
     expect(response).not.toBeNull();
     expect(response.length).toBeGreaterThan(0);
 
-    const employee = response[0];
-    expect(employee.status).toBe("succeeded");
-    expect(employee.datePosted).toBe("2022-07-31");
-    expect(employee.amount).toBe("100.00");
+    const payments = response[0];
+    expect(payments.status).toBe("succeeded");
+    expect(payments.datePosted).toBe("2022-07-31");
+    expect(payments.amount).toBe("100.00");
+    expect(payments.origin).toBe("manual");
+    
 
 });
