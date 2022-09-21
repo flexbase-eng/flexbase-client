@@ -17,6 +17,7 @@ interface Payment {
     status: string;
     datePosted: string;
     origin: string;
+    id: string;
 }
 
 export class FlexbaseClientCompany extends FlexbaseClientBase {
