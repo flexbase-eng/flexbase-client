@@ -13,16 +13,16 @@ test("FlexbaseClient get company balance success", async () => {
     expect(response?.minimumDue).toBe(1097);
 });
 
-test("FlexbaseClient get company payments", async () => {
+test("FlexbaseClient get company payments success", async () => {
 
     const response = await testFlexbaseClient.getCompanyPayments();
 
     expect(response).not.toBeNull();
-    expect(response.length).toBeGreaterThan(0);
 
-    const payments = response[0];
-    expect(payments.status).toBe("succeeded");
-    expect(payments.datePosted).toBe("2022-07-31");
-    expect(payments.amount).toBe("100.00");
-    expect(payments.origin).toBe("manual");
+    const payment = response![0];
+
+    expect(payment?.status).toBe("succeeded");
+    expect(payment?.datePosted).toBe("2022-07-31");
+    expect(payment?.amount).toBe("100.00");
+    expect(payment?.origin).toBe("manual");
 });

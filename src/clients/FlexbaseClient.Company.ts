@@ -20,6 +20,11 @@ interface Payment {
     id: string;
 }
 
+interface PaymentsResponse {
+    success: boolean;
+    payments: Payment[];
+}
+
 export class FlexbaseClientCompany extends FlexbaseClientBase {
     async getCompanyBalance(companyId: string): Promise<CompanyBalance | null> {
         try {
@@ -30,12 +35,18 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         }
     }
 
-    async getCompanyPayments(): Promise<Payment[]> {
+    async getCompanyPayments(): Promise<Payment[] | null> {
         try {
-            return await this.client.url('/servicing/payments').get().json();
+            const response = await this.client.url('/servicing/payments').get().json<PaymentsResponse>();
+
+            if (!response.success) {
+                return null;
+            }
+
+            return response.payments;
         } catch (error) {
             this.logger.error(`Unable to get company payments`, error);
-            return [];
+            return null;
         }
     }
 }
