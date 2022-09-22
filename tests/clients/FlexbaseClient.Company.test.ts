@@ -13,13 +13,14 @@ test("FlexbaseClient get company balance success", async () => {
     expect(response?.minimumDue).toBe(1097);
 });
 
-test("FlexbaseClient get company payments success", async () => {
+test("FlexbaseClient get company payments", async () => {
 
     const response = await testFlexbaseClient.getCompanyPayments();
 
     expect(response).not.toBeNull();
+    expect(response?.payments?.length).toBeGreaterThan(0);
 
-    const payment = response![0];
+    const payment = response.payments![0];
 
     expect(payment?.status).toBe("succeeded");
     expect(payment?.datePosted).toBe("2022-07-31");
