@@ -1,4 +1,5 @@
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
+import { FlexbaseResponse } from '../models/FlexbaseResponse';
 
 interface CompanyBalance {
     success: boolean;
@@ -20,9 +21,8 @@ interface Payment {
     id: string;
 }
 
-interface PaymentsResponse {
-    success: boolean;
-    payments: Payment[];
+interface PaymentsResponse extends FlexbaseResponse {
+    payments?: Payment[];
 }
 
 export class FlexbaseClientCompany extends FlexbaseClientBase {
@@ -35,18 +35,18 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         }
     }
 
-    async getCompanyPayments(): Promise<Payment[] | null> {
+    async getCompanyPayments(): Promise<PaymentsResponse> {
         try {
             const response = await this.client.url('/servicing/payments').get().json<PaymentsResponse>();
 
             if (!response.success) {
-                return null;
+                this.logger.error('Unable to get company payments', response.error);
             }
 
-            return response.payments;
+            return response;
         } catch (error) {
             this.logger.error(`Unable to get company payments`, error);
-            return null;
+            return { success: false, error: 'Unable to get company payments', payments: [] };
         }
     }
 }
