@@ -37,9 +37,10 @@ export interface Address {
 }
 
 export interface CounterpartyForm {
-    routingNumber: string;
-    accountNumber: string;
-    accountType: string;
+    unitProcessorToken?: string;
+    routingNumber?: string;
+    accountNumber?: string;
+    accountType?: string;
     address?: Address;
     type?: string;
     name: string;
