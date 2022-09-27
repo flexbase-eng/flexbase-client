@@ -297,7 +297,7 @@ export const banking_handlers = [
                         balance: 30000,
                         depositProduct: 'checking',
                         accountNumber: '000123456789',
-                        success: true,
+                        plaidProcessorToken: 'processor-sandbox-18f7e98d-ee2e-49cc-99a1-7bc36b7e6e9d'
                     }
                 ]
             }),
