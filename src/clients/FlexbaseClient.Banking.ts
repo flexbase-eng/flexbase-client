@@ -16,6 +16,7 @@ interface BankingParameters {
   sort?: string;
   limit?: number;
   offset?: number;
+  accountId?: string;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -195,9 +196,12 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
   }
 
   // DEPOSIT
-  async getBankingAccount(companyId: string): Promise<DepositsResponse> {
+  async getBankingAccounts(companyId: string, options?: BankingParameters): Promise<DepositsResponse> {
     try {
-        const response = await this.client.url(`/banking/${companyId}/deposits/list`).get().json<DepositsResponse>();
+        const params = this.bankingParams(options);
+
+        const response = await this.client.url(`/banking/${companyId}/deposits/list`)
+        .query(params).get().json<DepositsResponse>();
 
         if (!response.success) {
             this.logger.error(
