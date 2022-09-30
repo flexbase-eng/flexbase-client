@@ -19,13 +19,13 @@ interface CardResponse extends FlexbaseResponse {
 
 interface UpdateCardForm {
     expensesTypes: {
-        amount: number;
+        amount: number | null;
         groups: Group[];
-        interval: string;
+        interval: string | null;
     };
     notifyUse: boolean;
     shipTo?: Address;
-    creditLimit: number;
+    creditLimit: number | null;
     cardName?: string;
 }
 
