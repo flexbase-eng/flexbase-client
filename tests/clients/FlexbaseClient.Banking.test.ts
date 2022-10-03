@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, debitCard } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -362,6 +362,32 @@ test("FlexbaseClient get debit cards failure", async () => {
 test("FlexbaseClient get debit cards error", async () => {
 
     const response = await testFlexbaseClient.getBankingDebitCards(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// CREATE DEBIT CARD
+test("FlexbaseClient create Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(goodCompanyId, debitCard);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.lastFour).toBe('6559');
+    expect(response?.card?.status).toBe('Active');
+    expect(response?.card?.dailyPurchase).toBe('7000');
+});
+
+test("FlexbaseClient create Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(badCompanyId, debitCard );
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient create Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(errorCompanyId, debitCard);
 
     expect(response.success).toBeFalsy();
 });

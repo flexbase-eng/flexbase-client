@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
-import { Card } from '../models/Banking/Cards';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
+import { Card, CardRequest, CardByUser } from '../models/Banking/Cards';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
 
@@ -52,11 +52,15 @@ interface DepositBalanceResponse extends FlexbaseResponse {
 }
 
 interface PaymentResponse extends FlexbaseResponse {
-  payment?: Payment
+  payment?: Payment;
 }
 
-interface CardsResponse extends FlexbaseResponse {
-  cards?: Card[]
+interface CardsListResponse extends FlexbaseResponse {
+  cards?: Card[];
+}
+
+interface CreateCardResponse extends FlexbaseResponse {
+  card?: CardByUser;
 }
 
 
@@ -267,12 +271,12 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
   }
 
   // DEBIT CARDS
-  async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsResponse> {
+  async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsListResponse> {
     try {
 
         const params = this.bankingParams(options);
 
-        const response = await this.client.url(`/banking/${companyId}/cards`).query(params).get().json<CardsResponse>();
+        const response = await this.client.url(`/banking/${companyId}/cards`).query(params).get().json<CardsListResponse>();
 
         if (!response.success) {
             this.logger.error(
@@ -284,6 +288,25 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to get banking Cards by Company, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  async createBankingDebitCard(companyId: string, debitCardForm: CardRequest): Promise<CreateCardResponse> {
+    try {
+
+        const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<CreateCardResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to create a Unit Co. Debit Card, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

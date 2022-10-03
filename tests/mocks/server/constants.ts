@@ -52,3 +52,4 @@ export const updateCardForm = { expensesTypes: { amount: 5000, groups: [], inter
 
 export const counterparty = { routingNumber: "213456787989", accountNumber: "2983433", accountType: "Checking", name: "Jane Doe" }
 export const paymentBodyReq = { type: 'achPayment', amount: '1000.0', accountId: '01234', direction: 'credit', description: 'New payment', counterparty }
+export const debitCard = { type: 'businessDebitCard', limits: { dailyPurchase: 7000 } }
