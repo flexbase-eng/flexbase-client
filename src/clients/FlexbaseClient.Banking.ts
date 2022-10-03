@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Card } from '../models/Banking/Cards';
 import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
@@ -52,6 +53,10 @@ interface DepositBalanceResponse extends FlexbaseResponse {
 
 interface PaymentResponse extends FlexbaseResponse {
   payment?: Payment
+}
+
+interface CardsResponse extends FlexbaseResponse {
+  cards?: Card[]
 }
 
 
@@ -257,6 +262,28 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  // DEBIT CARDS
+  async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsResponse> {
+    try {
+
+        const params = this.bankingParams(options);
+
+        const response = await this.client.url(`/banking/${companyId}/cards`).query(params).get().json<CardsResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get banking Cards by Company, an unhandled exception occurred',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to get banking Cards by Company, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

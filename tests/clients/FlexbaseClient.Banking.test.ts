@@ -318,3 +318,50 @@ test("FlexbaseClient get deposit account limits error", async () => {
 
     expect(response.success).toBeFalsy();
 });
+
+// DEBIT CARDS
+// GET DEBIT CARDS
+test("FlexbaseClient get debit cards success", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+
+    const card = response.cards![0];
+    expect(card.id).toBe('01234');
+    expect(card.status).toBe('Active');
+    expect(card.expirationDate).toBe('2025-09');
+    expect(card.lastFour).toBe('6559');
+    expect(card.monthlyPurchase).toBe('700000');
+});
+
+test("FlexbaseClient get debit cards success with params", async () => {
+
+    const accountId = '770032';
+    const response = await testFlexbaseClient.getBankingDebitCards(goodCompanyId, { accountId });
+
+    expect(response.success).toBeTruthy();
+
+    const card = response.cards![0];
+    expect(card.id).toBe('01234');
+    expect(card.status).toBe('Active');
+    expect(card.lastFour).toBe('6559');
+    expect(card.ucDepositId).toBe('770032');
+    expect(card.expirationDate).toBe('2025-09');
+    expect(card.monthlyPurchase).toBe('700000');
+});
+
+test("FlexbaseClient get debit cards failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get banking Cards by Company, an unhandled exception occurred')
+});
+
+test("FlexbaseClient get debit cards error", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});

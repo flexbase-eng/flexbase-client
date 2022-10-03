@@ -395,4 +395,49 @@ export const banking_handlers = [
         );
         return response(res);
     }),
+
+    // DEBIT CARDS
+    mockServer.get(mockUrl + "/banking/:companyId/cards", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get banking Cards by Company, an unhandled exception occurred',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                cards: [
+                    {
+                        expirationDate: "2025-09",
+                        id: '01234',
+                        lastFour: "6559",
+                        monthlyPurchase: "700000",
+                        monthlyWithdrawal: "500000",
+                        status: "Active",
+                        type: "businessDebitCard",
+                        ucDepositId: "770032",
+                    }
+                ]
+            }),
+
+        );
+        return response(res);
+    }),
 ]

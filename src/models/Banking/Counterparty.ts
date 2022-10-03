@@ -1,3 +1,5 @@
+import { Address } from "./Constants";
+
 export interface CtrParty {
     accessToken: string;
     asOf: string;
@@ -26,14 +28,6 @@ export interface Counterparty {
     routingNumber: string;
     accountNumber: string;
     accountType: string;
-}
-
-export interface Address {
-    city: string;
-    state: string;
-    street: string;
-    country: string;
-    postalCode: string;
 }
 
 export interface CounterpartyForm {
