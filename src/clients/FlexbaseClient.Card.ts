@@ -1,4 +1,4 @@
-import { Card, Group } from '../models/Card/Card';
+import { Card, CardHiddenInfo, Group } from '../models/Card/Card';
 import { Address } from '../models/Address/Address';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
@@ -129,6 +129,23 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to update the card status', error);
             return { success: false, error: 'Unable to update the card status', card: null };
+        }
+    }
+
+    async getCardHiddenInfo(cardId: string): Promise<CardHiddenInfo> {
+        try {
+
+            const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<CardHiddenInfo>();
+
+            if (!response.success) {
+                this.logger.error(`Unable to obtain hidden card information for ${cardId}`);
+                return response;
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to get user card', error);
+            return { success: false, error: 'Unable to obtain hidden card information', cardNumber: null, expirationDate: null, cvc: null };
         }
     }
 }
