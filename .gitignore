@@ -106,6 +106,9 @@ dist
 # vscode
 .vscode
 
+# webstorm
+.idea
+
 /dist
 .DS_Store
 /output
