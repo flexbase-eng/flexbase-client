@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.33.16",
+  "version": "0.33.17",
   "description": "Flexbase api client",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
