@@ -99,7 +99,6 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         }
     }
 
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     async unlinkInvoiceFile(invoiceId: string): Promise<Invoice | null> {
         try {
             const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).delete().json();
