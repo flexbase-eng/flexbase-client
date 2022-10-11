@@ -14,6 +14,10 @@ export interface ProjectsResponse {
     id: string;
     location: Address;
     name: string;
+    client?: {
+        id?: string;
+        companyName?: string;
+    }
 }
 
 export interface CreateProjectResponse {
