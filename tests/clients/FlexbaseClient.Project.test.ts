@@ -12,6 +12,7 @@ test("FlexbaseClient get projects success", async () => {
     const project = response![0];
 
     expect(project.name).toBe('Flexbase');
+    expect(project.client?.companyName).toBe('Test Company')
 });
 
 test("FlexbaseClient get projects failure", async () => {
