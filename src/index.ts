@@ -18,7 +18,7 @@ export { Card } from './models/Card/Card';
 export { OnboardingStatus } from './models/Onboarding/OnboardingStatus';
 export { Business } from './models/Business/Business';
 export { BusinessOwner } from './models/Business/BusinessOwner';
-export { Project, ProjectsResponse, CreateProjectResponse } from './models/Project/Project';
+export { ProjectData, ProjectsResponse, CreateOrUpdateProjectResponse } from './models/Project/Project';
 export { Statement } from './models/Banking/Statement';
 export { Relationship } from './models/Banking/Constants';
 export { Counterparty, CounterpartyForm, CounterpartyRequest, CtrParty } from './models/Banking/Counterparty';

@@ -1,9 +1,10 @@
 import { Address } from '../Address/Address';
 
-export interface Project {
+export interface ProjectData {
     id?: string;
     name?: string;
     description?: string;
+    clientId?: string | null;
     location?: Address;
 }
 
@@ -20,9 +21,11 @@ export interface ProjectsResponse {
     }
 }
 
-export interface CreateProjectResponse {
+export interface CreateOrUpdateProjectResponse {
     description: string;
     id: string;
     location: Address;
     name: string;
+    clientId: string | null;
+    companyId: string;
 }

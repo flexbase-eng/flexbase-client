@@ -1,4 +1,4 @@
-import { CreateProjectResponse, Project, ProjectsResponse } from '../models/Project/Project';
+import { CreateOrUpdateProjectResponse, ProjectData, ProjectsResponse } from '../models/Project/Project';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 export class FlexbaseClientProject extends FlexbaseClientBase {
@@ -11,9 +11,9 @@ export class FlexbaseClientProject extends FlexbaseClientBase {
         }
     }
 
-    async createOrUpdateProject(projectData: Project): Promise<CreateProjectResponse | null> {
+    async createOrUpdateProject(projectData: ProjectData): Promise<CreateOrUpdateProjectResponse | null> {
         try {
-            const response = await this.client.url('/project').post(projectData).json<CreateProjectResponse>();
+            const response = await this.client.url('/project').post(projectData).json<CreateOrUpdateProjectResponse>();
 
             return response;
         } catch (error) {
