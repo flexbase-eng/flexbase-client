@@ -37,6 +37,7 @@ export const project_handlers = [
                 id: "testId",
                 name: "test name",
                 description: "test description",
+                clientId: "testClientId",
                 location: {
                     street1: "test address",
                     city: "test city",
