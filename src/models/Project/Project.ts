@@ -4,7 +4,7 @@ export interface ProjectData {
     id?: string;
     name?: string;
     description?: string;
-    clientId?: string | null;
+    clientId?: string;
     location?: Address;
 }
 
@@ -26,6 +26,6 @@ export interface CreateOrUpdateProjectResponse {
     id: string;
     location: Address;
     name: string;
-    clientId: string | null;
+    clientId?: string;
     companyId: string;
 }
