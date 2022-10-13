@@ -55,7 +55,7 @@ interface PaymentResponse extends FlexbaseResponse {
 }
 
 interface PaymentsListResponse extends FlexbaseResponse {
-  payment?: Payment[];
+  payments?: Payment[];
 }
 
 

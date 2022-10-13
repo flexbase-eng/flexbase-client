@@ -151,7 +151,7 @@ test("FlexbaseClient get payment list success", async () => {
 
     expect(response.success).toBeTruthy();
 
-    const payment = response.payment![0];
+    const payment = response.payments![0];
     expect(payment.id).toBe('123');
     expect(payment.status).toBe('Pending');
 });

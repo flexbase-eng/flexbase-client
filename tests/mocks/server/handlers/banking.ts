@@ -209,7 +209,7 @@ export const banking_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                payment: [
+                payments: [
                     {
                         id: '123',
                         companyId: '1234',
