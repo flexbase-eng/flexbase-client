@@ -54,6 +54,10 @@ interface PaymentResponse extends FlexbaseResponse {
   payment?: Payment
 }
 
+interface PaymentsListResponse extends FlexbaseResponse {
+  payment?: Payment[];
+}
+
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
 
@@ -152,6 +156,21 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
           return { success: false, error };
       }
     }
+
+    async getBankingPayments(companyId: string): Promise<PaymentsListResponse> {
+      try {
+          const response = await this.client.url(`/banking/${companyId}/moneymovement/list`).get().json<PaymentsListResponse>();
+
+          if (!response.success) {
+              this.logger.error('Unable to get the list of payments', response.error);
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('Unable to get the list of payments', error);
+          return { success: false, error };
+      }
+  }
 
   // COUNTERPARTIES
   async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
