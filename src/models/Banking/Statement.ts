@@ -1,4 +1,4 @@
-import { Relationship } from "./Constants";
+import { Relationship } from './Constants';
 
 export interface Statement {
     id: string;
@@ -10,5 +10,5 @@ export interface Statement {
         account: Relationship;
         customer?: Relationship;
         customers?: Relationship[];
-    }
+    };
 }

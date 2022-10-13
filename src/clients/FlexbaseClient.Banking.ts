@@ -5,6 +5,7 @@ import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
+import { BankingTransaction } from '../models/Banking/Transaction';
 
 interface BankingParameters {
   isPdf?: boolean;
@@ -58,6 +59,9 @@ interface PaymentsListResponse extends FlexbaseResponse {
   payments?: Payment[];
 }
 
+interface TransactionsResponse extends FlexbaseResponse {
+    transactions?: BankingTransaction[];
+}
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
 
@@ -273,10 +277,28 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             );
         }
 
-        return response;
-    } catch (error) {
-        this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', error);
-        return { success: false, error };
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
     }
-  }
+
+    // TRANSACTIONS
+    async getBankingTransactions(companyId: string, options?: BankingParameters): Promise<TransactionsResponse> {
+        try {
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(`/banking/${companyId}/transactions`).query(params).get().json<TransactionsResponse>();
+
+            if (!response.success) {
+                this.logger.error('Unable to get the list of transactions', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to get the list of transactions', error);
+            return { success: false, error };
+        }
+    }
 }
