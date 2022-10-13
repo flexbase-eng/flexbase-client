@@ -144,6 +144,35 @@ test("FlexbaseClient create payment error", async () => {
     expect(response.success).toBeFalsy();
 });
 
+//GET LIST OF PAYMENTS
+test("FlexbaseClient get payment list success", async () => {
+
+    const response = await testFlexbaseClient.getBankingPayments(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+
+    const payment = response.payments![0];
+    expect(payment.id).toBe('123');
+    expect(payment.status).toBe('Pending');
+});
+
+test("FlexbaseClient get payment list failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingPayments(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to get the list of payments');
+});
+
+test("FlexbaseClient get payment list error", async () => {
+
+    const response = await testFlexbaseClient.getBankingPayments(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+
+
 // COUNTERPARTIES
 // CREATE COUNTERPARTY
 test("FlexbaseClient create counterparty success", async () => {
