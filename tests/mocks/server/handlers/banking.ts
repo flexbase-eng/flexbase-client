@@ -468,13 +468,54 @@ export const banking_handlers = [
             context.json({
                 success: true,
                 card: {
-                    expirationDate: "2025-09",
                     id: '01234',
                     lastFour: "6559",
-                    dailyPurchase: "7000",
                     status: "Active",
-                    type: "businessDebitCard",
+                    dailyPurchase: "7000",
                     ucDepositId: "770032",
+                    type: "businessDebitCard",
+                    expirationDate: "2025-09",
+                }
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.put(mockUrl + "/banking/:companyId/cards", (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to update the Unit Co. Debit Card, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    id: '01234',
+                    lastFour: "6559",
+                    status: "Active",
+                    ucDepositId: "770032",
+                    dailyPurchase: "10000",
+                    expirationDate: "2025-09",
+                    type: "businessDebitCard",
                 }
             }),
 

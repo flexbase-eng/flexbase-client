@@ -1,5 +1,12 @@
 import { Relationship, Address, FullName, Phone } from "./Constants";
 
+interface Limits {
+  dailyWithdrawal?: number;
+  dailyPurchase?: number;
+  monthlyWithdrawal?: number;
+  monthlyPurchase?: number;
+}
+
 export interface Card {
     asOf: string;
     byUser: string;
@@ -51,13 +58,18 @@ export interface CardByUser {
   version: number;
 }
 
-export interface CardRequest {
+export interface CreateCardRequest {
   type: string;
   shippingAddress?: Address;
-  limits?: {
-    dailyWithdrawal?: number;
-    dailyPurchase?: number;
-    monthlyWithdrawal?: number;
-    monthlyPurchase?: number;
-  }
+  limits?: Limits;
+}
+
+export interface UpdateCardRequest {
+  id: string;
+  type: string;
+  limits?: Limits;
+  shippingAddress?: Address;
+  address?: Address;
+  email?: string;
+  phone?: Phone;
 }

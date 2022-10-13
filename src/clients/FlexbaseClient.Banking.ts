@@ -3,9 +3,9 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
-import { Card, CardRequest, CardByUser } from '../models/Banking/Cards';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
   isPdf?: boolean;
@@ -59,7 +59,7 @@ interface CardsListResponse extends FlexbaseResponse {
   cards?: Card[];
 }
 
-interface CreateCardResponse extends FlexbaseResponse {
+interface UserCardResponse extends FlexbaseResponse {
   card?: CardByUser;
 }
 
@@ -292,10 +292,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async createBankingDebitCard(companyId: string, debitCardForm: CardRequest): Promise<CreateCardResponse> {
+  async createBankingDebitCard(companyId: string, debitCardForm: CreateCardRequest): Promise<UserCardResponse> {
     try {
 
-        const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<CreateCardResponse>();
+        const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<UserCardResponse>();
 
         if (!response.success) {
             this.logger.error(
@@ -307,6 +307,25 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return response;
     } catch (error) {
         this.logger.error('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown', error);
+        return { success: false, error };
+    }
+  }
+
+  async updateBankingDebitCard(companyId: string, debitCardForm: UpdateCardRequest): Promise<UserCardResponse> {
+    try {
+
+        const response = await this.client.url(`/banking/${companyId}/cards`).put(debitCardForm).json<UserCardResponse>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to update the Unit Co. Debit Card, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+        return response;
+    } catch (error) {
+        this.logger.error('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown', error);
         return { success: false, error };
     }
   }

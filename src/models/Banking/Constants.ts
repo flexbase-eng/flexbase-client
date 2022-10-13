@@ -9,6 +9,7 @@ export interface Address {
     city: string;
     state: string;
     street: string;
+    street2: string | null;
     country: string;
     postalCode: string;
 }
