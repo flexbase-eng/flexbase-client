@@ -1,3 +1,5 @@
+import { FlexbaseResponse } from "../FlexbaseResponse";
+
 /* eslint-disable no-unused-vars */
 export enum Group {
     MaterialGroup = 'MATERIALSUPPLIERS',
@@ -26,3 +28,10 @@ export interface Card {
     status: string;
     userId: string;
 }
+
+export interface CardHiddenInfo extends FlexbaseResponse{
+    cardNumber: string | null;
+    cvc: string | null;
+    expirationDate: string | null;
+}
+
