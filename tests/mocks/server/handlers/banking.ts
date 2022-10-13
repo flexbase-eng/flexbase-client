@@ -184,6 +184,52 @@ export const banking_handlers = [
         return response(res);
     }),
 
+    mockServer.get(mockUrl + "/banking/:companyId/moneymovement/list", (request, response, context) => {
+
+        const { companyId } = request.params;
+
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Unable to get the list of payments',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                payment: [
+                    {
+                        id: '123',
+                        companyId: '1234',
+                        payAmount: '$1.25',
+                        payDescription: 'payment test',
+                        payDirection: 'Credit',
+                        payCtrParty: 'Jane Doe',
+                        status: 'Pending',
+                        type: 'achPayment',
+                        ucCustomerId: '463650',
+                        ucDepositId: '603517',
+                    }
+                ],
+                success: true,
+            }),
+
+        );
+        return response(res);
+    }),
+
     // COUNTERPARTIES
     mockServer.post(mockUrl + "/banking/:companyId/moneymovement/counterparty", (request, response, context) => {
 
