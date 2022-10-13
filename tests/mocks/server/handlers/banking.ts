@@ -392,7 +392,7 @@ export const banking_handlers = [
             context.status(200),
             context.json({
                 success: true,
-                transactions: {
+                transactions: [{
                     amount: '1',
                     accountNumber: '1234123412341234',
                     balance: '19999.0',
@@ -410,7 +410,7 @@ export const banking_handlers = [
                     whoFirstName: 'Huy',
                     whoLastName: 'Pham',
                     whoUsername: 'HPham'
-                }
+                }]
             })
         );
         return response(res);

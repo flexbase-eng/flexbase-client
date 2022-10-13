@@ -1,5 +1,5 @@
-import { FlexbaseResponse } from "../FlexbaseResponse";
-import { Relationship } from "./Constants";
+import { FlexbaseResponse } from '../FlexbaseResponse';
+import { Relationship } from './Constants';
 
 export interface Deposit {
     accountNumber: string;
@@ -39,7 +39,7 @@ export interface DepositBalance {
     relationships: {
         account: Relationship;
         customer: Relationship;
-    }
+    };
 }
 
 // DEPOSIT LIMITS

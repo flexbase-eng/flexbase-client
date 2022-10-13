@@ -59,9 +59,7 @@ interface TransactionsResponse extends FlexbaseResponse {
     transactions?: BankingTransaction[];
 }
 
-
 export class FlexbaseClientBanking extends FlexbaseClientBase {
-
     private bankingParams(options?: BankingParameters) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const params: any = {};
@@ -116,7 +114,6 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     // STATEMENTS
     async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
-
         let url = `/banking/${companyId}/statements`;
         let errorMessage = 'Unable to get the list of statements';
 
@@ -126,7 +123,6 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         }
 
         try {
-
             const params = this.bankingParams(options);
 
             const response = await this.client.url(url).query(params).get().json<StatementResponse>();
@@ -161,8 +157,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     // COUNTERPARTIES
     async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty`)
-                .post(counterpartyRequest).json<CounterpartyResponse>();
+            const response = await this.client
+                .url(`/banking/${companyId}/moneymovement/counterparty`)
+                .post(counterpartyRequest)
+                .json<CounterpartyResponse>();
 
             if (!response.success) {
                 this.logger.error(
@@ -183,11 +181,13 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<CounterpartiesListResponse> {
         try {
-
             const params = this.bankingParams(options);
 
-            const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-                .query(params).get().json<CounterpartiesListResponse>();
+            const response = await this.client
+                .url(`/banking/${companyId}/moneymovement/counterparty/list`)
+                .query(params)
+                .get()
+                .json<CounterpartiesListResponse>();
 
             if (!response.success) {
                 this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
@@ -205,14 +205,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         try {
             const params = this.bankingParams(options);
 
-            const response = await this.client.url(`/banking/${companyId}/deposits/list`)
-                .query(params).get().json<DepositsResponse>();
+            const response = await this.client.url(`/banking/${companyId}/deposits/list`).query(params).get().json<DepositsResponse>();
 
             if (!response.success) {
-                this.logger.error(
-                    'While trying to get a banking deposit account, an unhandled exception was thrown',
-                    response.error
-                );
+                this.logger.error('While trying to get a banking deposit account, an unhandled exception was thrown', response.error);
             }
 
             return response;
@@ -224,20 +220,12 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async getBankingAccountBalance(companyId: string, options?: BankingParameters): Promise<DepositBalanceResponse> {
         try {
-
             const params = this.bankingParams(options);
 
-            const response = await this.client
-                .url(`/banking/${companyId}/deposits/history`)
-                .query(params)
-                .get()
-                .json<DepositBalanceResponse>();
+            const response = await this.client.url(`/banking/${companyId}/deposits/history`).query(params).get().json<DepositBalanceResponse>();
 
             if (!response.success) {
-                this.logger.error(
-                    'While trying to get banking deposit balance history, an unhandled exception was thrown',
-                    response.error
-                );
+                this.logger.error('While trying to get banking deposit balance history, an unhandled exception was thrown', response.error);
             }
 
             return response;
@@ -249,14 +237,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async getBankingAccountLimits(companyId: string): Promise<DepositLimits> {
         try {
-
             const response = await this.client.url(`/banking/${companyId}/deposits/limits`).get().json<DepositLimits>();
 
             if (!response.success) {
-                this.logger.error(
-                    'While trying to get banking deposit limits, an unhandled exception was thrown',
-                    response.error
-                );
+                this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', response.error);
             }
 
             return response;
@@ -269,11 +253,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     // TRANSACTIONS
     async getBankingTransactions(companyId: string, options?: BankingParameters): Promise<TransactionsResponse> {
         try {
-
             const params = this.bankingParams(options);
 
-            const response = await this.client.url(`/banking/${companyId}/transactions`)
-                .query(params).get().json<TransactionsResponse>();
+            const response = await this.client.url(`/banking/${companyId}/transactions`).query(params).get().json<TransactionsResponse>();
 
             if (!response.success) {
                 this.logger.error('Unable to get the list of transactions', response.error);

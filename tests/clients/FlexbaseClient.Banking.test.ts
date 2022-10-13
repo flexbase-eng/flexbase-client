@@ -334,12 +334,12 @@ test('FlexbaseClient get banking transactions success', async () => {
     const response = await testFlexbaseClient.getBankingTransactions(goodCompanyId);
 
     expect(response.success).toBeTruthy();
-    const payment = response.transactions![0];
-    expect(payment.id).toBe('c1c62e41-47cd-42d6-a49f-b088b4424544');
-    expect(payment.cardId).toBe('430451');
-    expect(payment.depositAccount).toBe('824214');
-    expect(payment.balance).toBe('19999.0');
-    expect(payment.companyName).toBe('Crab Shack');
+    const transaction = response.transactions![0];
+    expect(transaction.id).toBe('c1c62e41-47cd-42d6-a49f-b088b4424544');
+    expect(transaction.cardId).toBe('430451');
+    expect(transaction.depositAccount).toBe('824214');
+    expect(transaction.balance).toBe('19999.0');
+    expect(transaction.companyName).toBe('Crab Shack');
 });
 
 test('FlexbaseClient get banking transactions failure', async () => {

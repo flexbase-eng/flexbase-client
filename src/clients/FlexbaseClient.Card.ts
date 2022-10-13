@@ -134,7 +134,6 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
 
     async getCardHiddenInfo(cardId: string): Promise<CardHiddenInfo> {
         try {
-
             const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<CardHiddenInfo>();
 
             if (!response.success) {
