@@ -1,4 +1,4 @@
-import { FlexbaseResponse } from "../FlexbaseResponse";
+import { FlexbaseResponse } from '../FlexbaseResponse';
 
 /* eslint-disable no-unused-vars */
 export enum Group {
@@ -29,9 +29,8 @@ export interface Card {
     userId: string;
 }
 
-export interface CardHiddenInfo extends FlexbaseResponse{
+export interface CardHiddenInfo extends FlexbaseResponse {
     cardNumber: string | null;
     cvc: string | null;
     expirationDate: string | null;
 }
-
