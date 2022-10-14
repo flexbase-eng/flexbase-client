@@ -3,9 +3,10 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
+import { BankingTransaction } from '../models/Banking/Transaction';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
-import { BankingTransaction } from '../models/Banking/Transaction';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
   isPdf?: boolean;
@@ -52,7 +53,15 @@ interface DepositBalanceResponse extends FlexbaseResponse {
 }
 
 interface PaymentResponse extends FlexbaseResponse {
-  payment?: Payment
+  payment?: Payment;
+}
+
+interface CardsListResponse extends FlexbaseResponse {
+  cards?: Card[];
+}
+
+interface UserCardResponse extends FlexbaseResponse {
+  card?: CardByUser;
 }
 
 interface PaymentsListResponse extends FlexbaseResponse {
@@ -298,6 +307,66 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('Unable to get the list of transactions', error);
+            return { success: false, error };
+        }
+    }
+
+  // DEBIT CARDS
+    async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsListResponse> {
+        try {
+
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).query(params).get().json<CardsListResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to get banking Cards by Company, an unhandled exception occurred',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get banking Cards by Company, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async createBankingDebitCard(companyId: string, debitCardForm: CreateCardRequest): Promise<UserCardResponse> {
+        try {
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<UserCardResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to create a Unit Co. Debit Card, an unhandled exception was thrown',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async updateBankingDebitCard(companyId: string, debitCardForm: UpdateCardRequest): Promise<UserCardResponse> {
+        try {
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).put(debitCardForm).json<UserCardResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to update the Unit Co. Debit Card, an unhandled exception was thrown',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown', error);
             return { success: false, error };
         }
     }

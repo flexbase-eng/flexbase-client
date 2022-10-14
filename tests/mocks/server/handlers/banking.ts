@@ -412,6 +412,133 @@ export const banking_handlers = [
         return response(res);
     }),
 
+    // DEBIT CARDS
+    mockServer.get(mockUrl + '/banking/:companyId/cards', (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to get banking Cards by Company, an unhandled exception occurred',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                cards: [
+                    {
+                        expirationDate: '2025-09',
+                        id: '01234',
+                        lastFour: '6559',
+                        monthlyPurchase: '700000',
+                        monthlyWithdrawal: '500000',
+                        status: 'Active',
+                        type: 'businessDebitCard',
+                        ucDepositId: '770032',
+                    }
+                ]
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + '/banking/:companyId/cards', (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to create a Unit Co. Debit Card, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    id: '01234',
+                    lastFour: '6559',
+                    status: 'Active',
+                    dailyPurchase: '7000',
+                    ucDepositId: '770032',
+                    type: 'businessDebitCard',
+                    expirationDate: '2025-09',
+                }
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.put(mockUrl + '/banking/:companyId/cards', (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to update the Unit Co. Debit Card, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    id: '01234',
+                    lastFour: '6559',
+                    status: 'Active',
+                    ucDepositId: '770032',
+                    dailyPurchase: '10000',
+                    expirationDate: '2025-09',
+                    type: 'businessDebitCard',
+                }
+            }),
+
+        );
+        return response(res);
+    }),
+
 
     // TRANSACTIONS
     mockServer.get(mockUrl + '/banking/:companyId/transactions', (request, response, context) => {
@@ -461,4 +588,4 @@ export const banking_handlers = [
         );
         return response(res);
     })
-];
+]

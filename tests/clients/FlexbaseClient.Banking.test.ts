@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty } from '../mocks/server/constants';
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -353,6 +353,105 @@ test('FlexbaseClient get deposit account limits failure', async () => {
 test('FlexbaseClient get deposit account limits error', async () => {
 
     const response = await testFlexbaseClient.getBankingAccountLimits(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// DEBIT CARDS
+// GET DEBIT CARDS
+test("FlexbaseClient get debit cards success", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(goodCompanyId);
+
+    expect(response.success).toBeTruthy();
+
+    const card = response.cards![0];
+    expect(card.id).toBe('01234');
+    expect(card.status).toBe('Active');
+    expect(card.expirationDate).toBe('2025-09');
+    expect(card.lastFour).toBe('6559');
+    expect(card.monthlyPurchase).toBe('700000');
+});
+
+test("FlexbaseClient get debit cards success with params", async () => {
+
+    const accountId = '770032';
+    const response = await testFlexbaseClient.getBankingDebitCards(goodCompanyId, { accountId });
+
+    expect(response.success).toBeTruthy();
+
+    const card = response.cards![0];
+    expect(card.id).toBe('01234');
+    expect(card.status).toBe('Active');
+    expect(card.lastFour).toBe('6559');
+    expect(card.ucDepositId).toBe('770032');
+    expect(card.expirationDate).toBe('2025-09');
+    expect(card.monthlyPurchase).toBe('700000');
+});
+
+test("FlexbaseClient get debit cards failure", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(badCompanyId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to get banking Cards by Company, an unhandled exception occurred')
+});
+
+test("FlexbaseClient get debit cards error", async () => {
+
+    const response = await testFlexbaseClient.getBankingDebitCards(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// CREATE DEBIT CARD
+test("FlexbaseClient create Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(goodCompanyId, createDebitCard);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.lastFour).toBe('6559');
+    expect(response?.card?.status).toBe('Active');
+    expect(response?.card?.dailyPurchase).toBe('7000');
+});
+
+test("FlexbaseClient create Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(badCompanyId, createDebitCard );
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient create Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.createBankingDebitCard(errorCompanyId, createDebitCard);
+
+    expect(response.success).toBeFalsy();
+});
+
+// UPDATE DEBIT CARD
+test("FlexbaseClient update Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.updateBankingDebitCard(goodCompanyId, updateDebitCard);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.lastFour).toBe('6559');
+    expect(response?.card?.status).toBe('Active');
+    expect(response?.card?.dailyPurchase).toBe('10000');
+});
+
+test("FlexbaseClient update Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.updateBankingDebitCard(badCompanyId, updateDebitCard );
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient update Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.updateBankingDebitCard(errorCompanyId, updateDebitCard);
 
     expect(response.success).toBeFalsy();
 });
