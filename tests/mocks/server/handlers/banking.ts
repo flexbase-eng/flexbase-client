@@ -587,5 +587,90 @@ export const banking_handlers = [
             })
         );
         return response(res);
-    })
-]
+    }),
+
+    // UNITCO TOKEN
+    // GET COSTUMER TOKEN
+    mockServer.get(mockUrl + '/unitco/verifToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                type: 'customerTokenVerification',
+                attributes: {
+                    verificationToken: 'verifyToken',
+                }
+            }),
+
+        );
+        return response(res);
+    }),
+
+    // CREATE COSTUMER TOKEN
+    mockServer.post(mockUrl + '/unitco/custToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                asOf: '2022-10-15 13:48:50.298+00',
+                expiresIn: 86400,
+            }),
+
+        );
+        return response(res);
+    }),
+];
+
+export const banking_failure_handlers = [
+    // UNITCO TOKEN
+    // GET COSTUMER TOKEN
+    mockServer.get(mockUrl + '/unitco/verifToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: false, 
+                error: 'While trying to create a new Customer Token Verification, an error occurred!',              
+            }),
+    
+        );
+        return response(res);
+    }),
+
+    // CREATE COSTUMER TOKEN
+    mockServer.post(mockUrl + '/unitco/custToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: false, 
+                error: 'While trying to create a new Customer Token, an error occurred!',              
+            }),
+    
+        );
+        return response(res);
+    }),
+];
+
+export const banking_error_handlers = [
+    // UNITCO TOKEN
+    // GET COSTUMER TOKEN
+    mockServer.get(mockUrl + '/unitco/verifToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
+        );
+        return response(res);
+    }),
+
+    // CREATE COSTUMER TOKEN
+    mockServer.post(mockUrl + '/unitco/custToken', (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
+        );
+        return response(res);
+    }),
+];

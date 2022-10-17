@@ -4,6 +4,7 @@ import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { BankingTransaction } from '../models/Banking/Transaction';
+import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
 import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
@@ -70,6 +71,18 @@ interface PaymentsListResponse extends FlexbaseResponse {
 
 interface TransactionsResponse extends FlexbaseResponse {
     transactions?: BankingTransaction[];
+}
+
+interface GetUnitcoTokenResponse extends FlexbaseResponse {
+    type?: string;
+    attributes?: {
+      verificationToken: string;
+    }
+}
+
+interface CreateUnitcoTokenResponse extends FlexbaseResponse {
+    asOf?: string,
+    expiresIn?: string,
 }
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
@@ -311,7 +324,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         }
     }
 
-  // DEBIT CARDS
+    // DEBIT CARDS
     async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsListResponse> {
         try {
 
@@ -369,5 +382,44 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             this.logger.error('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown', error);
             return { success: false, error };
         }
+    }
+
+    // UNITCO TOKEN
+    async getUnitcoToken(): Promise<GetUnitcoTokenResponse> {
+      try {
+
+          const response = await this.client.url('/unitco/verifToken').get().json<GetUnitcoTokenResponse>();
+
+          if (!response.success) {
+              this.logger.error(
+                'While trying to create a new Customer Token Verification, an error occurred!',
+                response.error
+              );
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('While trying to create a new Customer Token Verification, an error occurred!', error);
+          return { success: false, error };
+      }
+    }
+
+    async createUnitCoToken(createToken: CreateTokenRequest): Promise<CreateUnitcoTokenResponse> {
+      try {
+
+          const response = await this.client.url('/unitco/custToken').post(createToken).json<CreateUnitcoTokenResponse>();
+
+          if (!response.success) {
+              this.logger.error(
+                'While trying to create a new Customer Token, an error occurred!',
+                response.error
+              );
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('While trying to create a new Customer Token, an error occurred!', error);
+          return { success: false, error };
+      }
     }
 }

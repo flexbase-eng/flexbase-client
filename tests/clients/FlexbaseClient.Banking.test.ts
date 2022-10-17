@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
+import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
-import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard } from "../mocks/server/constants";
+import { banking_error_handlers, banking_failure_handlers } from '../mocks/server/handlers/banking';
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard, createUnitcoToken } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -117,6 +119,7 @@ test('FlexbaseClient get statement detail error', async () => {
 });
 
 // PAYMENTS
+// CREATE PAYMENTS
 test('FlexbaseClient create payment success', async () => {
 
     const response = await testFlexbaseClient.createBankingPayment(goodCompanyId, paymentBodyReq);
@@ -456,6 +459,7 @@ test("FlexbaseClient update Debit Card error", async () => {
     expect(response.success).toBeFalsy();
 });
 
+//TRANSACTIONS
 //GET TRANSACTIONS
 test('FlexbaseClient get banking transactions success', async () => {
 
@@ -481,6 +485,65 @@ test('FlexbaseClient get banking transactions failure', async () => {
 test('FlexbaseClient get banking transactions error', async () => {
 
     const response = await testFlexbaseClient.getBankingTransactions(errorCompanyId);
+
+    expect(response.success).toBeFalsy();
+});
+
+//UNITCO TOKEN
+//GET TOKEN
+test('FlexbaseClient get Unitco token success', async () => {
+
+    const response = await testFlexbaseClient.getUnitcoToken();
+
+    expect(response.success).toBeTruthy();
+    expect(response.type).toBe('customerTokenVerification');
+    expect(response.attributes?.verificationToken).toBe('verifyToken');
+});
+
+test('FlexbaseClient get Unitco token failure', async () => {
+
+    server.use(...banking_failure_handlers);
+
+    const response = await testFlexbaseClient.getUnitcoToken();
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to create a new Customer Token Verification, an error occurred!');
+});
+
+test('FlexbaseClient get Unitco token error', async () => {
+
+    server.use(...banking_error_handlers);
+
+    const response = await testFlexbaseClient.getUnitcoToken();
+
+    expect(response.success).toBeFalsy();
+});
+
+//CREATE TOKEN
+test('FlexbaseClient create Unitco token success', async () => {
+
+    const response = await testFlexbaseClient.createUnitCoToken(createUnitcoToken);
+
+    expect(response.success).toBeTruthy();
+    expect(response.expiresIn).toBe(86400);
+    expect(response.asOf).toBe('2022-10-15 13:48:50.298+00');
+});
+
+test('FlexbaseClient create Unitco token failure', async () => {
+
+    server.use(...banking_failure_handlers);
+
+    const response = await testFlexbaseClient.createUnitCoToken(createUnitcoToken);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to create a new Customer Token, an error occurred!');
+});
+
+test('FlexbaseClient create Unitco token error', async () => {
+
+    server.use(...banking_error_handlers);
+
+    const response = await testFlexbaseClient.createUnitCoToken(createUnitcoToken);
 
     expect(response.success).toBeFalsy();
 });
