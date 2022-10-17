@@ -1,5 +1,3 @@
-import { Address } from "./Constants";
-
 export interface CtrParty {
     accessToken: string;
     asOf: string;
@@ -13,6 +11,17 @@ export interface CtrParty {
     version: number;
 }
 
+export interface CounterpartyForm {
+    unitProcessorToken?: string;
+    routingNumber?: string;
+    accountNumber?: string;
+    accountType?: string;
+    address?: Address;
+    type?: string;
+    name: string;
+}
+
+
 export interface Counterparty {
     accessToken: string;
     asOf: string;
@@ -24,21 +33,25 @@ export interface Counterparty {
     ucCounterpartyId: string;
     ucCustomerId: string;
     version: number;
-    name: string;
+    accountName: string;
     routingNumber: string;
     accountNumber: string;
     accountType: string;
+    response: {
+        data: {
+            attributes: CounterpartyForm;
+        }
+    };
 }
 
-export interface CounterpartyForm {
-    unitProcessorToken?: string;
-    routingNumber?: string;
-    accountNumber?: string;
-    accountType?: string;
-    address?: Address;
-    type?: string;
-    name: string;
+export interface Address {
+    city: string;
+    state: string;
+    street: string;
+    country: string;
+    postalCode: string;
 }
+
 
 export interface CounterpartyRequest {
     type: string;
