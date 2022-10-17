@@ -6,7 +6,7 @@ import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { BankingTransaction } from '../models/Banking/Transaction';
 import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
-import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
+import { Counterparty, CtrParty, CounterpartyRequest, CounterpartyApiResponse } from '../models/Banking/Counterparty';
 import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
@@ -39,10 +39,6 @@ interface StatementResponse extends FlexbaseResponse {
 
 interface CounterpartyResponse extends FlexbaseResponse {
   counterparty?: CtrParty;
-}
-
-interface CounterpartiesListResponse extends FlexbaseResponse {
-  counterparties?: Counterparty[];
 }
 
 interface DepositsResponse extends FlexbaseResponse {
@@ -221,22 +217,37 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<CounterpartiesListResponse> {
+  async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<Counterparty[] | null> {
     try {
 
         const params = this.bankingParams(options);
 
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-        .query(params).get().json<CounterpartiesListResponse>();
+        .query(params).get().json<CounterpartyApiResponse[]>();
 
-        if (!response.success) {
-            this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
-        }
-
-        return response;
+        const result = response.map((counterparty) => {
+              return {
+                id: counterparty.id,
+                companyId: counterparty.companyId,
+                accountNumber: counterparty.accountNumber,
+                routingNumber: counterparty.response.data.attributes.routingNumber,
+                accountType: counterparty.response.data.attributes.accountType,
+                accountName: counterparty.accountName,
+                accessToken: counterparty.accessToken,
+                asOf: counterparty.asOf,
+                byUser: counterparty.byUser,
+                createdAt: counterparty.createdAt,
+                type: counterparty.type,
+                ucCounterpartyId: counterparty.ucCounterpartyId,
+                ucCustomerId: counterparty.ucCustomerId,
+                version: counterparty.version,
+                name: counterparty.accountName,
+              }
+        })
+        return result;
     } catch (error) {
         this.logger.error('Error calling Unit Co. Banking Counterparties', error);
-        return { success: false, error };
+        return null;
     }
   }
 
