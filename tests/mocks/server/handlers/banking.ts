@@ -590,7 +590,6 @@ export const banking_handlers = [
     }),
 
     // UNITCO TOKEN
-    // GET COSTUMER TOKEN
     mockServer.get(mockUrl + '/unitco/verifToken', (_, response, context) => {
 
         const res = compose(
@@ -607,7 +606,6 @@ export const banking_handlers = [
         return response(res);
     }),
 
-    // CREATE COSTUMER TOKEN
     mockServer.post(mockUrl + '/unitco/custToken', (_, response, context) => {
 
         const res = compose(
@@ -625,7 +623,6 @@ export const banking_handlers = [
 
 export const banking_failure_handlers = [
     // UNITCO TOKEN
-    // GET COSTUMER TOKEN
     mockServer.get(mockUrl + '/unitco/verifToken', (_, response, context) => {
 
         const res = compose(
@@ -639,7 +636,6 @@ export const banking_failure_handlers = [
         return response(res);
     }),
 
-    // CREATE COSTUMER TOKEN
     mockServer.post(mockUrl + '/unitco/custToken', (_, response, context) => {
 
         const res = compose(
