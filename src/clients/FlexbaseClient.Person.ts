@@ -20,6 +20,8 @@ interface PersonUpdateRequest {
     authorizedSignatory?: boolean;
     id?: string;
     roles?: string[];
+    completedOnboarding?: string;
+    completedOffboarding?: string;
 }
 
 interface PersonResponse extends FlexbaseResponse {

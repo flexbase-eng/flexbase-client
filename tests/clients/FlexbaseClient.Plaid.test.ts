@@ -32,21 +32,22 @@ test("FlexbaseClient exchange plaid public token success", async () => {
 
     const response = await testFlexbaseClient.exchangePlaidPublicToken(goodPlaidPublicToken, null);
 
-    expect(response).toBe(true);
+    expect(response.success).toBe(true);
+    expect(response.response?.accessToken).toBe(plaidLinkToken);
 });
 
 test("FlexbaseClient exchange plaid public token failure", async () => {
 
     const response = await testFlexbaseClient.exchangePlaidPublicToken(badPlaidPublicToken, null);
 
-    expect(response).toBe(false);
+    expect(response.success).toBe(false);
 });
 
 test("FlexbaseClient exchange plaid public token 400", async () => {
 
     const response = await testFlexbaseClient.exchangePlaidPublicToken("400", null);
 
-    expect(response).toBe(false);
+    expect(response.success).toBe(false);
 });
 
 test("FlexbaseClient update plaid link token success", async () => {

@@ -99,6 +99,21 @@ export class FlexbaseClientInvoice extends FlexbaseClientBase {
         }
     }
 
+    async unlinkInvoiceFile(invoiceId: string): Promise<Invoice | null> {
+        try {
+            const response = await this.client.url(`/invoice/${invoiceId}/invoicePic`).delete().json();
+
+            if (!response.success) {
+                return null;
+            }
+
+            return response.invoice;
+        } catch (error) {
+            this.logger.error('Unable to unlink invoice file', error);
+            return null;
+        }
+    }
+
     async updateInvoice(invoiceId: string, invoiceForm: InvoiceForm): Promise<Invoice | null> {
         try {
             const response = await this.client.url(`/invoice/${invoiceId}/summary`).put(invoiceForm).json<InvoiceResponse>();

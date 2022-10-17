@@ -11,11 +11,12 @@ interface LinkTokenResponse {
 
 interface PublicTokenExchangeResponse {
     success: boolean;
-    response: {
+    response?: {
         accessToken: string;
         accountId: string;
         itemId: string;
         userId: string;
+        unitProcessorToken: string;
     };
 }
 
@@ -40,15 +41,15 @@ export class FlexbaseClientPlaid extends FlexbaseClientBase {
      * Exchange a Plaid `public_token`
      * @param public_token The public token issued by [Plaid Link](https://plaid.com/docs/link/)
      * @param metadata
-     * @returns `true` if successful, otherwise `false`
+     * @returns `success: true` and response data to be used on web if successful, otherwise `success: false`
      */
-    async exchangePlaidPublicToken(public_token: string, metadata: unknown): Promise<boolean> {
+    async exchangePlaidPublicToken(public_token: string, metadata: unknown): Promise<PublicTokenExchangeResponse> {
         try {
             const response = await this.client.url('/plaid/publicToken').post({ public_token, metadata }).json<PublicTokenExchangeResponse>();
-            return response.success;
+            return response;
         } catch {
             this.logger.error('Unable to exchange plaid public token');
-            return false;
+            return { success: false };
         }
     }
 

@@ -116,6 +116,7 @@ test("FlexbaseClient update user card success", async () => {
     expect(response?.card?.cardName).toBe('Gas Card');
     expect(response?.card?.cardNumber).toBe('1234');
     expect(response?.card?.creditLimit).toBe(5000);
+    expect(response?.card?.expensesTypes?.interval).toBe('monthly');
 });
 
 test("FlexbaseClient update user card failure", async () => {
@@ -174,3 +175,20 @@ test("FlexbaseClient update card status error", async () => {
     expect(response.error).toBe('Unable to update the card status');
 });
 
+test("FlexbaseClient get hidden card information success", async () => {
+
+    const response = await testFlexbaseClient.getCardHiddenInfo(goodCardId);
+
+    expect(response).not.toBeNull();
+    expect(response?.cardNumber).toBe('40000099900XXXX');
+    expect(response?.cvc).toBe('123');
+    expect(response?.expirationDate).toBe('1/20XX');
+});
+
+test("FlexbaseClient get hidden card information error", async () => {
+
+    const response = await testFlexbaseClient.getCardHiddenInfo(errorCardId);
+
+    expect(response.error).toBe('Unable to obtain hidden card information');
+    expect(response.cardNumber).toBeNull();
+});

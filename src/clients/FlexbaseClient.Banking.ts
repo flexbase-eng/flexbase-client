@@ -3,8 +3,11 @@ import { Statement } from '../models/Banking/Statement';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Payment, PaymentForm } from '../models/Banking/Payment';
-import { Deposit, DepositBalance } from '../models/Banking/Deposit';
-import { Counterparty, CtrParty, CounterpartyRequest, ListRequest } from '../models/Banking/Counterparty';
+import { BankingTransaction } from '../models/Banking/Transaction';
+import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
+import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
+import { Counterparty, CtrParty, CounterpartyRequest } from '../models/Banking/Counterparty';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
   isPdf?: boolean;
@@ -14,6 +17,9 @@ interface BankingParameters {
   toDate?: DateTime;
   period?: DateTime;
   sort?: string;
+  limit?: number;
+  offset?: number;
+  accountId?: string;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
@@ -32,17 +38,52 @@ interface StatementResponse extends FlexbaseResponse {
 }
 
 interface CounterpartyResponse extends FlexbaseResponse {
-  ctrParty?: CtrParty;
+  counterparty?: CtrParty;
 }
 
 interface CounterpartiesListResponse extends FlexbaseResponse {
-  data?: Counterparty[];
+  counterparties?: Counterparty[];
+}
+
+interface DepositsResponse extends FlexbaseResponse {
+  accounts?: Deposit[];
 }
 
 interface DepositBalanceResponse extends FlexbaseResponse {
   statement?: DepositBalance[];
 }
 
+interface PaymentResponse extends FlexbaseResponse {
+  payment?: Payment;
+}
+
+interface CardsListResponse extends FlexbaseResponse {
+  cards?: Card[];
+}
+
+interface UserCardResponse extends FlexbaseResponse {
+  card?: CardByUser;
+}
+
+interface PaymentsListResponse extends FlexbaseResponse {
+  payments?: Payment[];
+}
+
+interface TransactionsResponse extends FlexbaseResponse {
+    transactions?: BankingTransaction[];
+}
+
+interface GetUnitcoTokenResponse extends FlexbaseResponse {
+    type?: string;
+    attributes?: {
+      verificationToken: string;
+    }
+}
+
+interface CreateUnitcoTokenResponse extends FlexbaseResponse {
+    asOf?: string,
+    expiresIn?: string,
+}
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
 
@@ -127,9 +168,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
   // PAYMENTS
-    async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<Payment> {
+    async createBankingPayment(companyId: string, PaymentForm: PaymentForm): Promise<PaymentResponse> {
       try {
-          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<Payment>();
+          const response = await this.client.url(`/banking/${companyId}/moneymovement`).post(PaymentForm).json<PaymentResponse>();
 
           if (!response.success) {
               this.logger.error('Unable to create a Unit Co. Payment', response.error);
@@ -141,6 +182,21 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
           return { success: false, error };
       }
     }
+
+    async getBankingPayments(companyId: string): Promise<PaymentsListResponse> {
+      try {
+          const response = await this.client.url(`/banking/${companyId}/moneymovement/list`).get().json<PaymentsListResponse>();
+
+          if (!response.success) {
+              this.logger.error('Unable to get the list of payments', response.error);
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('Unable to get the list of payments', error);
+          return { success: false, error };
+      }
+  }
 
   // COUNTERPARTIES
   async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
@@ -165,10 +221,13 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
   }
 
-  async getBankingCounterparties(companyId: string, listRequest?: ListRequest): Promise<CounterpartiesListResponse> {
+  async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<CounterpartiesListResponse> {
     try {
+
+        const params = this.bankingParams(options);
+
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-        .post(listRequest).json<CounterpartiesListResponse>();
+        .query(params).get().json<CounterpartiesListResponse>();
 
         if (!response.success) {
             this.logger.error('Error calling Unit Co. Banking Counterparties', response.error);
@@ -182,9 +241,12 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
   }
 
   // DEPOSIT
-  async getBankingAccount(companyId: string): Promise<Deposit> {
+  async getBankingAccounts(companyId: string, options?: BankingParameters): Promise<DepositsResponse> {
     try {
-        const response = await this.client.url(`/banking/${companyId}/deposits`).get().json<Deposit>();
+        const params = this.bankingParams(options);
+
+        const response = await this.client.url(`/banking/${companyId}/deposits/list`)
+        .query(params).get().json<DepositsResponse>();
 
         if (!response.success) {
             this.logger.error(
@@ -224,4 +286,140 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         return { success: false, error };
     }
   }
+
+  async getBankingAccountLimits(companyId: string): Promise<DepositLimits> {
+    try {
+
+        const response = await this.client.url(`/banking/${companyId}/deposits/limits`).get().json<DepositLimits>();
+
+        if (!response.success) {
+            this.logger.error(
+              'While trying to get banking deposit limits, an unhandled exception was thrown',
+              response.error
+            );
+        }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get banking deposit limits, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    // TRANSACTIONS
+    async getBankingTransactions(companyId: string, options?: BankingParameters): Promise<TransactionsResponse> {
+        try {
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(`/banking/${companyId}/transactions`).query(params).get().json<TransactionsResponse>();
+
+            if (!response.success) {
+                this.logger.error('Unable to get the list of transactions', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('Unable to get the list of transactions', error);
+            return { success: false, error };
+        }
+    }
+
+    // DEBIT CARDS
+    async getBankingDebitCards(companyId: string, options?: BankingParameters): Promise<CardsListResponse> {
+        try {
+
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).query(params).get().json<CardsListResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to get banking Cards by Company, an unhandled exception occurred',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get banking Cards by Company, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async createBankingDebitCard(companyId: string, debitCardForm: CreateCardRequest): Promise<UserCardResponse> {
+        try {
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<UserCardResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to create a Unit Co. Debit Card, an unhandled exception was thrown',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async updateBankingDebitCard(companyId: string, debitCardForm: UpdateCardRequest): Promise<UserCardResponse> {
+        try {
+
+            const response = await this.client.url(`/banking/${companyId}/cards`).put(debitCardForm).json<UserCardResponse>();
+
+            if (!response.success) {
+                this.logger.error(
+                  'While trying to update the Unit Co. Debit Card, an unhandled exception was thrown',
+                  response.error
+                );
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    // UNITCO TOKEN
+    async getUnitcoToken(): Promise<GetUnitcoTokenResponse> {
+      try {
+
+          const response = await this.client.url('/unitco/verifToken').get().json<GetUnitcoTokenResponse>();
+
+          if (!response.success) {
+              this.logger.error(
+                'While trying to create a new Customer Token Verification, an error occurred!',
+                response.error
+              );
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('While trying to create a new Customer Token Verification, an error occurred!', error);
+          return { success: false, error };
+      }
+    }
+
+    async createUnitCoToken(createToken: CreateTokenRequest): Promise<CreateUnitcoTokenResponse> {
+      try {
+
+          const response = await this.client.url('/unitco/custToken').post(createToken).json<CreateUnitcoTokenResponse>();
+
+          if (!response.success) {
+              this.logger.error(
+                'While trying to create a new Customer Token, an error occurred!',
+                response.error
+              );
+          }
+
+          return response;
+      } catch (error) {
+          this.logger.error('While trying to create a new Customer Token, an error occurred!', error);
+          return { success: false, error };
+      }
+    }
 }

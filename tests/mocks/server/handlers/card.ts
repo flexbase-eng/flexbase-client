@@ -128,6 +128,11 @@ export const card_handlers = [
                     cardNumber: "1234",
                     creditLimit: 5000,
                     status: 'active',
+                    expensesTypes: {
+                        amount: 5000,
+                        groups: ['MATERIALSUPPLIERS'],
+                        interval: 'monthly',
+                    },
                 },
             }),
 
@@ -150,6 +155,39 @@ export const card_handlers = [
                 },
             }),
 
+        );
+        return response(res);
+    }),
+
+    mockServer.get(mockUrl + "/card/:cardId/hiddenInfo", (request, response, context) => {
+
+        const { cardId } = request.params;
+
+        if (!cardId || cardId === errorCardId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+        else if (cardId === badCardId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: "Error message"
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                cardNumber: "40000099900XXXX",
+                cvc: "123",
+                expirationDate: "1/20XX"
+            }),
         );
         return response(res);
     }),

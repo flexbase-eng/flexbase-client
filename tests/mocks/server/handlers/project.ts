@@ -2,7 +2,7 @@ import { compose, rest as mockServer } from 'msw'
 import { mockUrl } from '../constants';
 
 export const project_handlers = [
-    mockServer.get(mockUrl + "/project/all", (_, response, context) => {
+    mockServer.get(mockUrl + "/project/all?full=true", (_, response, context) => {
 
         const res = compose(
             context.status(200),
@@ -11,6 +11,9 @@ export const project_handlers = [
                     id: "1",
                     name: 'Flexbase',
                     contractId: "2",
+                    client: {
+                        companyName: 'Test Company'
+                    }
                 }
             ]),
 
@@ -34,6 +37,7 @@ export const project_handlers = [
                 id: "testId",
                 name: "test name",
                 description: "test description",
+                clientId: "testClientId",
                 location: {
                     street1: "test address",
                     city: "test city",

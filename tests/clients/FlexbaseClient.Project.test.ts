@@ -12,6 +12,7 @@ test("FlexbaseClient get projects success", async () => {
     const project = response![0];
 
     expect(project.name).toBe('Flexbase');
+    expect(project.client?.companyName).toBe('Test Company')
 });
 
 test("FlexbaseClient get projects failure", async () => {
@@ -37,6 +38,7 @@ test("FlexbaseClient create project success", async () => {
     const response = await testFlexbaseClient.createOrUpdateProject({ 
         name: "test name",
         description: "test description",
+        clientId: 'testClientId',
         location: {
             street1: "test address",
             street2: 'test address 2',
@@ -48,6 +50,7 @@ test("FlexbaseClient create project success", async () => {
     });
     expect(response).not.toBeNull();
     expect(response?.name).toBe('test name');
+    expect(response?.clientId).toBe('testClientId');
 });
 
 test("FlexbaseClient update project success", async () => {
@@ -56,6 +59,7 @@ test("FlexbaseClient update project success", async () => {
         id: 'testId',
         name: "test name",
         description: "test description",
+        clientId: 'testClientId',
     });
     expect(response).not.toBeNull();
     expect(response?.id).toBe('testId');

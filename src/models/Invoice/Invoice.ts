@@ -13,4 +13,5 @@ export interface Invoice {
     subtotal: string;
     taxes: string;
     total: string;
+    origin: string;
 }
