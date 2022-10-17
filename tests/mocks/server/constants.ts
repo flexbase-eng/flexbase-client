@@ -54,3 +54,4 @@ export const counterparty = { routingNumber: "213456787989", accountNumber: "298
 export const paymentBodyReq = { type: 'achPayment', amount: '1000.0', accountId: '01234', direction: 'credit', description: 'New payment', counterparty }
 export const createDebitCard = { type: 'businessDebitCard', limits: { dailyPurchase: 7000 } }
 export const updateDebitCard = { id: '01234', type: 'businessDebitCard', limits: { dailyPurchase: 10000 } }
+export const createUnitcoToken = { scope: 'transactions cards cards-write cards-sensitive-write', verificationCode: '301299', verificationToken: 'NewToken' }
