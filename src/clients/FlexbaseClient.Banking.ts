@@ -224,27 +224,26 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
         .query(params).get().json<CounterpartyApiResponse[]>();
-
         const result = response.map((counterparty) => {
               return {
-                id: counterparty.id,
-                companyId: counterparty.companyId,
-                accountNumber: counterparty.accountNumber,
-                routingNumber: counterparty.response.data.attributes.routingNumber,
-                accountType: counterparty.response.data.attributes.accountType,
-                accountName: counterparty.accountName,
-                accessToken: counterparty.accessToken,
-                asOf: counterparty.asOf,
-                byUser: counterparty.byUser,
-                createdAt: counterparty.createdAt,
-                type: counterparty.type,
-                ucCounterpartyId: counterparty.ucCounterpartyId,
-                ucCustomerId: counterparty.ucCustomerId,
-                version: counterparty.version,
-                name: counterparty.accountName,
+                id: counterparty?.id,
+                companyId: counterparty?.companyId,
+                accountNumber: counterparty?.accountNumber,
+                routingNumber: counterparty?.response.data.attributes.routingNumber,
+                accountType: counterparty?.response.data.attributes.accountType,
+                accountName: counterparty?.accountName,
+                accessToken: counterparty?.accessToken,
+                asOf: counterparty?.asOf,
+                byUser: counterparty?.byUser,
+                createdAt: counterparty?.createdAt,
+                type: counterparty?.type,
+                ucCounterpartyId: counterparty?.ucCounterpartyId,
+                ucCustomerId: counterparty?.ucCustomerId,
+                version: counterparty?.version,
+                name: counterparty?.accountName,
               }
-        })
-        return result;
+        }); 
+        return result
     } catch (error) {
         this.logger.error('Error calling Unit Co. Banking Counterparties', error);
         return null;
