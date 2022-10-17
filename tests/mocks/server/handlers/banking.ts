@@ -278,7 +278,7 @@ export const banking_handlers = [
                     {
                         id: '01234',
                         type: 'achCounterparty',
-                        name: 'April Oniel',
+                        accountName: 'April Oniel',
                         routingNumber: '812345679',
                         accountNumber: '1000000001'
                     }

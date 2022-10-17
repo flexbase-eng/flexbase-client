@@ -223,7 +223,7 @@ test('FlexbaseClient get counterparties list success', async () => {
     const ctrParty = response.counterparties![0];
     expect(ctrParty?.id).toBe('01234');
     expect(ctrParty?.type).toBe('achCounterparty');
-    expect(ctrParty?.name).toBe('April Oniel');
+    expect(ctrParty?.accountName).toBe('April Oniel');
     expect(ctrParty?.routingNumber).toBe('812345679');
     expect(ctrParty?.accountNumber).toBe('1000000001');
 });
