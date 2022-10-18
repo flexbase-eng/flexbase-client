@@ -219,31 +219,31 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
   async getBankingCounterparties(companyId: string, options?: BankingParameters): Promise<Counterparty[] | null> {
     try {
-
         const params = this.bankingParams(options);
-
         const response = await this.client.url(`/banking/${companyId}/moneymovement/counterparty/list`)
-        .query(params).get().json<CounterpartyApiResponse[]>();
-        const result = response.map((counterparty) => {
-              return {
-                id: counterparty?.id,
-                companyId: counterparty?.companyId,
-                accountNumber: counterparty?.accountNumber,
-                routingNumber: counterparty?.response.data.attributes.routingNumber,
-                accountType: counterparty?.response.data.attributes.accountType,
-                accountName: counterparty?.accountName,
-                accessToken: counterparty?.accessToken,
-                asOf: counterparty?.asOf,
-                byUser: counterparty?.byUser,
-                createdAt: counterparty?.createdAt,
-                type: counterparty?.type,
-                ucCounterpartyId: counterparty?.ucCounterpartyId,
-                ucCustomerId: counterparty?.ucCustomerId,
-                version: counterparty?.version,
-                name: counterparty?.accountName,
-              }
-        }); 
-        return result
+        .query(params).get().json<CounterpartyApiResponse>();
+
+        if ( response.success && response.counterparties ) {
+            return  response.counterparties.map((counterparty) => ({
+                id: counterparty.id || '',
+                companyId: counterparty.companyId || '',
+                accountNumber: counterparty.accountNumber || '',
+                routingNumber: counterparty.response?.data?.attributes?.routingNumber || '',
+                accountType: counterparty.response?.data?.attributes?.accountType || '',
+                accountName: counterparty.accountName || '',
+                accessToken: counterparty.accessToken || '',
+                asOf: counterparty.asOf || '',
+                byUser: counterparty.byUser || '',
+                createdAt: counterparty.createdAt || '',
+                type: counterparty.type || '',
+                ucCounterpartyId: counterparty.ucCounterpartyId || '',
+                ucCustomerId: counterparty.ucCustomerId || '',
+                version: counterparty.version || -1,
+                name: counterparty.accountName || '',
+            }));
+        }
+
+        return null;
     } catch (error) {
         this.logger.error('Error calling Unit Co. Banking Counterparties', error);
         return null;

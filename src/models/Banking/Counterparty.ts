@@ -1,4 +1,5 @@
 import { Address } from "./Constants";
+import { FlexbaseResponse } from '../FlexbaseResponse';
 
 export interface CtrParty {
     accessToken: string;
@@ -14,25 +15,24 @@ export interface CtrParty {
 }
 
 export interface CounterpartyForm {
-    unitProcessorToken?: string;
-    routingNumber?: string;
-    accountNumber?: string;
-    accountType?: string;
-    address?: Address;
-    type?: string;
+    unitProcessorToken: string;
+    routingNumber: string;
+    accountNumber: string;
+    accountType: string;
+    address: Address;
+    type: string;
     name: string;
 }
 
 export interface CounterpartyAttributes {
-    routingNumber?: string;
-    accountNumber?: string;
-    accountType?: string;
-    type?: string;
+    routingNumber: string;
+    accountNumber: string;
+    accountType: string;
+    type: string;
     name: string;
 }
 
-
-export interface CounterpartyApiResponse {
+export interface CounterpartyData {
     accessToken: string;
     asOf: string;
     byUser: string;
@@ -54,6 +54,11 @@ export interface CounterpartyApiResponse {
     };
 }
 
+
+export interface CounterpartyApiResponse extends FlexbaseResponse {
+    counterparties: Array<Partial<CounterpartyData>>;
+}
+
 export interface Counterparty {
     accessToken: string;
     asOf: string;
@@ -67,13 +72,13 @@ export interface Counterparty {
     version: number;
     accountName: string;
     accountNumber: string;
-    routingNumber?: string;
-    accountType?: string;
+    routingNumber: string;
+    accountType: string;
     name: string;
 }
 
 
 export interface CounterpartyRequest {
     type: string;
-    counterparty: CounterpartyForm;
+    counterparty: Partial<CounterpartyForm>;
 }

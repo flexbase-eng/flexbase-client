@@ -264,7 +264,7 @@ export const banking_handlers = [
 
         const res = compose(
             context.status(200),
-            context.json([
+            context.json({success: true, counterparties: [
                     {
                         id: '01234',
                         companyId: '1234',
@@ -288,7 +288,7 @@ export const banking_handlers = [
                         version: 1,
                         name:"Jane Doe",
                     }
-                ]
+                ]}
             ),
         );
 

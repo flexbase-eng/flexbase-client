@@ -28,5 +28,5 @@ export interface PaymentForm {
     description: string;
     counterpartyId?: string;
     plaidProcessorToken?: string;
-    counterparty?: CounterpartyForm;
+    counterparty?: Partial<CounterpartyForm>;
 }
