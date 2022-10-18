@@ -29,6 +29,6 @@ export const convertFlexbaseToken = (tokenResponse: FlexbaseTokenResponse): Auth
         tokenType: 'Bearer',
         expiration: future.toUnixInteger(),
         refreshToken: tokenResponse.token,
-        scope: (decoded.roles) ? decoded.roles.join(' ') : '[]', 
+        scope: (decoded.roles) ? decoded.roles.join(' ') : '', 
     };
 };
