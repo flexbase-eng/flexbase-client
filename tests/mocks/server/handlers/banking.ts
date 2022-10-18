@@ -254,37 +254,44 @@ export const banking_handlers = [
 
         const { companyId } = request.params;
 
-        if (!companyId || companyId === errorCompanyId) {
-            const res = compose(
-                context.status(400)
-            );
-            return response(res);
-        } else if (companyId === badCompanyId) {
+       if (companyId === badCompanyId) {
             const res = compose(
                 context.status(200),
-                context.json({
-                    success: false,
-                    error: 'Error calling Unit Co. Banking Counterparties'
-                })
+                context.json(null)
             );
             return response(res);
         }
 
         const res = compose(
             context.status(200),
-            context.json({
-                success: true,
-                counterparties: [
+            context.json({success: true, counterparties: [
                     {
                         id: '01234',
+                        companyId: '1234',
+                        accountNumber: '1000000001',
+                        response: {
+                            data: {
+                                attributes: {
+                                    accountType: 'achCounterparty',
+                                    routingNumber: '812345679',
+                                }
+                            }
+                        },
+                        accountName: 'April Oniel',
+                        accessToken: '01234',
+                        asOf: '01/12/2022',
+                        byUser: '12345',
+                        createdAt: '01/12/2022',
                         type: 'achCounterparty',
-                        name: 'April Oniel',
-                        routingNumber: '812345679',
-                        accountNumber: '1000000001'
+                        ucCounterpartyId: '233414',
+                        ucCustomerId: "563348",
+                        version: 1,
+                        name:"Jane Doe",
                     }
-                ]
-            })
+                ]}
+            ),
         );
+
         return response(res);
     }),
 
