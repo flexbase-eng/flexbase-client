@@ -218,12 +218,13 @@ test('FlexbaseClient get counterparties list success', async () => {
 
     const response = await testFlexbaseClient.getBankingCounterparties(goodCompanyId);
 
-    expect(response.success).toBeTruthy();
+    expect(response).not.toBeNull();
+    expect(response?.length).toBeGreaterThan(0);
 
-    const ctrParty = response.counterparties![0];
+    const ctrParty = response![0];
     expect(ctrParty?.id).toBe('01234');
     expect(ctrParty?.type).toBe('achCounterparty');
-    expect(ctrParty?.name).toBe('April Oniel');
+    expect(ctrParty?.accountName).toBe('April Oniel');
     expect(ctrParty?.routingNumber).toBe('812345679');
     expect(ctrParty?.accountNumber).toBe('1000000001');
 });
@@ -232,15 +233,7 @@ test('FlexbaseClient get counterparties list failure', async () => {
 
     const response = await testFlexbaseClient.getBankingCounterparties(badCompanyId);
 
-    expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Error calling Unit Co. Banking Counterparties');
-});
-
-test('FlexbaseClient get counterparties list error', async () => {
-
-    const response = await testFlexbaseClient.getBankingCounterparties(errorCompanyId);
-
-    expect(response.success).toBeFalsy();
+    expect(response).toBeNull();
 });
 
 // DEPOSITS
