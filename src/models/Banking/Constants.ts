@@ -21,5 +21,5 @@ export interface FullName {
 
 export interface Phone {
     countryCode: string;
-    number: string
+    number: string;
 }
