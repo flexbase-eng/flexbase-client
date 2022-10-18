@@ -35,7 +35,8 @@ export interface Card {
       customer: Relationship;
       account: Relationship;
     };
-    tenantId: string
+    tenantId: string;
+    userId: string;
 }
 
 export interface CardByUser {
