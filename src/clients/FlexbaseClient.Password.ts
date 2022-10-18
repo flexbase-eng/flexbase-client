@@ -7,7 +7,7 @@ interface ValidatePassResponse extends FlexbaseResponse {
 
 export class FlexbaseClientPassword extends FlexbaseClientBase {
     async changePassword(password: string): Promise<FlexbaseResponse> {
-          try {
+        try {
             const response = await this.client.url(`/auth/setPass`).post({ password }).json<FlexbaseResponse>();
 
             if (!response.success) {
