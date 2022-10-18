@@ -1,4 +1,4 @@
-import { Address } from "./Constants";
+import { Address } from './Constants';
 import { FlexbaseResponse } from '../FlexbaseResponse';
 
 export interface CtrParty {
@@ -50,10 +50,9 @@ export interface CounterpartyData {
     response: {
         data: {
             attributes: CounterpartyAttributes;
-        }
+        };
     };
 }
-
 
 export interface CounterpartyApiResponse extends FlexbaseResponse {
     counterparties: Array<Partial<CounterpartyData>>;
@@ -76,7 +75,6 @@ export interface Counterparty {
     accountType: string;
     name: string;
 }
-
 
 export interface CounterpartyRequest {
     type: string;

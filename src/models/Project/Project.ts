@@ -18,7 +18,7 @@ export interface ProjectsResponse {
     client?: {
         id?: string;
         companyName?: string;
-    }
+    };
 }
 
 export interface CreateOrUpdateProjectResponse {
