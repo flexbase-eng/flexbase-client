@@ -158,6 +158,9 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
     async getAuthenticatedUserData(): Promise<PersonResponse> {
         try {
             const result =  await this.client.url('/user/self').get().json<Person>();
+            if(!result) {
+                this.logger.error('Unable to get user data', result);
+            }
             return {
                 usr: {
                     id: result.id,
