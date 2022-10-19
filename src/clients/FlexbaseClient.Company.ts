@@ -72,6 +72,9 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         try {
             const response = await this.client.url(`/tenant`).get().json<ResponseCompanyData>();
 
+            if(!response) {
+                this.logger.error('Unable to get company data', response);
+            }
             return {
                 company: {
                     id: response?.id,
