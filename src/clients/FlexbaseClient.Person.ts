@@ -22,6 +22,25 @@ interface PersonUpdateRequest {
     roles?: string[];
     completedOnboarding?: string;
     completedOffboarding?: string;
+    preferences?: {
+        notifications: {
+            BILLING: {
+                default: string[];
+            },
+            CARDS: {
+                default: string[];
+            },
+            COMPANY: {
+                default: string[];
+            },
+            PAYMENTS: {
+                default: string[];
+            },
+            PURCHASES: {
+                default: string[];
+            },
+        }
+    }
 }
 
 interface PersonResponse extends FlexbaseResponse {
@@ -87,6 +106,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
                 postalCode: person.address?.postalCode,
                 cellPhone: person.phone?.number,
                 authorizedSignatory: person.authorizedSignatory,
+                preferences: person.preferences,
             };
 
             const response = await this.client.url(`/user/${userId}`).put(request).json();
@@ -132,6 +152,27 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error(`Unable to get person picture ${userId}`, error);
             return null;
+        }
+    }
+
+    async getAuthenticatedUserData(): Promise<PersonResponse> {
+        try {
+            const result =  await this.client.url('/user/self').get().json<Person>();
+            return {
+                usr: {
+                    id: result.id,
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result.email,
+                    roles: result.roles,
+                    cellPhone: result.cellPhone,
+                    preferences: result.preferences,
+                },
+                success: true,
+            };
+        } catch (error) {
+            this.logger.error(`Unable to get user data`, error);
+            return { success: false, error: 'Unable to get authenticated user data' };
         }
     }
 }
