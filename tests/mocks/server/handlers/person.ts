@@ -4,6 +4,51 @@ import fs from 'fs';
 import { badUserId, errorUserId, goodUserId, mockUrl } from '../constants';
 
 export const person_handlers = [
+
+    mockServer.get(mockUrl + "/user/self", (_,response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                firstName: "Ann",
+                lastName: "Smith",
+                email: "ann@flexbase.app",
+                preferences: {
+                    notifications: {
+                        BILLING: {
+                            default: [
+                                "sms"
+                            ]
+                        },
+                        CARDS: {
+                            default: [
+                                "sms"
+                            ]
+                        },
+                        COMPANY: {
+                            default: [
+                                "sms"
+                            ]
+                        },
+                        PAYMENTS: {
+                            default: [
+                                "sms"
+                            ]
+                        },
+                        PURCHASES: {
+                            default: [
+                                "sms"
+                            ]
+                        }
+                    }
+                }
+            }),
+
+        );
+        return response(res);
+    }),
+
+
     mockServer.get(mockUrl + "/user/:userId", (request, response, context) => {
 
         const { userId } = request.params;
@@ -36,7 +81,6 @@ export const person_handlers = [
         return response(res);
 
     }),
-
 
     mockServer.post(mockUrl + "/onboarding/user", (_,response, context) => {
 
@@ -82,7 +126,22 @@ export const person_handlers = [
             context.json({
                     firstName: "Ann",
                     lastName: "Smith",
-                    email: "ann@flexbase.app"
+                    email: "ann@flexbase.app",
+                    preferences: {
+                        notifications: {
+                            BILLING: {
+                                default: [
+                                    "sms"
+                                ]
+                            },
+                            CARDS: { 
+                                default: [ 
+                                    'sms', 
+                                    'push' 
+                                ] 
+                            },
+                        }
+                    },
                 },
             ),
 

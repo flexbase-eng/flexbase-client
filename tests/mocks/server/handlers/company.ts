@@ -52,4 +52,21 @@ export const company_handlers = [
         
         return response(res);
     }),
+
+    mockServer.get(mockUrl + "/tenant", (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                id: goodCompanyId,
+                companyName: 'DBD Company',
+                phone: '281-502-5669',
+                doingBusinessAs: 'test dba',
+                address: '544 Winder Trl',
+                addressLine2: 'test line2',
+            }),
+        );
+        
+        return response(res);
+    }),
 ];

@@ -75,6 +75,8 @@ test("FlexbaseClient update person success", async () => {
     expect(response?.firstName).toBe("Ann");
     expect(response?.lastName).toBe("Smith");
     expect(response?.email).toBe("ann@flexbase.app");
+    expect(response?.preferences?.notifications.BILLING.default.length).toBeGreaterThan(0);
+    expect(response?.preferences?.notifications.CARDS.default.length).toBeGreaterThan(1);
 });
 
 test("FlexbaseClient update person failure", async () => {
@@ -147,4 +149,15 @@ test("FlexbaseClient get person picture error", async () => {
 test("FlexbaseClient get person picture no user id", async () => {
 
     await expect(testFlexbaseClient.getPersonPicture('')).rejects.toThrow();
+});
+
+test("FlexbaseClient get autheticated user data", async () => {
+
+    const response = await testFlexbaseClient.getAuthenticatedUserData();
+
+    expect(response).not.toBeNull();
+    const billingNotification = response.usr?.preferences?.notifications?.BILLING.default[0];
+    expect(response.usr?.firstName).toBe('Ann');
+    expect(response.usr?.email).toBe('ann@flexbase.app');
+    expect(billingNotification).toBe('sms');
 });

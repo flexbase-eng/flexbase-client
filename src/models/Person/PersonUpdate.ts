@@ -11,4 +11,23 @@ export interface PersonUpdate {
     address?: Address;
     phone?: Phone;
     authorizedSignatory?: boolean;
+    preferences?: {
+        notifications: {
+            BILLING: {
+                default: string[];
+            },
+            CARDS: {
+                default: string[];
+            },
+            COMPANY: {
+                default: string[];
+            },
+            PAYMENTS: {
+                default: string[];
+            },
+            PURCHASES: {
+                default: string[];
+            },
+        }
+    }
 }

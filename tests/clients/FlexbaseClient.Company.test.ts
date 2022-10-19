@@ -27,3 +27,13 @@ test("FlexbaseClient get company payments", async () => {
     expect(payment?.amount).toBe("100.00");
     expect(payment?.origin).toBe("manual");
 });
+
+test("FlexbaseClient get company data", async () => {
+
+    const response = await testFlexbaseClient.getCompanyData();
+    expect(response).not.toBeNull();
+
+    expect(response.company?.id).toBe(goodCompanyId);
+    expect(response.company?.companyName).toBe("DBD Company");
+    expect(response.company?.address?.line1).toBe("544 Winder Trl");
+});
