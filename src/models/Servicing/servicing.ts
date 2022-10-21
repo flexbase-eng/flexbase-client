@@ -21,7 +21,7 @@ export interface PaymentCredit {
       total: string;
   }
 
-export interface StatementCredit extends FlexbaseResponse {
+export interface CreditStatement extends FlexbaseResponse {
         invoicesNewPeriodFrom?: string;
         invoicesNewPeriodTo?: string;
         invoicesDuePeriodFrom?: string;
