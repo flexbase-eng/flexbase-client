@@ -450,12 +450,13 @@ export const banking_handlers = [
                     {
                         expirationDate: '2025-09',
                         id: '01234',
-                        lastFour: '6559',
-                        monthlyPurchase: '700000',
-                        monthlyWithdrawal: '500000',
+                        cardNumber: '6559',
+                        expensesTypes: {
+                            monthlyPurchase: '700000',
+                            monthlyWithdrawal: '500000',
+                        },
                         status: 'Active',
                         type: 'businessDebitCard',
-                        ucDepositId: '770032',
                     }
                 ]
             }),
