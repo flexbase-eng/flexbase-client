@@ -1,13 +1,22 @@
 import { compose, rest as mockServer } from 'msw'
-import { errorCompanyId, mockUrl } from '../constants';
+import { badCompanyId, errorCompanyId, mockUrl } from '../constants';
 
 export const servicing_handlers = [
-    mockServer.get(mockUrl + "/servicing/statement/:companyId?target=", (request, response, context) => {
+    mockServer.get(mockUrl + "/servicing/statement/:companyId", (request, response, context) => {
         const { companyId } = request.params;
 
         if (companyId === errorCompanyId) {
             const res = compose(
                 context.status(400),
+            );
+            return response(res);
+        } else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Unable to get credit statement data',
+                })
             );
             return response(res);
         }
