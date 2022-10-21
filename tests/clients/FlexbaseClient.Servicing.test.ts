@@ -1,9 +1,9 @@
 import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
-import { errorCompanyId, goodCompanyId } from "../mocks/server/constants";
+import { badCompanyId, errorCompanyId, goodCompanyId } from "../mocks/server/constants";
 
 test("FlexbaseClient get credit statement data", async () => {
 
-    const response = await testFlexbaseClient.getCreditStatement(goodCompanyId);
+    const response = await testFlexbaseClient.getCreditStatement(goodCompanyId, { target: '2022-09-15' });
     expect(response).not.toBeNull();
 
     expect(response?.success).toBeTruthy();
@@ -16,4 +16,12 @@ test("FlexbaseClient get credit statement data error", async () => {
     const response = await testFlexbaseClient.getCreditStatement(errorCompanyId);
     expect(response?.success).toBeFalsy();
     expect(response?.error).toBe('Unable to get credit statement data');
+});
+
+test("FlexbaseClient get credit statement failure", async () => {
+
+    const response = await testFlexbaseClient.getCreditStatement(badCompanyId);
+
+    expect(response?.success).toBeFalsy();
+    expect(response?.error).toBe('Unable to get credit statement data')
 });
