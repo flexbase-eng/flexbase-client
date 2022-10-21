@@ -15,6 +15,7 @@ import { FlexbaseClientCard } from './FlexbaseClient.Card';
 import { FlexbaseClientCompany } from './FlexbaseClient.Company';
 import { FlexbaseClientPassword } from './FlexbaseClient.Password';
 import { FlexbaseClientBanking } from './FlexbaseClient.Banking';
+import { FlexbaseClientServicing } from './FlexbaseClient.Servicing';
 
 export class FlexbaseClient extends FlexbaseClientBase {}
 
@@ -34,6 +35,7 @@ export interface FlexbaseClient
         FlexbaseClientCompany,
         FlexbaseClientPassword,
         FlexbaseClientBanking,
+        FlexbaseClientServicing,
         FlexbaseClientPatron {}
 
 applyMixins(FlexbaseClient, [
@@ -52,4 +54,5 @@ applyMixins(FlexbaseClient, [
     FlexbaseClientCompany,
     FlexbaseClientPassword,
     FlexbaseClientBanking,
+    FlexbaseClientServicing,
 ]);
