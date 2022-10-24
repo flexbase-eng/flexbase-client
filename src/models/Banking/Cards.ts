@@ -1,42 +1,40 @@
-import { Relationship, Address, FullName, Phone } from './Constants';
+import { Relationship, Address, Phone } from './Constants';
 
 interface Limits {
     dailyWithdrawal?: number;
     dailyPurchase?: number;
     monthlyWithdrawal?: number;
     monthlyPurchase?: number;
-}
+} 
 
 export interface Card {
     asOf: string;
     byUser: string;
+    cardName: string;
+    cardNumber: string;
+    cardSubtype: string;
+    cardType: string;
     companyId: string;
-    createdAt: string;
-    dailyPurchase: string;
-    dailyWithdrawal: string;
+    creditLimit: number;
+    currency: string;
+    expensesTypes: Limits;
     expirationDate: string;
+    holder: string;
     id: string;
-    lastFour: string;
-    monthlyPurchase: string;
-    monthlyWithdrawal: string;
+    notifyUse: boolean;
+    paymentDay: number;
+    shipTo: Address;
     status: string;
-    type: string;
+    stpCardId: string;
     ucCardId: string;
-    ucCustomerId: string;
-    ucDepositId: string;
+    userId: string;
     version: number;
     shippingAddress: Address;
-    address: Address;
-    fullName: FullName;
-    phone: Phone;
-    email: string;
-    dateOfBirth: string;
     relationships: {
-        customer: Relationship;
-        account: Relationship;
+      customer: Relationship;
+      account: Relationship;
     };
     tenantId: string;
-    userId: string;
 }
 
 export interface CardByUser {

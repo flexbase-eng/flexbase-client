@@ -365,8 +365,8 @@ test("FlexbaseClient get debit cards success", async () => {
     expect(card.id).toBe('01234');
     expect(card.status).toBe('Active');
     expect(card.expirationDate).toBe('2025-09');
-    expect(card.lastFour).toBe('6559');
-    expect(card.monthlyPurchase).toBe('700000');
+    expect(card.cardNumber).toBe('6559');
+    expect(card.expensesTypes.monthlyPurchase).toBe('700000');
 });
 
 test("FlexbaseClient get debit cards success with params", async () => {
@@ -379,10 +379,9 @@ test("FlexbaseClient get debit cards success with params", async () => {
     const card = response.cards![0];
     expect(card.id).toBe('01234');
     expect(card.status).toBe('Active');
-    expect(card.lastFour).toBe('6559');
-    expect(card.ucDepositId).toBe('770032');
+    expect(card.cardNumber).toBe('6559');
     expect(card.expirationDate).toBe('2025-09');
-    expect(card.monthlyPurchase).toBe('700000');
+    expect(card.expensesTypes.monthlyPurchase).toBe('700000');
 });
 
 test("FlexbaseClient get debit cards failure", async () => {

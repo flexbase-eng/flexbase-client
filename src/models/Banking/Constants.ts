@@ -9,7 +9,7 @@ export interface Address {
     city: string;
     state: string;
     street: string;
-    street2: string | null;
+    street2?: string;
     country: string;
     postalCode: string;
 }
