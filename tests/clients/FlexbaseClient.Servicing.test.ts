@@ -9,6 +9,9 @@ test("FlexbaseClient get credit statement data", async () => {
     expect(response?.success).toBeTruthy();
     expect(response?.invoicesNewPeriodFrom).toBe("2022-08-16");
     expect(response?.invoicesNewPeriodTo).toBe("2022-08-31");
+    expect(response?.company?.active).toBeTruthy();
+    expect(response?.company?.address).toBe("5018 Bridgevalley Ct");
+    expect(response?.company?.name).toBe("Texas Stag Roofing Solutions");
 });
 
 test("FlexbaseClient get credit statement data error", async () => {

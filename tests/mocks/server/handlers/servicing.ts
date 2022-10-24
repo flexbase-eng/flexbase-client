@@ -24,6 +24,20 @@ export const servicing_handlers = [
         const res = compose(
             context.status(200),
             context.json({
+                company: {
+                    active: true,
+                    address: "5018 Bridgevalley Ct",
+                    addressLine2: null,
+                    autopay: false,
+                    city: "Spring",
+                    country: "US",
+                    creditLimit: "$25,000.00",
+                    frozen: false,
+                    name: "Texas Stag Roofing Solutions",
+                    phone: "2102552027",
+                    postalCode: "77379-5148",
+                    state: "TX"
+                },
                 invoicesNewPeriodFrom: "2022-08-16",
                 invoicesNewPeriodTo: "2022-08-31",
                 invoicesNewSum: "2000.00",
