@@ -26,3 +26,4 @@ export { Deposit, DepositBalance, DepositBalanceAttributes, DepositLimits, Depos
 export { Payment, PaymentForm } from './models/Banking/Payment';
 export { Card as DebitCard, CardByUser, CreateCardRequest, UpdateCardRequest } from './models/Banking/Cards';
 export { CreateTokenRequest } from './models/Banking/UnitcoToken';
+export { InvoiceNew, PaymentCredit, CreditStatement } from './models/Servicing/servicing';
