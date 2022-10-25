@@ -185,11 +185,13 @@ test('FlexbaseClient create counterparty success', async () => {
         counterparty
     });
 
-    expect(response.success).toBeTruthy();
+    expect(response).not.toBeNull();
 
-    expect(response?.counterparty?.id).toBe('01234');
-    expect(response?.counterparty?.type).toBe('achCounterparty');
-    expect(response?.counterparty?.companyId).toBe(goodCompanyId);
+    expect(response?.id).toBe('01234');
+    expect(response?.accountName).toBe('April Oniel');
+    expect(response?.routingNumber).toBe('812345679');
+    expect(response?.accountNumber).toBe('1000000001');
+
 });
 
 test('FlexbaseClient create counterparty failure', async () => {
@@ -199,18 +201,7 @@ test('FlexbaseClient create counterparty failure', async () => {
         counterparty
     });
 
-    expect(response.success).toBeFalsy();
-    expect(response.error).toBe('Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists');
-});
-
-test('FlexbaseClient create counterparty error', async () => {
-
-    const response = await testFlexbaseClient.createBankingCounterparty(errorCompanyId, {
-        type: 'achCounterparty',
-        counterparty
-    });
-
-    expect(response.success).toBeFalsy();
+    expect(response).toBeNull()
 });
 
 // GET COUNTERPARTIES LIST
