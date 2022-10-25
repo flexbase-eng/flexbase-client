@@ -238,14 +238,29 @@ export const banking_handlers = [
 
         const res = compose(
             context.status(200),
-            context.json({
-                success: true,
-                counterparty: {
-                    id: '01234',
-                    type: 'achCounterparty',
-                    companyId: goodCompanyId
-                }
-            })
+            context.json({ success: true, counterparty: {
+                        id: '01234',
+                        companyId: '1234',
+                        accountNumber: '1000000001',
+                        response: {
+                            data: {
+                                attributes: {
+                                    accountType: 'Checking',
+                                    routingNumber: '812345679',
+                                }
+                            }
+                        },
+                        accountName: 'April Oniel',
+                        accessToken: '01234',
+                        asOf: '01/12/2022',
+                        byUser: '12345',
+                        createdAt: '01/12/2022',
+                        ucCounterpartyId: '233414',
+                        ucCustomerId: "563348",
+                        version: 1,
+                        name:"Jane Doe",
+                    }}
+                )
         );
         return response(res);
     }),

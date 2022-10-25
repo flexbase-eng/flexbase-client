@@ -6,7 +6,7 @@ import { Payment, PaymentForm } from '../models/Banking/Payment';
 import { BankingTransaction } from '../models/Banking/Transaction';
 import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
-import { Counterparty, CtrParty, CounterpartyRequest, CounterpartyApiResponse } from '../models/Banking/Counterparty';
+import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty';
 import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
@@ -37,8 +37,8 @@ interface StatementResponse extends FlexbaseResponse {
     statement?: Statement[] | string;
 }
 
-interface CounterpartyResponse extends FlexbaseResponse {
-    counterparty?: CtrParty;
+interface LinkCounterpartyApiResponse extends FlexbaseResponse {
+    counterparty?: CounterpartyData;
 }
 
 interface DepositsResponse extends FlexbaseResponse {
@@ -192,27 +192,38 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
     // COUNTERPARTIES
-    async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<CounterpartyResponse> {
+    async createBankingCounterparty(companyId: string, counterpartyRequest: CounterpartyRequest): Promise<Counterparty | null> {
         try {
             const response = await this.client
                 .url(`/banking/${companyId}/moneymovement/counterparty`)
                 .post(counterpartyRequest)
-                .json<CounterpartyResponse>();
+                .json<LinkCounterpartyApiResponse>();
 
-            if (!response.success) {
-                this.logger.error(
-                    'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
-                    response.error
-                );
-            }
-
-            return response;
+            if (response.success && response.counterparty) {
+                return {
+                    id: response?.counterparty?.id || '',
+                    companyId: response?.counterparty?.companyId || '',
+                    accountNumber: response?.counterparty?.accountNumber || '',
+                    routingNumber: response?.counterparty?.response.data.attributes.routingNumber|| '',
+                    accountType: response?.counterparty?.response.data.attributes.accountType || '',
+                    accountName: response?.counterparty?.accountName || '',
+                    accessToken: response?.counterparty?.accessToken || '',
+                    asOf: response?.counterparty?.asOf || '',
+                    byUser: response?.counterparty?.byUser || '',
+                    createdAt: response?.counterparty?.createdAt || '',
+                    type: response?.counterparty?.response.data.attributes.type || '',
+                    ucCounterpartyId: response?.counterparty?.ucCounterpartyId || '',
+                    ucCustomerId: response?.counterparty?.ucCustomerId || '',
+                    version: response?.counterparty?.version || -1,
+                    name: response?.counterparty?.accountName || '',
+                }
+        } return null;
         } catch (error) {
             this.logger.error(
                 'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',
                 error
             );
-            return { success: false, error };
+            return null;
         }
     }
 
