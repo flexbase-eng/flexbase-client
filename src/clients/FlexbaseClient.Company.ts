@@ -12,6 +12,9 @@ interface CompanyBalance {
     minimumDue: number;
     billDate: string;
     graceDate: string;
+    delinquentAmount?: number;
+    delinquentDays?: number;
+    interestDue?: number;
 }
 
 interface Payment {
