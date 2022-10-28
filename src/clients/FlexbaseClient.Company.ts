@@ -36,6 +36,7 @@ interface ResponseCompanyData extends FlexbaseResponse {
     state: string;
     postalCode: string;
     country: string;
+    createdAt: string;
 }
 
 interface CompanyResponse extends FlexbaseResponse {
@@ -84,6 +85,7 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
                     companyName: response?.companyName,
                     phone: response?.phone,
                     doingBusinessAs: response?.dba,
+                    createdAt: response?.createdAt,
                     address: {
                         line1: response?.address,
                         line2: response?.addressLine2,
