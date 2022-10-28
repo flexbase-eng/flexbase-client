@@ -10,6 +10,7 @@ export interface Company {
     website?: string;
     monthlyExpenditure?: string;
     phone?: string;
+    createdAt?: string;
     address?: {
         line1?: string;
         line2?: string;

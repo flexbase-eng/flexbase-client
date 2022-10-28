@@ -64,6 +64,7 @@ export const company_handlers = [
                 doingBusinessAs: 'test dba',
                 address: '544 Winder Trl',
                 addressLine2: 'test line2',
+                createdAt: '2022-03-02 19:54:34.421+00',
             }),
         );
         

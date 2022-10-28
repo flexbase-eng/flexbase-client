@@ -35,5 +35,6 @@ test("FlexbaseClient get company data", async () => {
 
     expect(response.company?.id).toBe(goodCompanyId);
     expect(response.company?.companyName).toBe("DBD Company");
+    expect(response.company?.createdAt).toBe("2022-03-02 19:54:34.421+00");
     expect(response.company?.address?.line1).toBe("544 Winder Trl");
 });
