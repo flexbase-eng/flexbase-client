@@ -24,11 +24,11 @@ export class FlexbaseClientServicing extends FlexbaseClientBase {
         return params;
     }
 
-    async getCreditStatement(companyId: string,  options?: ServicingParameters): Promise<CreditStatement | null> {
+    async getCreditStatement(companyId: string, options?: ServicingParameters): Promise<CreditStatement | null> {
         try {
             const params = this.servicingParams(options);
             const response = await this.client.url(`/servicing/statement/${companyId}`).query(params).get().json<CreditStatement>();
-            if(!response.success) {
+            if (!response.success) {
                 this.logger.error('Unable to get credit statement data', response);
             }
             return response;

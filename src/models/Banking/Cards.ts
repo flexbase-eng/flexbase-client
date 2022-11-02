@@ -5,7 +5,7 @@ interface Limits {
     dailyPurchase?: number;
     monthlyWithdrawal?: number;
     monthlyPurchase?: number;
-} 
+}
 
 export interface Card {
     asOf: string;
@@ -31,8 +31,8 @@ export interface Card {
     version: number;
     shippingAddress: Address;
     relationships: {
-      customer: Relationship;
-      account: Relationship;
+        customer: Relationship;
+        account: Relationship;
     };
     tenantId: string;
 }

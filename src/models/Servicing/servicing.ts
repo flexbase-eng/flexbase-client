@@ -1,4 +1,4 @@
-import { FlexbaseResponse } from "../FlexbaseResponse";
+import { FlexbaseResponse } from '../FlexbaseResponse';
 
 export interface PaymentCredit {
     amount: string;
@@ -7,22 +7,22 @@ export interface PaymentCredit {
     failureReason?: string;
     origin: string;
     status: string;
-  }
+}
 
-  export interface InvoiceNew {
-      cardholder: string;
-      city: string;
-      date: string;
-      last4: string;
-      name: string;
-      origin: string;
-      postalCode: string;
-      project?: string,
-      state: string;
-      total: string;
-  }
+export interface InvoiceNew {
+    cardholder: string;
+    city: string;
+    date: string;
+    last4: string;
+    name: string;
+    origin: string;
+    postalCode: string;
+    project?: string;
+    state: string;
+    total: string;
+}
 
-  interface CompanyStatement {
+interface CompanyStatement {
     active?: boolean;
     address?: string;
     addressLine2?: string;
@@ -35,25 +35,25 @@ export interface PaymentCredit {
     phone?: string;
     postalCode?: string;
     state?: string;
-  }
+}
 
 export interface CreditStatement extends FlexbaseResponse {
-        company?: CompanyStatement,
-        invoicesNewPeriodFrom?: string;
-        invoicesNewPeriodTo?: string;
-        invoicesDuePeriodFrom?: string;
-        invoicesDuePeriodTo?: string;
-        invoicesNewSum?: string;
-        invoicesDueSum?: string;
-        minimumDue?: number;
-        interestDue?: number;
-        currentBalance?: number;
-        paymentsPeriodFrom?: string;
-        paymentsPeriodTo?: string;
-        paymentsSum?: string;
-        previousBalance?: number;
-        payments?: PaymentCredit[];
-        invoicesNew?: InvoiceNew[];
-        generatedAt?: string;
-        dueDate?: string;
+    company?: CompanyStatement;
+    invoicesNewPeriodFrom?: string;
+    invoicesNewPeriodTo?: string;
+    invoicesDuePeriodFrom?: string;
+    invoicesDuePeriodTo?: string;
+    invoicesNewSum?: string;
+    invoicesDueSum?: string;
+    minimumDue?: number;
+    interestDue?: number;
+    currentBalance?: number;
+    paymentsPeriodFrom?: string;
+    paymentsPeriodTo?: string;
+    paymentsSum?: string;
+    previousBalance?: number;
+    payments?: PaymentCredit[];
+    invoicesNew?: InvoiceNew[];
+    generatedAt?: string;
+    dueDate?: string;
 }

@@ -21,6 +21,7 @@ interface Payment {
     amount: string;
     status: string;
     datePosted: string;
+    createdAt: string;
     origin: string;
     id: string;
 }
@@ -76,7 +77,7 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         try {
             const response = await this.client.url(`/tenant`).get().json<ResponseCompanyData>();
 
-            if(!response) {
+            if (!response) {
                 this.logger.error('Unable to get company data', response);
             }
             return {
@@ -92,11 +93,11 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
                         city: response?.city,
                         state: response?.state,
                         postalCode: response?.postalCode,
-                        country: response?.country
+                        country: response?.country,
                     },
                 },
                 success: true,
-            }
+            };
         } catch (error) {
             this.logger.error(`Unable to get company data`, error);
             return { success: false, error: 'Unable to get company data', company: null };
