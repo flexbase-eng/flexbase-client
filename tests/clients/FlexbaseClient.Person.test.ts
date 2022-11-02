@@ -41,21 +41,15 @@ test("FlexbaseClient get person success", async () => {
 
     const response = await testFlexbaseClient.getPerson(goodUserId);
     expect(response).not.toBeNull();
-    expect(response.success).toBe(true);
 });
 
 test("FlexbaseClient get person error", async () => {
 
     const response = await testFlexbaseClient.getPerson(errorUserId);
 
-    expect(response?.success).toBe(false);
+    expect(response).toBeNull();
 });
 
-test("FlexbaseClient get person failure", async () => {
-
-    const response = await testFlexbaseClient.getPerson(badUserId);
-    expect(response.error).toBe('Error message');
-});
 
 test("FlexbaseClient get person no user id", async () => {
 

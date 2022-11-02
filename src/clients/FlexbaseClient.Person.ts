@@ -57,22 +57,22 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
         }
     }
 
-    async getPerson(userId: string): Promise<PersonResponse> {
+    async getPerson(userId: string): Promise<Person | null> {
         if (!userId) {
             throw new Error('userId is required');
         }
 
         try {
-            const response = await this.client.url(`/user/${userId}`).get().json<PersonResponse>();
+            const response = await this.client.url(`/user/${userId}`).get().json<Person>();
 
-            if (!response.success) {
-                this.logger.error(`Unable to get person ${userId}`, response.error);
+            if (!response) {
+                this.logger.error(`Unable to get person ${userId}`);
             }
 
             return response;
         } catch (error) {
             this.logger.error(`Unable to get person ${userId}`, error);
-            return { success: false, error: `Unable to get person ${userId}` };
+            return null;
         }
     }
 
