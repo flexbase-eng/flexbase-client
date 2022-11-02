@@ -15,6 +15,7 @@ export interface PaymentCredit {
       date: string;
       last4: string;
       name: string;
+      origin: string;
       postalCode: string;
       project?: string,
       state: string;

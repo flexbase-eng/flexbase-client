@@ -44,12 +44,26 @@ export const servicing_handlers = [
                 minimumDue: -6759,
                 payments: [
                   {
-                    "amount": "-3000.00",
-                    "createdAt": "2022-09-15 00:48:14.704+00",
-                    "datePosted": "2022-09-19 00:48:14.704+00",
-                    "failureReason": null,
-                    "origin": "manual",
-                    "status": "succeeded"
+                    amount: "-3000.00",
+                    createdAt: "2022-09-15 00:48:14.704+00",
+                    datePosted: "2022-09-19 00:48:14.704+00",
+                    failureReason: null,
+                    origin: "manual",
+                    status: "succeeded"
+                  }
+                ],
+                invoicesNew: [
+                  {
+                    cardholder: "Juston Test",
+                    city: "Wilmington",
+                    date: "2022-09-16 00:00:00+00",
+                    last4: "-7554",
+                    name: "DOZR.com",
+                    origin: "bnpl",
+                    postalCode: "19810",
+                    project: null,
+                    state: "DE",
+                    total: "21.20",
                   }
                 ],
                 paymentsPeriodFrom: "2022-08-16",
