@@ -1,8 +1,10 @@
-import { CreditStatement } from '../models/Servicing/servicing';
+import { CreditStatement, CompanyTransactions } from '../models/Servicing/servicing';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 
 interface ServicingParameters {
     target?: string;
+    after?: string;
+    before?: string;
 }
 
 export class FlexbaseClientServicing extends FlexbaseClientBase {
@@ -35,6 +37,20 @@ export class FlexbaseClientServicing extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error(`Unable to get credit statement data`, error);
             return { success: false, error: 'Unable to get credit statement data' };
+        }
+    }
+
+    async getTransactionsStatement(companyId: string, options?: ServicingParameters): Promise<CompanyTransactions | null> {
+        try {
+            const params = this.servicingParams(options);
+            const response = await this.client.url(`/servicing/transactions/${companyId}`).query(params).get().json<CompanyTransactions>();
+            if (!response.success) {
+                this.logger.error('Unable to get company transactions data', response);
+            }
+            return response;
+        } catch (error) {
+            this.logger.error(`Unable to get company transactions data`, error);
+            return null
         }
     }
 }
