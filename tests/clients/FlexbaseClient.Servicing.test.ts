@@ -31,3 +31,23 @@ test("FlexbaseClient get credit statement failure", async () => {
     expect(response?.success).toBeFalsy();
     expect(response?.error).toBe('Unable to get credit statement data')
 });
+
+test("FlexbaseClient get company transactions data", async () => {
+
+    const response = await testFlexbaseClient.getTransactionsStatement(goodCompanyId, { after: '2022-09-15', before: '2022-12-15' });
+    expect(response).not.toBeNull();
+
+    const transactions = response?.transactions || [];
+
+    expect(response?.companyId).toBe(goodCompanyId);
+    expect(response?.tenantId).toBe("f3807f71-dede-4cc9-ba9c-a30b9fd8cac2");
+    expect(transactions[0]?.date).toBe("2022-09-12");
+    expect(transactions[0]?.type).toBe("bnpl");
+});
+
+test("FlexbaseClient company transactions data failure", async () => {
+
+    const response = await testFlexbaseClient.getTransactionsStatement(badCompanyId);
+
+    expect(response?.error).toBe('Unable to get company transactions data')
+});

@@ -57,3 +57,19 @@ export interface CreditStatement extends FlexbaseResponse {
     generatedAt?: string;
     dueDate?: string;
 }
+
+interface Transaction {
+    amount: string;
+    date: string;
+    transaction: string;
+    type: string;
+    who: string;
+}
+
+export interface CompanyTransactions extends FlexbaseResponse {
+    companyId: string;
+    fromDate: string;
+    tenantId: string;
+    toDate: string;
+    transactions: Transaction[];
+}
