@@ -204,7 +204,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
                     id: response?.counterparty?.id || '',
                     companyId: response?.counterparty?.companyId || '',
                     accountNumber: response?.counterparty?.accountNumber || '',
-                    routingNumber: response?.counterparty?.response.data.attributes.routingNumber|| '',
+                    routingNumber: response?.counterparty?.response.data.attributes.routingNumber || '',
                     accountType: response?.counterparty?.response.data.attributes.accountType || '',
                     accountName: response?.counterparty?.accountName || '',
                     accessToken: response?.counterparty?.accessToken || '',
@@ -216,8 +216,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
                     ucCustomerId: response?.counterparty?.ucCustomerId || '',
                     version: response?.counterparty?.version || -1,
                     name: response?.counterparty?.accountName || '',
-                }
-        } return null;
+                };
+            }
+            return null;
         } catch (error) {
             this.logger.error(
                 'Unable to create a Unit Co. Counter Party. Please verify that all the Counterparty banking data required exists',

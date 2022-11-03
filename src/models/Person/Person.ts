@@ -19,19 +19,19 @@ export interface Person {
         notifications: {
             BILLING: {
                 default: string[];
-            },
+            };
             CARDS: {
                 default: string[];
-            },
+            };
             COMPANY: {
                 default: string[];
-            },
+            };
             PAYMENTS: {
                 default: string[];
-            },
+            };
             PURCHASES: {
                 default: string[];
-            },
-        }
-    }
+            };
+        };
+    };
 }
