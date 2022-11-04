@@ -34,7 +34,7 @@ test("FlexbaseClient get credit statement failure", async () => {
 
 test("FlexbaseClient get company transactions data", async () => {
 
-    const response = await testFlexbaseClient.getTransactionsStatement(goodCompanyId, { after: '2022-09-15', before: '2022-12-15' });
+    const response = await testFlexbaseClient.getCompanyTransactions(goodCompanyId, { after: '2022-09-15', before: '2022-12-15' });
     expect(response).not.toBeNull();
 
     const transactions = response?.transactions || [];
@@ -47,7 +47,7 @@ test("FlexbaseClient get company transactions data", async () => {
 
 test("FlexbaseClient company transactions data failure", async () => {
 
-    const response = await testFlexbaseClient.getTransactionsStatement(badCompanyId);
+    const response = await testFlexbaseClient.getCompanyTransactions(badCompanyId);
 
     expect(response?.error).toBe('Unable to get company transactions data')
 });
