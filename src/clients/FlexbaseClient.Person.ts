@@ -105,6 +105,7 @@ export class FlexbaseClientPerson extends FlexbaseClientBase {
                 country: person.address?.country,
                 postalCode: person.address?.postalCode,
                 cellPhone: person.phone?.number,
+                roles: person.roles,
                 authorizedSignatory: person.authorizedSignatory,
                 preferences: person.preferences,
             };
