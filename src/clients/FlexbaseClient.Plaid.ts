@@ -20,6 +20,14 @@ interface PublicTokenExchangeResponse {
     };
 }
 
+interface PlaidAcctLocationResponse {
+    accountName: string;
+    accountType: string;
+    bankName: string;
+    officialAccountName: string;
+    success: boolean;
+}
+
 export class FlexbaseClientPlaid extends FlexbaseClientBase {
     /**
      * Request a Plaid `link_token` used to initialize [Plaid Link](https://plaid.com/docs/link/)
@@ -63,6 +71,18 @@ export class FlexbaseClientPlaid extends FlexbaseClientBase {
             if (!response.success) return null;
 
             return response.response.link_token;
+        } catch {
+            this.logger.error('Unable to get plaid link token');
+            return null;
+        }
+    }
+
+    async getPlaidAcctLocation(): Promise<PlaidAcctLocationResponse | null> {
+        try {
+            const response = await this.client.url('/plaid/acctLocation').get().json<PlaidAcctLocationResponse>();
+            if (!response.success) return null;
+
+            return response;
         } catch {
             this.logger.error('Unable to get plaid link token');
             return null;
