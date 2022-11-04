@@ -10,6 +10,7 @@ export interface PersonUpdate {
     email?: string;
     address?: Address;
     phone?: Phone;
+    roles?: string[];
     authorizedSignatory?: boolean;
     preferences?: {
         notifications: {
