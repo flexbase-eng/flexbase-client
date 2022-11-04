@@ -92,3 +92,12 @@ test("FlexbaseClient get plaid account faillure", async () => {
 
     expect(response).toBeNull();
 });
+
+test("FlexbaseClient get plaid account error", async () => {
+
+    server.use(...plaid_http_error_handlers);
+
+    const response = await testFlexbaseClient.getPlaidAcctLocation();
+
+    expect(response).toBeNull();
+});

@@ -139,4 +139,12 @@ export const plaid_http_error_handlers = [
         );
         return response(res);
     }),
+
+    mockServer.get(mockUrl + "/plaid/acctLocation", (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
+        );
+        return response(res);
+    }),
 ];
