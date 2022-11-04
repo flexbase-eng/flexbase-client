@@ -40,7 +40,7 @@ export class FlexbaseClientServicing extends FlexbaseClientBase {
         }
     }
 
-    async getTransactionsStatement(companyId: string, options?: ServicingParameters): Promise<CompanyTransactions | null> {
+    async getCompanyTransactions(companyId: string, options?: ServicingParameters): Promise<CompanyTransactions | null> {
         try {
             const params = this.servicingParams(options);
             const response = await this.client.url(`/servicing/transactions/${companyId}`).query(params).get().json<CompanyTransactions>();
