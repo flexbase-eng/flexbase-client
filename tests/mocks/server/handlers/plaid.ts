@@ -71,6 +71,22 @@ export const plaid_handlers = [
             return response(res);
         }
     }),
+
+    mockServer.get(mockUrl + "/plaid/acctLocation", (_, response, context) => {
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                accountName: "Checking",
+                accountType: "checking",
+                bankName: "Customer Bank",
+                officialAccountName: "Plaid checking",
+                success: true            
+            }),
+
+        );
+        return response(res);
+    }),
 ];
 
 export const plaid_failure_handlers = [
@@ -94,6 +110,14 @@ export const plaid_failure_handlers = [
                 "success": false,              
             }),
 
+        );
+        return response(res);
+    }),
+
+    mockServer.get(mockUrl + "/plaid/acctLocation", (_, response, context) => {
+
+        const res = compose(
+            context.status(400),
         );
         return response(res);
     }),

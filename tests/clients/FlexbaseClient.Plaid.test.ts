@@ -74,3 +74,21 @@ test("FlexbaseClient update plaid link token error", async () => {
 
     expect(response).toBeNull();
 });
+
+
+test("FlexbaseClient get plaid account location", async () => {
+
+    const response = await testFlexbaseClient.getPlaidAcctLocation();
+
+    expect(response?.success).toBe(true);
+    expect(response?.bankName).toBe("Customer Bank");
+});
+
+test("FlexbaseClient get plaid account faillure", async () => {
+
+    server.use(...plaid_failure_handlers);
+
+    const response = await testFlexbaseClient.getPlaidAcctLocation();
+
+    expect(response).toBeNull();
+});
