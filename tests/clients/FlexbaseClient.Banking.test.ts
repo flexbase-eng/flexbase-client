@@ -88,7 +88,7 @@ test('FlexbaseClient get statement list error', async () => {
 // GET SINGLE STATEMENT
 test('FlexbaseClient get statement detail success', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(goodCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingPdfStatement(goodCompanyId, '0123');
 
     expect(response.success).toBeTruthy();
     expect(response.statement).toBe('html/pdf document');
@@ -97,7 +97,7 @@ test('FlexbaseClient get statement detail success', async () => {
 test('FlexbaseClient get statement detail success with params', async () => {
 
     const isPdf = true;
-    const response = await testFlexbaseClient.getBankingStatements(goodCompanyId, '0123', { isPdf });
+    const response = await testFlexbaseClient.getBankingPdfStatement(goodCompanyId, '0123', { isPdf });
 
     expect(response.success).toBeTruthy();
     expect(response.statement).toBe('html/pdf document');
@@ -105,7 +105,7 @@ test('FlexbaseClient get statement detail success with params', async () => {
 
 test('FlexbaseClient get statement detail failure', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(badCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingPdfStatement(badCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
     expect(response.error).toBe('Unable to get the statement details for statementId 0123');
@@ -113,7 +113,7 @@ test('FlexbaseClient get statement detail failure', async () => {
 
 test('FlexbaseClient get statement detail error', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(errorCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingPdfStatement(errorCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
 });

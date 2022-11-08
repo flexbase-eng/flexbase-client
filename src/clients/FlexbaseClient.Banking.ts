@@ -135,27 +135,37 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
     // STATEMENTS
-    async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
-        let url = `/banking/${companyId}/statements`;
-        let errorMessage = 'Unable to get the list of statements';
-
-        if (statementId) {
-            url = `${url}/${statementId}`;
-            errorMessage = `Unable to get the statement details for statementId ${statementId}`;
-        }
+    async getBankingStatements(companyId: string): Promise<StatementResponse> {
 
         try {
-            const params = this.bankingParams(options);
 
-            const response = await this.client.url(url).query(params).get().json<StatementResponse>();
+            const response = await this.client.url(`/banking/${companyId}/statements`).get().json<StatementResponse>();
 
             if (!response.success) {
-                this.logger.error(errorMessage, response.error);
+                this.logger.error('Unable to get the list of statements', response.error);
             }
 
             return response;
         } catch (error) {
-            this.logger.error(errorMessage, error);
+            this.logger.error('Unable to get the list of statements', error);
+            return { success: false, error };
+        }
+    }
+
+    async getBankingPdfStatement(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
+
+        try {
+            const params = this.bankingParams(options);
+
+            const response = await this.client.url(`/banking/${companyId}/statements/${statementId}`).query(params).get();
+
+            if (!response.success) {
+                this.logger.error(`Unable to get the statement details for statementId ${statementId}`, response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error(`Unable to get the statement details for statementId ${statementId}`, error);
             return { success: false, error };
         }
     }
