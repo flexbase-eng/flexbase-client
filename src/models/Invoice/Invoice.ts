@@ -14,4 +14,5 @@ export interface Invoice {
     taxes: string;
     total: string;
     origin: string;
+    storeLogoUrl: string;
 }
