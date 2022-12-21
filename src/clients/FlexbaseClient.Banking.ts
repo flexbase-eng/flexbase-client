@@ -7,7 +7,7 @@ import { BankingTransaction } from '../models/Banking/Transaction';
 import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty';
-import { Card, CreateCardRequest, CardByUser, UpdateCardRequest } from '../models/Banking/Cards';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard } from '../models/Banking/Cards';
 
 interface BankingParameters {
     isPdf?: boolean;
@@ -33,8 +33,14 @@ interface CreateApplicationResponse extends FlexbaseResponse {
     message?: string;
 }
 
-interface StatementResponse extends FlexbaseResponse {
-    statement?: Statement[] | string;
+interface StatementsResponse extends FlexbaseResponse {
+    statement?: Statement[];
+}
+
+interface SingleStatementResponse {
+    error?: string;
+    success?: boolean;
+    statement?: string | ArrayBuffer;
 }
 
 interface LinkCounterpartyApiResponse extends FlexbaseResponse {
@@ -57,7 +63,12 @@ interface CardsListResponse extends FlexbaseResponse {
     cards?: Card[];
 }
 
-interface UserCardResponse extends FlexbaseResponse {
+interface IssueCardResponse extends FlexbaseResponse {
+    issuedCard?: IssueCard;
+    card?: CardByUser;
+}
+
+interface UpdateCardResponse extends FlexbaseResponse {
     card?: CardByUser;
 }
 
@@ -135,28 +146,45 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
     // STATEMENTS
-    async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementResponse> {
-        let url = `/banking/${companyId}/statements`;
-        let errorMessage = 'Unable to get the list of statements';
-
-        if (statementId) {
-            url = `${url}/${statementId}`;
-            errorMessage = `Unable to get the statement details for statementId ${statementId}`;
-        }
+    async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementsResponse> {
 
         try {
             const params = this.bankingParams(options);
 
-            const response = await this.client.url(url).query(params).get().json<StatementResponse>();
+            const response = await this.client.url(`/banking/${companyId}/statements`).query(params).get().json<StatementsResponse>();
 
             if (!response.success) {
-                this.logger.error(errorMessage, response.error);
+                this.logger.error('Unable to get the list of statements', response.error);
             }
 
             return response;
         } catch (error) {
-            this.logger.error(errorMessage, error);
+            this.logger.error('Unable to get the list of statements', error);
             return { success: false, error };
+        }
+    }
+
+    async getBankingStatementPdf(companyId: string, statementId: string, options?: BankingParameters): Promise<SingleStatementResponse> {
+
+        try {
+            const params = this.bankingParams(options);
+
+            let response
+
+            if (options?.isPdf) {
+                response = await this.client.url(`/banking/${companyId}/statements/${statementId}`).query(params).get().arrayBuffer();
+            } else {
+                response = await this.client.url(`/banking/${companyId}/statements/${statementId}`).query(params).get().json();
+            }
+
+            if (!response.success) {
+                this.logger.error(`Unable to get the statement details for statementId ${statementId}`, response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error(`Unable to get the statement details for statementId ${statementId}`, error);
+            return { success: false, error: `Unable to get the statement details for statementId ${statementId}` };
         }
     }
 
@@ -350,9 +378,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         }
     }
 
-    async createBankingDebitCard(companyId: string, debitCardForm: CreateCardRequest): Promise<UserCardResponse> {
+    async createBankingDebitCard(companyId: string, debitCardForm: CreateCardRequest): Promise<IssueCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<UserCardResponse>();
+            const response = await this.client.url(`/banking/${companyId}/cards`).post(debitCardForm).json<IssueCardResponse>();
 
             if (!response.success) {
                 this.logger.error('While trying to create a Unit Co. Debit Card, an unhandled exception was thrown', response.error);
@@ -365,9 +393,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         }
     }
 
-    async updateBankingDebitCard(companyId: string, debitCardForm: UpdateCardRequest): Promise<UserCardResponse> {
+    async updateBankingDebitCard(companyId: string, debitCardForm: UpdateCardRequest): Promise<UpdateCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards`).put(debitCardForm).json<UserCardResponse>();
+            const response = await this.client.url(`/banking/${companyId}/cards`).put(debitCardForm).json<UpdateCardResponse>();
 
             if (!response.success) {
                 this.logger.error('While trying to update the Unit Co. Debit Card, an unhandled exception was thrown', response.error);

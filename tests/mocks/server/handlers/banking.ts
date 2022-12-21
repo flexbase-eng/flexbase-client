@@ -1,6 +1,6 @@
 import { compose, rest as mockServer } from 'msw';
 import { PaymentForm } from '../../../../src/models/Banking/Payment';
-import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId } from '../constants';
+import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId, errorUserId, badUser, badUserId } from '../constants';
 
 export const banking_handlers = [
     // APPLICATION
@@ -465,7 +465,7 @@ export const banking_handlers = [
                     {
                         expirationDate: '2025-09',
                         id: '01234',
-                        cardNumber: '6559',
+                        cardNumber: '0000-0000-0000-6559',
                         expensesTypes: {
                             monthlyPurchase: '700000',
                             monthlyWithdrawal: '500000',
@@ -508,10 +508,11 @@ export const banking_handlers = [
                 success: true,
                 card: {
                     id: '01234',
-                    lastFour: '6559',
+                    cardNumber: '0000-0000-0000-6559',
                     status: 'Active',
-                    dailyPurchase: '7000',
-                    ucDepositId: '770032',
+                    expensesTypes: {
+                        dailyPurchase: 7000,
+                    },
                     type: 'businessDebitCard',
                     expirationDate: '2025-09',
                 }
@@ -549,12 +550,13 @@ export const banking_handlers = [
                 success: true,
                 card: {
                     id: '01234',
-                    lastFour: '6559',
+                    cardNumber: '0000-0000-0000-6559',
                     status: 'Active',
-                    ucDepositId: '770032',
-                    dailyPurchase: '10000',
                     expirationDate: '2025-09',
-                    type: 'businessDebitCard',
+                    expensesTypes: {
+                        dailyPurchase: '10000',
+                    },
+                    cardSubtype: 'businessDebitCard',
                 }
             }),
 

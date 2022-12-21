@@ -81,7 +81,7 @@ test("FlexbaseClient get user card error", async () => {
 // ISSUE CARD
 test("FlexbaseClient issue user card success", async () => {
 
-    const response = await testFlexbaseClient.issueCard(goodUserId, cardType);
+    const response = await testFlexbaseClient.issueCard(goodUserId, { cardType });
 
     expect(response).not.toBeNull();
 
@@ -92,14 +92,14 @@ test("FlexbaseClient issue user card success", async () => {
 
 test("FlexbaseClient issue user card failure", async () => {
 
-    const response = await testFlexbaseClient.issueCard(badUserId, cardType);
+    const response = await testFlexbaseClient.issueCard(badUserId, { cardType });
 
     expect(response.success).toBeFalsy();
 });
 
 test("FlexbaseClient issue user card error", async () => {
 
-    const response = await testFlexbaseClient.issueCard(errorUserId, cardType);
+    const response = await testFlexbaseClient.issueCard(errorUserId, { cardType });
 
     expect(response.error).toBe('Unable to issue the card');
     expect(response.card).toBeNull();
