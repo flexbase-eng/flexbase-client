@@ -2,6 +2,7 @@ import { Card, CardHiddenInfo, Group } from '../models/Card/Card';
 import { Address } from '../models/Address/Address';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
+import { Limits } from '../models/Banking/Cards';
 
 interface QueryParameters {
     searchTerm?: string;
@@ -27,6 +28,13 @@ interface UpdateCardForm {
     shipTo?: Address;
     creditLimit: number | null;
     cardName?: string;
+}
+
+interface CardForm {
+    cardType: string;
+    shipTo?: Address;
+    service?: string;
+    limits?: Limits;
 }
 
 export class FlexbaseClientCard extends FlexbaseClientBase {
@@ -85,9 +93,9 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         }
     }
 
-    async issueCard(userId: string, cardType: 'physical' | 'virtual', shipTo?: Address, service?: string): Promise<CardResponse> {
+    async issueCard(userId: string, form: CardForm): Promise<CardResponse> {
         try {
-            const response = await this.client.url(`/card/${userId}/issue`).post({ cardType, shipTo, service }).json<CardResponse>();
+            const response = await this.client.url(`/card/${userId}/issue`).post(form).json<CardResponse>();
 
             if (!response.success) {
                 this.logger.error('Unable to issue the card', response.error);

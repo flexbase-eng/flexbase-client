@@ -1,13 +1,20 @@
-import { Relationship, Address, Phone } from './Constants';
+import { Relationship, Address, FullName, Phone } from './Constants';
 
-interface Limits {
+export interface Limits {
     dailyWithdrawal?: number;
     dailyPurchase?: number;
     monthlyWithdrawal?: number;
     monthlyPurchase?: number;
 }
 
+interface MonthToDateSpends {
+    mtdSpend: number;
+    startOfMonth: string;
+    success: boolean;
+}
+
 export interface Card {
+    address: Address;
     asOf: string;
     byUser: string;
     cardName: string;
@@ -21,6 +28,8 @@ export interface Card {
     expirationDate: string;
     holder: string;
     id: string;
+    liCardToken: string;
+    monthToDateSpends: MonthToDateSpends;
     notifyUse: boolean;
     paymentDay: number;
     shipTo: Address;
@@ -34,32 +43,57 @@ export interface Card {
         customer: Relationship;
         account: Relationship;
     };
-    tenantId: string;
 }
 
 export interface CardByUser {
     asOf: string;
     byUser: string;
+    cardName: string;
+    cardNumber: string;
+    cardSubtype: string;
+    cardType: string;
     companyId: string;
-    createdAt: string;
-    dailyPurchase: string;
-    dailyWithdrawal: string;
+    creditLimit: number;
+    currency: string;
+    expensesTypes: Limits;
     expirationDate: string;
+    holder: string;
     id: string;
-    lastFour: string;
-    monthlyPurchase: string;
-    monthlyWithdrawal: string;
+    liCardToken: string;
+    notifyUse: boolean;
+    paymentDay: string;
+    shipTo: Address;
     status: string;
-    type: string;
+    stpCardId: string;
     ucCardId: string;
-    ucCustomerId: string;
-    ucDepositId: string;
+    userId: string;
     version: number;
 }
 
-export interface CreateCardRequest {
+export interface IssueCard {
     type: string;
-    shippingAddress?: Address;
+    id: string;
+    attributes: {
+        createdAt: string;
+        shippingAddress: Address;
+        last4Digits: string;
+        expirationDate: string;
+        address: Address;
+        fullName: FullName;
+        phone: Phone;
+        status: string;
+    }
+    relationships: {
+        customer: Relationship;
+        account: Relationship;
+    }
+    ucCardId: string;
+    
+}
+
+export interface CreateCardRequest {
+    cardType: string;
+    shipTo?: Address;
     limits?: Limits;
 }
 
@@ -68,7 +102,5 @@ export interface UpdateCardRequest {
     type: string;
     limits?: Limits;
     shippingAddress?: Address;
-    address?: Address;
-    email?: string;
-    phone?: Phone;
+    shipTo?: Address;
 }

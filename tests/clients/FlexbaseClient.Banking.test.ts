@@ -3,7 +3,7 @@ import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 import { banking_error_handlers, banking_failure_handlers } from '../mocks/server/handlers/banking';
-import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard, createUnitcoToken } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard, createUnitcoToken, goodUserId, badUserId, errorUserId } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -88,7 +88,7 @@ test('FlexbaseClient get statement list error', async () => {
 // GET SINGLE STATEMENT
 test('FlexbaseClient get statement detail success', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(goodCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingStatementPdf(goodCompanyId, '0123');
 
     expect(response.success).toBeTruthy();
     expect(response.statement).toBe('html/pdf document');
@@ -97,15 +97,15 @@ test('FlexbaseClient get statement detail success', async () => {
 test('FlexbaseClient get statement detail success with params', async () => {
 
     const isPdf = true;
-    const response = await testFlexbaseClient.getBankingStatements(goodCompanyId, '0123', { isPdf });
+    const response = await testFlexbaseClient.getBankingStatementPdf(goodCompanyId, '0123', { isPdf });
 
-    expect(response.success).toBeTruthy();
-    expect(response.statement).toBe('html/pdf document');
+    expect(response).not.toBeNull();
+    expect(response).toBeInstanceOf(ArrayBuffer);
 });
 
 test('FlexbaseClient get statement detail failure', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(badCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingStatementPdf(badCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
     expect(response.error).toBe('Unable to get the statement details for statementId 0123');
@@ -113,7 +113,7 @@ test('FlexbaseClient get statement detail failure', async () => {
 
 test('FlexbaseClient get statement detail error', async () => {
 
-    const response = await testFlexbaseClient.getBankingStatements(errorCompanyId, '0123');
+    const response = await testFlexbaseClient.getBankingStatementPdf(errorCompanyId, '0123');
 
     expect(response.success).toBeFalsy();
 });
@@ -356,7 +356,7 @@ test("FlexbaseClient get debit cards success", async () => {
     expect(card.id).toBe('01234');
     expect(card.status).toBe('Active');
     expect(card.expirationDate).toBe('2025-09');
-    expect(card.cardNumber).toBe('6559');
+    expect(card.cardNumber).toBe('0000-0000-0000-6559');
     expect(card.expensesTypes.monthlyPurchase).toBe('700000');
 });
 
@@ -370,7 +370,7 @@ test("FlexbaseClient get debit cards success with params", async () => {
     const card = response.cards![0];
     expect(card.id).toBe('01234');
     expect(card.status).toBe('Active');
-    expect(card.cardNumber).toBe('6559');
+    expect(card.cardNumber).toBe('0000-0000-0000-6559');
     expect(card.expirationDate).toBe('2025-09');
     expect(card.expensesTypes.monthlyPurchase).toBe('700000');
 });
@@ -394,11 +394,11 @@ test("FlexbaseClient get debit cards error", async () => {
 test("FlexbaseClient create Debit Card success", async () => {
 
     const response = await testFlexbaseClient.createBankingDebitCard(goodCompanyId, createDebitCard);
-
+    console.info(response);
     expect(response.success).toBeTruthy();
-    expect(response?.card?.lastFour).toBe('6559');
+    expect(response?.card?.cardNumber).toBe('0000-0000-0000-6559');
     expect(response?.card?.status).toBe('Active');
-    expect(response?.card?.dailyPurchase).toBe('7000');
+    expect(response?.card?.expensesTypes.dailyPurchase).toBe(7000);
 });
 
 test("FlexbaseClient create Debit Card failure", async () => {
@@ -422,9 +422,9 @@ test("FlexbaseClient update Debit Card success", async () => {
     const response = await testFlexbaseClient.updateBankingDebitCard(goodCompanyId, updateDebitCard);
 
     expect(response.success).toBeTruthy();
-    expect(response?.card?.lastFour).toBe('6559');
+    expect(response?.card?.cardNumber).toBe('0000-0000-0000-6559');
     expect(response?.card?.status).toBe('Active');
-    expect(response?.card?.dailyPurchase).toBe('10000');
+    expect(response?.card?.expensesTypes.dailyPurchase).toBe('10000');
 });
 
 test("FlexbaseClient update Debit Card failure", async () => {
