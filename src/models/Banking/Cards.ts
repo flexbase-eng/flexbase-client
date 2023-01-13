@@ -99,8 +99,10 @@ export interface CreateCardRequest {
 
 export interface UpdateCardRequest {
     id: string;
-    type: string;
+    cardName?: string;
     limits?: Limits;
     shippingAddress?: Address;
-    shipTo?: Address;
+    address?: Address;
+    email?: string;
+    phone?: Phone;
 }

@@ -20,10 +20,13 @@ interface BankingParameters {
     limit?: number;
     offset?: number;
     accountId?: string;
+    cardId?: string;
+    full?: boolean;
 }
 
 interface ApplicationResponse extends FlexbaseResponse {
     status?: string;
+    type?: string;
     url?: string;
 }
 
