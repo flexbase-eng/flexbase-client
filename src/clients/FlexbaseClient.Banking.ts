@@ -7,7 +7,7 @@ import { BankingTransaction } from '../models/Banking/Transaction';
 import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty';
-import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard, PinStatus } from '../models/Banking/Cards';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard, PinStatus, ReportDebitCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
     isPdf?: boolean;
@@ -426,6 +426,21 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('While trying to get a Banking Card PIN status, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async reportDebitCard(companyId: string, cardId: string, request: ReportDebitCardRequest): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/reportCard`).post(request).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', error);
             return { success: false, error };
         }
     }

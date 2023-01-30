@@ -115,3 +115,8 @@ export interface PinStatus {
         };
     };
 }
+
+export interface ReportDebitCardRequest {
+    cardId: string;
+    status: 'lost' | 'stolen';
+}
