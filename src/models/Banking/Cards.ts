@@ -106,3 +106,17 @@ export interface UpdateCardRequest {
     email?: string;
     phone?: Phone;
 }
+
+export interface PinStatus {
+    data: {
+        type: string;
+        attributes: {
+            status: string;
+        };
+    };
+}
+
+export interface ReportDebitCardRequest {
+    cardId: string;
+    status: 'lost' | 'stolen';
+}

@@ -7,7 +7,7 @@ import { BankingTransaction } from '../models/Banking/Transaction';
 import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
 import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
 import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty';
-import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard } from '../models/Banking/Cards';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard, PinStatus, ReportDebitCardRequest } from '../models/Banking/Cards';
 
 interface BankingParameters {
     isPdf?: boolean;
@@ -73,6 +73,10 @@ interface IssueCardResponse extends FlexbaseResponse {
 
 interface UpdateCardResponse extends FlexbaseResponse {
     card?: CardByUser;
+}
+
+interface GetPinStatusResponse extends FlexbaseResponse {
+    status?: PinStatus;
 }
 
 interface PaymentsListResponse extends FlexbaseResponse {
@@ -410,6 +414,67 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return { success: false, error };
         }
     }
+
+    async getPinStatus(companyId: string, cardId: string): Promise<GetPinStatusResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/pin`).get().json<GetPinStatusResponse>();
+
+            if (!response.success) {
+                this.logger.error('Unable to get the Banking Card PIN status. Please verify that the Card is active', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to get a Banking Card PIN status, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async reportBankingDebitCard(companyId: string, request: ReportDebitCardRequest): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/reportCard`).post(request).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async freezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/freeze`).post({status: 'freeze'}).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to Freeze a UnitCo Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async unfreezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/unfreeze`).post({status: 'unfreeze'}).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to Unfreeze a UnitCo Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+    
 
     // UNITCO TOKEN
     async getUnitcoToken(): Promise<GetUnitcoTokenResponse> {

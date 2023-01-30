@@ -24,6 +24,6 @@ export { Relationship } from './models/Banking/Constants';
 export { Counterparty, CounterpartyForm, CounterpartyRequest, CtrParty } from './models/Banking/Counterparty';
 export { Deposit, DepositBalance, DepositBalanceAttributes, DepositLimits, DepositLimitsAttributes } from './models/Banking/Deposit';
 export { Payment, PaymentForm } from './models/Banking/Payment';
-export { Card as DebitCard, CardByUser, CreateCardRequest, UpdateCardRequest, IssueCard, Limits } from './models/Banking/Cards';
+export { Card as DebitCard, CardByUser, CreateCardRequest, UpdateCardRequest, IssueCard, Limits, PinStatus, ReportDebitCardRequest } from './models/Banking/Cards';
 export { CreateTokenRequest } from './models/Banking/UnitcoToken';
 export { InvoiceNew, PaymentCredit, CreditStatement } from './models/Servicing/servicing';
