@@ -106,3 +106,12 @@ export interface UpdateCardRequest {
     email?: string;
     phone?: Phone;
 }
+
+export interface PinStatus {
+    data: {
+        type: string;
+        attributes: {
+            status: string;
+        };
+    };
+}
