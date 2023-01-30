@@ -3,7 +3,7 @@ import { server } from '../mocks/server/server';
 import { Statement } from '../../src/models/Banking/Statement';
 import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 import { banking_error_handlers, banking_failure_handlers } from '../mocks/server/handlers/banking';
-import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard, createUnitcoToken, goodUserId, badUserId, errorUserId } from "../mocks/server/constants";
+import { goodCompanyId, badCompanyId, errorCompanyId, paymentBodyReq, counterparty, createDebitCard, updateDebitCard, createUnitcoToken, goodUserId, badUserId, errorUserId, goodCardId, badCardId, errorCardId } from "../mocks/server/constants";
 
 // APPLICATION
 // GET APPLICATION STATUS
@@ -438,6 +438,105 @@ test("FlexbaseClient update Debit Card failure", async () => {
 test("FlexbaseClient update Debit Card error", async () => {
 
     const response = await testFlexbaseClient.updateBankingDebitCard(errorCompanyId, updateDebitCard);
+
+    expect(response.success).toBeFalsy();
+});
+
+// GET DEBIT CARD PIN
+test("FlexbaseClient get Debit Card pin success", async () => {
+
+    const response = await testFlexbaseClient.getPinStatus(goodCompanyId, goodCardId);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.status?.data.attributes.status).toBe('NotSet')
+});
+
+test("FlexbaseClient get Debit Card pin failure", async () => {
+
+    const response = await testFlexbaseClient.getPinStatus(badCompanyId, badCardId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('Unable to get the Banking Card PIN status. Please verify that the Card is active')
+});
+
+test("FlexbaseClient get Debit Card pin error", async () => {
+
+    const response = await testFlexbaseClient.getPinStatus(errorCompanyId, errorCardId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// REPORT DEBIT CARD
+test("FlexbaseClient report Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.reportBankingDebitCard(goodCompanyId, { cardId: goodCardId, status: 'lost'});
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.status).toBe('Lost');
+    expect(response.card?.cardNumber).toBe('0000-0000-0000-6559');
+});
+
+test("FlexbaseClient report Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.reportBankingDebitCard(badCompanyId, { cardId: badCardId, status: 'lost'});
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown')
+});
+
+test("FlexbaseClient report Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.reportBankingDebitCard(errorCompanyId, { cardId: errorCardId, status: 'lost'});
+
+    expect(response.success).toBeFalsy();
+});
+
+// FREEZE DEBIT CARD
+test("FlexbaseClient freeze Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.freezeBankingDebitCard(goodCompanyId, goodCardId);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.status).toBe('suspended');
+    expect(response.card?.cardNumber).toBe('0000-0000-0000-6559');
+});
+
+test("FlexbaseClient freeze Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.freezeBankingDebitCard(badCompanyId, badCardId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered')
+});
+
+test("FlexbaseClient freeze Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.freezeBankingDebitCard(errorCompanyId, errorCardId);
+
+    expect(response.success).toBeFalsy();
+});
+
+// UNFREEZE DEBIT CARD
+test("FlexbaseClient unfreeze Debit Card success", async () => {
+
+    const response = await testFlexbaseClient.unfreezeBankingDebitCard(goodCompanyId, goodCardId);
+
+    expect(response.success).toBeTruthy();
+    expect(response?.card?.status).toBe('active');
+    expect(response.card?.cardNumber).toBe('0000-0000-0000-6559');
+});
+
+test("FlexbaseClient unfreeze Debit Card failure", async () => {
+
+    const response = await testFlexbaseClient.unfreezeBankingDebitCard(badCompanyId, badCardId);
+
+    expect(response.success).toBeFalsy();
+    expect(response.error).toBe('While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered')
+});
+
+test("FlexbaseClient unfreeze Debit Card error", async () => {
+
+    const response = await testFlexbaseClient.unfreezeBankingDebitCard(errorCompanyId, errorCardId);
 
     expect(response.success).toBeFalsy();
 });

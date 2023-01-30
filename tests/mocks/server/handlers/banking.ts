@@ -1,6 +1,6 @@
 import { compose, rest as mockServer } from 'msw';
 import { PaymentForm } from '../../../../src/models/Banking/Payment';
-import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId, errorUserId, badUser, badUserId } from '../constants';
+import { mockUrl, badCompanyId, errorCompanyId, goodCompanyId, errorCardId, badCardId } from '../constants';
 
 export const banking_handlers = [
     // APPLICATION
@@ -560,6 +560,176 @@ export const banking_handlers = [
                 }
             }),
 
+        );
+        return response(res);
+    }),
+
+    //DEBIT CARD STATUS
+    mockServer.get(mockUrl + '/banking/:companyId/cards/:cardId/pin', (request, response, context) => {
+
+        const { cardId } = request.params;
+        
+        if (!cardId || cardId === errorCardId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (cardId === badCardId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'Unable to get the Banking Card PIN status. Please verify that the Card is active',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+               success: true,
+               status: {
+                 data: {
+                   type: 'pinStatus',
+                   attributes: {
+                     status: 'NotSet',
+                   },
+                 },
+               },
+             }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + '/banking/:companyId/cards/reportCard', (request, response, context) => {
+
+        const { companyId } = request.params;
+        
+        if (!companyId || companyId === errorCompanyId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (companyId === badCompanyId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    expirationDate: '2025-09',
+                    id: '01234',
+                    cardNumber: '0000-0000-0000-6559',
+                    expensesTypes: {
+                        monthlyPurchase: '700000',
+                        monthlyWithdrawal: '500000',
+                    },
+                    status: 'Lost',
+                    type: 'businessDebitCard',
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + '/banking/:companyId/cards/:cardId/freeze', (request, response, context) => {
+
+        const { cardId } = request.params;
+            
+        if (!cardId || cardId === errorCardId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+
+        else if (cardId === badCardId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered',
+                })
+            );
+            return response(res);
+        }
+
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    expirationDate: '2025-09',
+                    id: '01234',
+                    cardNumber: '0000-0000-0000-6559',
+                    expensesTypes: {
+                        monthlyPurchase: '700000',
+                        monthlyWithdrawal: '500000',
+                    },
+                    status: 'suspended',
+                    type: 'businessDebitCard',
+                },
+            }),
+
+        );
+        return response(res);
+    }),
+
+    mockServer.post(mockUrl + '/banking/:companyId/cards/:cardId/unfreeze', (request, response, context) => {
+
+        const { cardId } = request.params;
+        
+        if (!cardId || cardId === errorCardId) {
+            const res = compose(
+                context.status(400),
+            );
+            return response(res);
+        }
+    
+        else if (cardId === badCardId) {
+            const res = compose(
+                context.status(200),
+                context.json({
+                    success: false,
+                    error: 'While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered',
+                })
+            );
+            return response(res);
+        }
+    
+        const res = compose(
+            context.status(200),
+            context.json({
+                success: true,
+                card: {
+                    expirationDate: '2025-09',
+                    id: '01234',
+                    cardNumber: '0000-0000-0000-6559',
+                    expensesTypes: {
+                        monthlyPurchase: '700000',
+                        monthlyWithdrawal: '500000',
+                    },
+                    status: 'active',
+                    type: 'businessDebitCard',
+                },
+            }),
+    
         );
         return response(res);
     }),

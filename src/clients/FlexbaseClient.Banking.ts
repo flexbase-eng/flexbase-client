@@ -462,7 +462,7 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async unfreezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/freeze`).post({status: 'unfreeze'}).json<UpdateCardResponse>();
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/unfreeze`).post({status: 'unfreeze'}).json<UpdateCardResponse>();
 
             if (!response.success) {
                 this.logger.error('While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
