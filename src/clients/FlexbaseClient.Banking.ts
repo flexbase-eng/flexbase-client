@@ -430,9 +430,9 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
         }
     }
 
-    async reportDebitCard(companyId: string, cardId: string, request: ReportDebitCardRequest): Promise<UpdateCardResponse> {
+    async reportBankingDebitCard(companyId: string, request: ReportDebitCardRequest): Promise<UpdateCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/reportCard`).post(request).json<UpdateCardResponse>();
+            const response = await this.client.url(`/banking/${companyId}/cards/reportCard`).post(request).json<UpdateCardResponse>();
 
             if (!response.success) {
                 this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', response.error);
@@ -441,6 +441,36 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('While trying to report a lost or stolen UnitCo Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async freezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/freeze`).post({status: 'freeze'}).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to Freeze a UnitCo Debit Card, an unhandled exception was thrown', error);
+            return { success: false, error };
+        }
+    }
+
+    async unfreezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
+        try {
+            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/freeze`).post({status: 'unfreeze'}).json<UpdateCardResponse>();
+
+            if (!response.success) {
+                this.logger.error('While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+            }
+
+            return response;
+        } catch (error) {
+            this.logger.error('While trying to Unfreeze a UnitCo Debit Card, an unhandled exception was thrown', error);
             return { success: false, error };
         }
     }
