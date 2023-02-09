@@ -236,13 +236,13 @@ test('FlexbaseClient get deposit account info success', async () => {
     expect(response.success).toBeTruthy();
 
     const mainAccount = response?.accounts![0];
-
     expect(mainAccount?.id).toBe('01234');
     expect(mainAccount?.type).toBe('depositAccount');
     expect(mainAccount?.balance).toBe(30000);
     expect(mainAccount?.depositProduct).toBe('checking');
     expect(mainAccount?.accountNumber).toBe('000123456789');
     expect(mainAccount.plaidProcessorToken).toBe('processor-sandbox-18f7e98d-ee2e-49cc-99a1-7bc36b7e6e9d');
+    expect(mainAccount?.nickName).toBe('test');
 });
 
 test('FlexbaseClient get deposit account info failure', async () => {
