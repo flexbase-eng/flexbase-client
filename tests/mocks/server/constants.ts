@@ -54,6 +54,6 @@ export const updateCardForm = { expensesTypes: { amount: 5000, groups: [], inter
 
 export const counterparty: Partial<CounterpartyForm> = { routingNumber: "213456787989", accountNumber: "2983433", accountType: "Checking", name: "Jane Doe" }
 export const paymentBodyReq: PaymentForm = { type: 'achPayment', amount: '1000.0', accountId: '01234', direction: 'credit', description: 'New payment', counterparty }
-export const createDebitCard = { cardType: 'businessDebitCard', limits: { dailyPurchase: 7000 } }
+export const createDebitCard = { type: 'businessDebitCard', limits: { dailyPurchase: 7000 } }
 export const updateDebitCard = { id: '01234', type: 'businessDebitCard', limits: { dailyPurchase: 10000 } }
 export const createUnitcoToken = { scope: 'transactions cards cards-write cards-sensitive-write', verificationCode: '301299', verificationToken: 'NewToken' }

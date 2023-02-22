@@ -96,7 +96,8 @@ interface GetUnitcoTokenResponse extends FlexbaseResponse {
 
 interface CreateUnitcoTokenResponse extends FlexbaseResponse {
     asOf?: string;
-    expiresIn?: string;
+    expiresIn?: number;
+    accessToken?: string;
 }
 
 export class FlexbaseClientBanking extends FlexbaseClientBase {
@@ -154,7 +155,6 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     // STATEMENTS
     async getBankingStatements(companyId: string, statementId?: string, options?: BankingParameters): Promise<StatementsResponse> {
-
         try {
             const params = this.bankingParams(options);
 
@@ -172,11 +172,10 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
     }
 
     async getBankingStatementPdf(companyId: string, statementId: string, options?: BankingParameters): Promise<SingleStatementResponse> {
-
         try {
             const params = this.bankingParams(options);
 
-            let response
+            let response;
 
             if (options?.isPdf) {
                 response = await this.client.url(`/banking/${companyId}/statements/${statementId}`).query(params).get().arrayBuffer();
@@ -447,10 +446,16 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async freezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/freeze`).post({status: 'freeze'}).json<UpdateCardResponse>();
+            const response = await this.client
+                .url(`/banking/${companyId}/cards/${cardId}/freeze`)
+                .post({ status: 'freeze' })
+                .json<UpdateCardResponse>();
 
             if (!response.success) {
-                this.logger.error('While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+                this.logger.error(
+                    'While trying to update a Frozen UnitCo Banking Debit Card in the database, an error was encountered',
+                    response.error
+                );
             }
 
             return response;
@@ -462,10 +467,16 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
 
     async unfreezeBankingDebitCard(companyId: string, cardId: string): Promise<UpdateCardResponse> {
         try {
-            const response = await this.client.url(`/banking/${companyId}/cards/${cardId}/unfreeze`).post({status: 'unfreeze'}).json<UpdateCardResponse>();
+            const response = await this.client
+                .url(`/banking/${companyId}/cards/${cardId}/unfreeze`)
+                .post({ status: 'unfreeze' })
+                .json<UpdateCardResponse>();
 
             if (!response.success) {
-                this.logger.error('While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered', response.error);
+                this.logger.error(
+                    'While trying to update a Unfrozen UnitCo Banking Debit Card in the database, an error was encountered',
+                    response.error
+                );
             }
 
             return response;
@@ -474,7 +485,6 @@ export class FlexbaseClientBanking extends FlexbaseClientBase {
             return { success: false, error };
         }
     }
-    
 
     // UNITCO TOKEN
     async getUnitcoToken(): Promise<GetUnitcoTokenResponse> {
