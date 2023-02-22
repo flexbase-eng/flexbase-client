@@ -82,19 +82,19 @@ export interface IssueCard {
         fullName: FullName;
         phone: Phone;
         status: string;
-    }
+    };
     relationships: {
         customer: Relationship;
         account: Relationship;
-    }
+    };
     ucCardId: string;
-    
 }
 
 export interface CreateCardRequest {
-    cardType: string;
-    shipTo?: Address;
+    type: string;
     limits?: Limits;
+    cardName?: string;
+    shipping?: Address;
 }
 
 export interface UpdateCardRequest {

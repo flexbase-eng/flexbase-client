@@ -15,7 +15,6 @@ export interface CtrParty {
 }
 
 export interface CounterpartyForm {
-    unitProcessorToken: string;
     routingNumber: string;
     accountNumber: string;
     accountType: string;
