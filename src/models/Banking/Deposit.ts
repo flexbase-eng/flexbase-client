@@ -20,6 +20,7 @@ export interface Deposit {
     ucCustomerId: string;
     ucDepositId: string;
     plaidProcessorToken: string;
+    nickName?: string;
 }
 
 // DEPOSIT BALANCE
