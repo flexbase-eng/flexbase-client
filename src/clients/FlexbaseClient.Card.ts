@@ -152,7 +152,7 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('Unable to get user card', error);
-            return { success: false, error: 'Unable to obtain hidden card information', cardNumber: null, expirationDate: null, cvc: null };
+            return { success: false, error: 'Unable to obtain hidden card information', cardNumber: null, expirationDate: null, cvc: null, embedUrl: null, last4: null };;
         }
     }
 }
