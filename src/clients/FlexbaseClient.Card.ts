@@ -1,4 +1,4 @@
-import { Card, CardHiddenInfo, Group } from '../models/Card/Card';
+import { Card, CardHiddenInfo, Group, EmbedUrlHiddenInfo } from '../models/Card/Card';
 import { Address } from '../models/Address/Address';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
@@ -140,9 +140,9 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         }
     }
 
-    async getCardHiddenInfo(cardId: string): Promise<CardHiddenInfo> {
+    async getCardHiddenInfo(cardId: string): Promise<CardHiddenInfo | EmbedUrlHiddenInfo> {
         try {
-            const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<CardHiddenInfo>();
+            const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<CardHiddenInfo | EmbedUrlHiddenInfo>();
 
             if (!response.success) {
                 this.logger.error(`Unable to obtain hidden card information for ${cardId}`);
@@ -152,7 +152,15 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
             return response;
         } catch (error) {
             this.logger.error('Unable to get user card', error);
-            return { success: false, error: 'Unable to obtain hidden card information', cardNumber: null, expirationDate: null, cvc: null, embedUrl: null, last4: null };;
+            return {
+                success: false,
+                error: 'Unable to obtain hidden card information',
+                cardNumber: null,
+                expirationDate: null,
+                cvc: null,
+                embedUrl: null,
+                last4: null,
+            };
         }
     }
 }
