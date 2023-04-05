@@ -183,12 +183,10 @@ export const card_handlers = [
         const res = compose(
             context.status(200),
             context.json({
-                info: {
                     success: true,
                     cardNumber: "40000099900XXXX",
                     cvc: "123",
                     expirationDate: "1/20XX"
-                }, success: true
             }),
         );
         return response(res);

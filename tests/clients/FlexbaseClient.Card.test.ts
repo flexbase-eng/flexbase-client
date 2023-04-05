@@ -179,7 +179,7 @@ test("FlexbaseClient get hidden card information success", async () => {
 
     const response = await testFlexbaseClient.getCardHiddenInfo(goodCardId);
 
-    expect(response?.info).not.toBeNull();
+    expect(response?.success).toBe(true);
 });
 
 test("FlexbaseClient get hidden card information error", async () => {
@@ -187,5 +187,5 @@ test("FlexbaseClient get hidden card information error", async () => {
     const response = await testFlexbaseClient.getCardHiddenInfo(errorCardId);
 
     expect(response.error).toBe('Unable to obtain hidden card information');
-    expect(response.info).toBeNull();
+    expect(response.success).toBe(false);
 });
