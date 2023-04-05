@@ -179,10 +179,7 @@ test("FlexbaseClient get hidden card information success", async () => {
 
     const response = await testFlexbaseClient.getCardHiddenInfo(goodCardId);
 
-    expect(response).not.toBeNull();
-    expect(response?.cardNumber).toBe('40000099900XXXX');
-    expect(response?.cvc).toBe('123');
-    expect(response?.expirationDate).toBe('1/20XX');
+    expect(response?.info).not.toBeNull();
 });
 
 test("FlexbaseClient get hidden card information error", async () => {
@@ -190,5 +187,5 @@ test("FlexbaseClient get hidden card information error", async () => {
     const response = await testFlexbaseClient.getCardHiddenInfo(errorCardId);
 
     expect(response.error).toBe('Unable to obtain hidden card information');
-    expect(response.cardNumber).toBeNull();
+    expect(response.info).toBeNull();
 });

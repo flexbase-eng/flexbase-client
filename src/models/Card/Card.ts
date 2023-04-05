@@ -29,13 +29,13 @@ export interface Card {
     userId: string;
 }
 
-export interface CardHiddenInfo extends FlexbaseResponse {
+export interface CardHiddenInfo {
     cardNumber: string | null;
     cvc: string | null;
     expirationDate: string | null;
 }
 
-export interface EmbedUrlHiddenInfo extends FlexbaseResponse {
+export interface EmbedUrlHiddenInfo {
     embedUrl: string | null;
     last4: string | null;
 }

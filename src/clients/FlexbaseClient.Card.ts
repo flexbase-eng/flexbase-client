@@ -37,6 +37,10 @@ interface CardForm {
     limits?: Limits;
 }
 
+interface HiddenInfo extends FlexbaseResponse {
+    info: CardHiddenInfo | EmbedUrlHiddenInfo;
+}
+
 export class FlexbaseClientCard extends FlexbaseClientBase {
     private params({ searchTerm, status, full }: QueryParameters = {}) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -140,9 +144,9 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         }
     }
 
-    async getCardHiddenInfo(cardId: string): Promise<CardHiddenInfo | EmbedUrlHiddenInfo> {
+    async getCardHiddenInfo(cardId: string): Promise<HiddenInfo> {
         try {
-            const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<CardHiddenInfo | EmbedUrlHiddenInfo>();
+            const response = await this.client.url(`/card/${cardId}/hiddenInfo`).get().json<HiddenInfo>();
 
             if (!response.success) {
                 this.logger.error(`Unable to obtain hidden card information for ${cardId}`);
@@ -153,13 +157,8 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to get user card', error);
             return {
+                info: { cardNumber: null, cvc: null, embedUrl: null, expirationDate: null, last4: null },
                 success: false,
-                error: 'Unable to obtain hidden card information',
-                cardNumber: null,
-                expirationDate: null,
-                cvc: null,
-                embedUrl: null,
-                last4: null,
             };
         }
     }
