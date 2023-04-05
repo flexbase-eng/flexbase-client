@@ -34,3 +34,8 @@ export interface CardHiddenInfo extends FlexbaseResponse {
     cvc: string | null;
     expirationDate: string | null;
 }
+
+export interface EmbedUrlHiddenInfo extends FlexbaseResponse {
+    embedUrl: string | null;
+    last4: string | null;
+}
