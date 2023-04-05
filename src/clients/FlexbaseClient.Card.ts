@@ -38,7 +38,7 @@ interface CardForm {
 }
 
 interface HiddenInfo extends FlexbaseResponse {
-    info: CardHiddenInfo | EmbedUrlHiddenInfo;
+    info: CardHiddenInfo | EmbedUrlHiddenInfo | null;
 }
 
 export class FlexbaseClientCard extends FlexbaseClientBase {
@@ -157,8 +157,9 @@ export class FlexbaseClientCard extends FlexbaseClientBase {
         } catch (error) {
             this.logger.error('Unable to get user card', error);
             return {
-                info: { cardNumber: null, cvc: null, embedUrl: null, expirationDate: null, last4: null },
+                info: null,
                 success: false,
+                error: 'Unable to obtain hidden card information',
             };
         }
     }
