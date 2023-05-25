@@ -105,3 +105,5 @@ export class FlexbaseClientCompany extends FlexbaseClientBase {
         }
     }
 }
+
+export { CompanyBalance };
