@@ -1,4 +1,4 @@
-import { JwtPayload } from 'jwt-decode';
+import { JwtPayload } from '../../utilities/jwt.decode.js';
 
 export interface FlexbaseJwt extends JwtPayload {
   email: string;
