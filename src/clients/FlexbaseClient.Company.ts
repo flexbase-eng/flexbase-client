@@ -10,6 +10,7 @@ interface CompanyBalance {
     creditLimit: number;
     availableLimit: number;
     minimumDue: number;
+    maximumAllowedPayment: number;
     billDate: string;
     graceDate: string;
     delinquentAmount?: number;
