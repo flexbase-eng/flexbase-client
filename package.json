@@ -2,13 +2,16 @@
   "name": "flexbase-client",
   "version": "0.33.48",
   "description": "Flexbase api client",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "umd": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
-  "author": "Flexbase",
+  "author": {
+    "name": "Flexbase Technologies",
+    "email": "hello@flexbase.app",
+    "url": "https://flexbase.app"
+  },
   "license": "MIT",
   "homepage": "https://github.com/flexbase-eng/flexbase-client",
+  "keywords": [
+    "flexbase"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:flexbase-eng/flexbase-client.git"
@@ -16,143 +19,187 @@
   "bugs": {
     "url": "https://github.com/flexbase-eng/flexbase-client/issues"
   },
-  "keywords": [
-    "flexbase"
-  ],
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@flexbase/packr": "^1.0.0",
-    "@types/jest": "^28.1.3",
-    "@types/luxon": "^2.3.2",
-    "@types/node": "^18.0.0",
-    "@types/node-fetch": "^2.6.1",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
-    "esbuild": "^0.14.47",
-    "eslint": "^8.17.0",
-    "eslint-config-prettier": "^8.5.0",
-    "jest": "^28.1.1",
-    "jest-extended": "^2.0.0",
-    "moq.ts": "^9.0.2",
-    "msw": "^0.42.3",
-    "node-fetch": "^2.6.7",
-    "prettier": "^2.7.0",
-    "rollup": "^2.75.7",
-    "rollup-plugin-typescript2": "^0.32.1",
-    "ts-jest": "^28.0.4",
-    "ts-node": "^10.8.1",
-    "tsconfig.json": "^1.0.11",
-    "typedoc": "^0.22.17",
-    "typedoc-github-wiki-theme": "^1.0.1",
-    "typedoc-plugin-markdown": "^3.12.1",
-    "typescript": "^4.7.3"
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "engines": {
+    "node": ">=17.0.0"
   },
   "files": [
     "dist"
   ],
+  "type": "module",
+  "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "docs": "typedoc",
-    "prepare": "yarn run build && husky install",
-    "test": "jest --no-cache",
-    "lint": "eslint 'src/**/*.{ts,tsx,json}' --fix",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run --coverage",
+    "test:ci": "vitest run --coverage --config vitest.ci.config.ts",
+    "lint": "eslint . --ext .ts,.tsx,.json --max-warnings=0",
+    "lint:fix": "yarn lint --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
     "packr": "packr",
-    "patch": "npm version patch",
-    "minor": "npm version minor"
+    "prepare": "is-ci || husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,json}": "eslint --cache --fix --max-warnings=0",
+    "src/**/*.{ts,tsx,css,json}": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@flexbase/http-client-middleware": "^1.9.4",
-    "@flexbase/logger": "^1.3.1",
+    "@flexbase/http-client-middleware": "^2.0.1",
+    "@flexbase/logger": "^2.0.0",
+    "luxon": "^3.3.0",
+    "wretch": "1.7.10"
+  },
+  "devDependencies": {
+    "@flexbase/packr": "^1.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/luxon": "^3.3.0",
+    "@types/node": "^20.2.3",
+    "@types/node-fetch": "^2.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "@vitest/coverage-istanbul": "0.31.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-check-file": "2.3.0",
+    "eslint-plugin-filenames-simple": "latest",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-require-extensions": "^0.1.3",
     "husky": "^8.0.1",
-    "jwt-decode": "^3.1.2",
-    "luxon": "^2.5.2",
-    "wretch": "^1.7.10"
-  },
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tests/tsconfig.tests.json"
-      }
-    },
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "jest-extended/all",
-      "<rootDir>/tests/setup.ts"
-    ],
-    "transform": {
-      "^.+\\.(t|j)sx?$": "ts-jest"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!@flexbase/)"
-    ],
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,ts}"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true,
-    "arrowParens": "avoid",
-    "tabWidth": 4,
-    "useTabs": false,
-    "printWidth": 150
+    "is-ci": "^3.0.1",
+    "lint-staged": "^13.2.2",
+    "moq.ts": "^10.0.6",
+    "msw": "^1.2.1",
+    "node-fetch": "^3.3.1",
+    "prettier": "^2.7.0",
+    "rollup": "^3.23.0",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "semantic-release": "^21.0.0",
+    "typescript": "^5.0.4",
+    "vite": "4.3.8",
+    "vite-plugin-dts": "^2.1.0",
+    "vitest": "0.31.1"
   },
   "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "prettier",
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "rules": {
-      "no-unused-vars": [
-        "warn",
-        {
-          "vars": "all",
-          "args": "none"
-        }
-      ],
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        {
-          "vars": "all",
-          "args": "none"
-        }
-      ],
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-non-null-assertion": "warn",
-      "@typescript-eslint/no-inferrable-types": "off"
-    },
     "env": {
       "browser": true,
-      "es2021": true
+      "es2022": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": "latest"
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:require-extensions/recommended",
+      "plugin:import/typescript",
+      "eslint-config-prettier"
+    ],
+    "overrides": [],
+    "plugins": [
+      "filenames-simple",
+      "check-file",
+      "require-extensions",
+      "import"
+    ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "./src/**/*"
+          ],
+          "extensions": [
+            ".js",
+            ".ts",
+            ".d.ts",
+            ".tsx"
+          ]
+        }
+      }
+    },
+    "rules": {
+      "check-file/folder-naming-convention": [
+        "off",
+        {
+          "src/**/": "KEBAB_CASE",
+          "tests/**/": "KEBAB_CASE",
+          "cypress/**/": "KEBAB_CASE"
+        }
+      ],
+      "filenames-simple/naming-convention": [
+        "off",
+        {
+          "rule": "kebab-case"
+        }
+      ]
     }
   },
   "eslintIgnore": [
     "node_modules",
     "dist",
-    "coverage",
-    "docs",
+    ".github",
+    ".vscode",
+    "build",
+    "scripts",
     "tests"
   ],
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "tabWidth": 2,
+    "useTabs": false,
+    "printWidth": 150
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "*",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "angular",
+          "releaseRules": [
+            {
+              "breaking": true,
+              "release": "major"
+            },
+            {
+              "message": "major*",
+              "release": "major"
+            },
+            {
+              "message": "feat*",
+              "release": "minor"
+            },
+            {
+              "message": "*",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
   "packr": {
     "output": "output",
     "properties": [
@@ -162,6 +209,7 @@
       "main",
       "module",
       "types",
+      "exports",
       "homepage",
       "repository",
       "bugs",

@@ -104,11 +104,17 @@ dist
 .tern-port
 
 # vscode
-.vscode
+#.vscode
 
 # webstorm
-.idea
+#.idea
 
 /dist
 .DS_Store
 /output
+
+cypress/videos
+cypress/screenshots
+
+#lint cache
+.eslintcache

@@ -1,4 +1,4 @@
 export interface CompanyCredit {
-    available: number;
-    total: number;
+  available: number;
+  total: number;
 }
