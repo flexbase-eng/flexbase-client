@@ -2,7 +2,7 @@ import { FlexbaseClientBase } from './FlexbaseClient.Base';
 import { FlexbaseResponse } from '../models/FlexbaseResponse';
 import { Company } from '../models/Business/Company';
 
-interface CompanyBalance {
+export interface CompanyBalance {
     success: boolean;
     totalInvoices: number;
     totalPayments: number;
