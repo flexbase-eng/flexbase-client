@@ -54,6 +54,7 @@ export interface CreditStatement extends FlexbaseResponse {
     previousBalance?: number;
     payments?: PaymentCredit[];
     invoicesNew?: InvoiceNew[];
+    invoicesDue?: InvoiceNew[];
     generatedAt?: string;
     dueDate?: string;
 }
