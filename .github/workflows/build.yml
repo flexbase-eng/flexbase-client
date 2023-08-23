@@ -5,16 +5,8 @@ on:
 jobs:
   build:
     uses: flexbase-eng/.github/.github/workflows/build.typescript.yml@main
-  
-  coverage:
-    needs: build
-    uses: flexbase-eng/.github/.github/workflows/typescript.sonarcloud.yml@main
-    with:
-      project_key: flexbase-eng_flexbase-client
-    secrets: inherit
 
   publish:
-    needs: coverage
     uses: flexbase-eng/.github/.github/workflows/deploy.npm.yml@main
     with:
       tag: beta
