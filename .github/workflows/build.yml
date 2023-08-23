@@ -5,9 +5,12 @@ on:
 jobs:
   build:
     uses: flexbase-eng/.github/.github/workflows/build.typescript.yml@main
-
+  package:
+    needs: build
+    uses: flexbase-eng/.github/.github/workflows/package.typescript.yml@main
   publish:
     uses: flexbase-eng/.github/.github/workflows/deploy.npm.yml@main
+    needs: package
     with:
       tag: beta
     secrets: inherit
