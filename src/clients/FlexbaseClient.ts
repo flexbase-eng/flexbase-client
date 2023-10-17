@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+
 import { applyMixins } from '../utilities/mixin';
 import { FlexbaseClientAddress } from './FlexbaseClient.Address';
 import { FlexbaseClientBase } from './FlexbaseClient.Base';
@@ -20,39 +22,39 @@ import { FlexbaseClientServicing } from './FlexbaseClient.Servicing';
 export class FlexbaseClient extends FlexbaseClientBase {}
 
 export interface FlexbaseClient
-    extends FlexbaseClientAddress,
-        FlexbaseClientPlaid,
-        FlexbaseClientInvoice,
-        FlexbaseClientPerson,
-        FlexbaseClientMerchant,
-        FlexbaseClientCredit,
-        FlexbaseClientUnderwriting,
-        FlexbaseClientPatron,
-        FlexbaseClientOnboarding,
-        FlexbaseClientProject,
-        FlexbaseClientDoc,
-        FlexbaseClientCard,
-        FlexbaseClientCompany,
-        FlexbaseClientPassword,
-        FlexbaseClientBanking,
-        FlexbaseClientServicing,
-        FlexbaseClientPatron {}
-
-applyMixins(FlexbaseClient, [
-    FlexbaseClientAddress,
+  extends FlexbaseClientAddress,
     FlexbaseClientPlaid,
     FlexbaseClientInvoice,
     FlexbaseClientPerson,
     FlexbaseClientMerchant,
     FlexbaseClientCredit,
     FlexbaseClientUnderwriting,
+    FlexbaseClientPatron,
+    FlexbaseClientOnboarding,
     FlexbaseClientProject,
     FlexbaseClientDoc,
     FlexbaseClientCard,
-    FlexbaseClientPatron,
-    FlexbaseClientOnboarding,
     FlexbaseClientCompany,
     FlexbaseClientPassword,
     FlexbaseClientBanking,
     FlexbaseClientServicing,
+    FlexbaseClientPatron {}
+
+applyMixins(FlexbaseClient, [
+  FlexbaseClientAddress,
+  FlexbaseClientPlaid,
+  FlexbaseClientInvoice,
+  FlexbaseClientPerson,
+  FlexbaseClientMerchant,
+  FlexbaseClientCredit,
+  FlexbaseClientUnderwriting,
+  FlexbaseClientProject,
+  FlexbaseClientDoc,
+  FlexbaseClientCard,
+  FlexbaseClientPatron,
+  FlexbaseClientOnboarding,
+  FlexbaseClientCompany,
+  FlexbaseClientPassword,
+  FlexbaseClientBanking,
+  FlexbaseClientServicing,
 ]);

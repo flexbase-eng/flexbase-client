@@ -112,3 +112,9 @@ dist
 /dist
 .DS_Store
 /output
+
+cypress/videos
+cypress/screenshots
+
+#lint cache
+.eslintcache
