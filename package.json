@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "0.33.49",
+  "version": "1.0.0",
   "description": "Flexbase api client",
   "author": "Flexbase",
   "license": "MIT",
@@ -116,8 +116,7 @@
         }
       }
     },
-    "rules": {     
-    }
+    "rules": {}
   },
   "eslintIgnore": [
     "node_modules",
