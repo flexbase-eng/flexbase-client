@@ -1,163 +1,141 @@
-import { badUserId, errorUserId, goodUserId, addPersonForm } from "../mocks/server/constants";
+import { test, expect } from 'vitest';
+import { badUserId, errorUserId, goodUserId, addPersonForm } from '../mocks/server/constants';
 import { employees_error_handlers } from '../mocks/server/handlers/employees';
 import { server } from '../mocks/server/server';
-import { testFlexbaseClient } from "../mocks/TestFlexbaseClient";
+import { testFlexbaseClient } from '../mocks/TestFlexbaseClient';
 
+test('FlexbaseClient get employees success', async () => {
+  const response = await testFlexbaseClient.getEmployees();
 
-test("FlexbaseClient get employees success", async () => {
+  expect(response).not.toBeNull();
+  expect(response.length).toBeGreaterThan(0);
 
-    const response = await testFlexbaseClient.getEmployees();
-
-    expect(response).not.toBeNull();
-    expect(response.length).toBeGreaterThan(0);
-
-    const employee = response[0];
-    expect(employee.id).toBe(goodUserId);
-    expect(employee.firstName).toBe("Ann");
-    expect(employee.jobTitle).toBe("Manager");
-
+  const employee = response[0];
+  expect(employee.id).toBe(goodUserId);
+  expect(employee.firstName).toBe('Ann');
+  expect(employee.jobTitle).toBe('Manager');
 });
 
-test("FlexbaseClient add person success", async () => {
+test('FlexbaseClient add person success', async () => {
+  const response = await testFlexbaseClient.addPerson(addPersonForm);
 
-    const response = await testFlexbaseClient.addPerson(addPersonForm);
-
-    expect(response?.firstName).toBe("Ann");
-    expect(response?.lastName).toBe("Smith");
-    expect(response?.email).toBe("ann@flexbase.app");
+  expect(response?.firstName).toBe('Ann');
+  expect(response?.lastName).toBe('Smith');
+  expect(response?.email).toBe('ann@flexbase.app');
 });
 
-test("FlexbaseClient get employees error", async () => {
+test('FlexbaseClient get employees error', async () => {
+  server.use(...employees_error_handlers);
 
-    server.use(...employees_error_handlers);
+  const response = await testFlexbaseClient.getEmployees();
 
-    const response = await testFlexbaseClient.getEmployees();
-
-    expect(response).not.toBeNull();
-    expect(response.length).toBe(0);
+  expect(response).not.toBeNull();
+  expect(response.length).toBe(0);
 });
 
-test("FlexbaseClient get person success", async () => {
-
-    const response = await testFlexbaseClient.getPerson(goodUserId);
-    expect(response).not.toBeNull();
-    expect(response.success).toBe(true);
+test('FlexbaseClient get person success', async () => {
+  const response = await testFlexbaseClient.getPerson(goodUserId);
+  expect(response).not.toBeNull();
+  expect(response.success).toBe(true);
 });
 
-test("FlexbaseClient get person error", async () => {
+test('FlexbaseClient get person error', async () => {
+  const response = await testFlexbaseClient.getPerson(errorUserId);
 
-    const response = await testFlexbaseClient.getPerson(errorUserId);
-
-    expect(response?.success).toBe(false);
+  expect(response?.success).toBe(false);
 });
 
-test("FlexbaseClient get person failure", async () => {
-
-    const response = await testFlexbaseClient.getPerson(badUserId);
-    expect(response.error).toBe('Error message');
+test('FlexbaseClient get person failure', async () => {
+  const response = await testFlexbaseClient.getPerson(badUserId);
+  expect(response.error).toBe('Error message');
 });
 
-test("FlexbaseClient get person no user id", async () => {
-
-    await expect(testFlexbaseClient.getPerson('')).rejects.toThrow();
+test('FlexbaseClient get person no user id', async () => {
+  await expect(testFlexbaseClient.getPerson('')).rejects.toThrow();
 });
 
-test("FlexbaseClient update person success", async () => {
+test('FlexbaseClient update person success', async () => {
+  const response = await testFlexbaseClient.updatePerson(goodUserId, {
+    firstName: 'Ann',
+    lastName: 'Smith',
+    email: 'ann@flexbase.app',
+  });
 
-    const response = await testFlexbaseClient.updatePerson(goodUserId, 
-    {
-        firstName: "Ann",
-        lastName: "Smith",
-        email: "ann@flexbase.app"
-    });
-
-    expect(response).not.toBeNull();
-    expect(response?.firstName).toBe("Ann");
-    expect(response?.lastName).toBe("Smith");
-    expect(response?.email).toBe("ann@flexbase.app");
-    expect(response?.preferences?.notifications.BILLING.default.length).toBeGreaterThan(0);
-    expect(response?.preferences?.notifications.CARDS.default.length).toBeGreaterThan(1);
+  expect(response).not.toBeNull();
+  expect(response?.firstName).toBe('Ann');
+  expect(response?.lastName).toBe('Smith');
+  expect(response?.email).toBe('ann@flexbase.app');
+  expect(response?.preferences?.notifications.BILLING.default.length).toBeGreaterThan(0);
+  expect(response?.preferences?.notifications.CARDS.default.length).toBeGreaterThan(1);
 });
 
-test("FlexbaseClient update person failure", async () => {
+test('FlexbaseClient update person failure', async () => {
+  const response = await testFlexbaseClient.updatePerson(badUserId, {});
 
-    const response = await testFlexbaseClient.updatePerson(badUserId, {});
-
-    expect(response).toBeNull;
+  expect(response).toBeNull;
 });
 
-test("FlexbaseClient update person error", async () => {
+test('FlexbaseClient update person error', async () => {
+  const response = await testFlexbaseClient.updatePerson(errorUserId, {});
 
-    const response = await testFlexbaseClient.updatePerson(errorUserId, {});
-
-    expect(response).toBeNull;
+  expect(response).toBeNull;
 });
 
-test("FlexbaseClient update person no user id", async () => {
-
-    await expect(testFlexbaseClient.updatePerson('', {})).rejects.toThrow();
+test('FlexbaseClient update person no user id', async () => {
+  await expect(testFlexbaseClient.updatePerson('', {})).rejects.toThrow();
 });
 
-test("FlexbaseClient update person picture success", async () => {
+test('FlexbaseClient update person picture success', async () => {
+  const response = await testFlexbaseClient.updatePersonPicture(goodUserId, {});
 
-    const response = await testFlexbaseClient.updatePersonPicture(goodUserId, {});
-
-    expect(response).toBe(true);
+  expect(response).toBe(true);
 });
 
-test("FlexbaseClient update person picture failure", async () => {
+test('FlexbaseClient update person picture failure', async () => {
+  const response = await testFlexbaseClient.updatePersonPicture(badUserId, {});
 
-    const response = await testFlexbaseClient.updatePersonPicture(badUserId, {});
-
-    expect(response).toBe(false);
+  expect(response).toBe(false);
 });
 
-test("FlexbaseClient update person picture error", async () => {
+test('FlexbaseClient update person picture error', async () => {
+  const response = await testFlexbaseClient.updatePersonPicture(errorUserId, {});
 
-    const response = await testFlexbaseClient.updatePersonPicture(errorUserId, {});
-
-    expect(response).toBe(false);
+  expect(response).toBe(false);
 });
 
-test("FlexbaseClient update person picture no user id", async () => {
-
-    await expect(testFlexbaseClient.updatePersonPicture('', {})).rejects.toThrow();
+test('FlexbaseClient update person picture no user id', async () => {
+  await expect(testFlexbaseClient.updatePersonPicture('', {})).rejects.toThrow();
 });
 
-test("FlexbaseClient get person picture success", async () => {
+test('FlexbaseClient get person picture success', async () => {
+  const response = await testFlexbaseClient.getPersonPicture(goodUserId);
 
-    const response = await testFlexbaseClient.getPersonPicture(goodUserId);
-
-    expect(response).not.toBeNull();
-    expect(response).toBeInstanceOf(ArrayBuffer);
+  expect(response).not.toBeNull();
+  expect(response).toBeInstanceOf(ArrayBuffer);
 });
 
-test("FlexbaseClient get person picture failure", async () => {
+test('FlexbaseClient get person picture failure', async () => {
+  const response = await testFlexbaseClient.getPersonPicture(badUserId);
 
-    const response = await testFlexbaseClient.getPersonPicture(badUserId);
-
-    expect(response).toBeNull();
+  expect(response).toBeNull();
 });
 
-test("FlexbaseClient get person picture error", async () => {
+test('FlexbaseClient get person picture error', async () => {
+  const response = await testFlexbaseClient.getPersonPicture(errorUserId);
 
-    const response = await testFlexbaseClient.getPersonPicture(errorUserId);
-
-    expect(response).toBeNull();
+  expect(response).toBeNull();
 });
 
-test("FlexbaseClient get person picture no user id", async () => {
-
-    await expect(testFlexbaseClient.getPersonPicture('')).rejects.toThrow();
+test('FlexbaseClient get person picture no user id', async () => {
+  await expect(testFlexbaseClient.getPersonPicture('')).rejects.toThrow();
 });
 
-test("FlexbaseClient get autheticated user data", async () => {
+test('FlexbaseClient get autheticated user data', async () => {
+  const response = await testFlexbaseClient.getAuthenticatedUserData();
 
-    const response = await testFlexbaseClient.getAuthenticatedUserData();
-
-    expect(response).not.toBeNull();
-    const billingNotification = response.usr?.preferences?.notifications?.BILLING.default[0];
-    expect(response.usr?.firstName).toBe('Ann');
-    expect(response.usr?.email).toBe('ann@flexbase.app');
-    expect(billingNotification).toBe('sms');
+  expect(response).not.toBeNull();
+  const billingNotification = response.usr?.preferences?.notifications?.BILLING.default[0];
+  expect(response.usr?.firstName).toBe('Ann');
+  expect(response.usr?.email).toBe('ann@flexbase.app');
+  expect(billingNotification).toBe('sms');
 });
