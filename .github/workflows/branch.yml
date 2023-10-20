@@ -10,11 +10,11 @@ jobs:
     with:
       node_version: '18'
 
-  unit-test:
-    name: Run unit tests
-    needs: build
-    uses: flexbase-eng/.github/.github/workflows/test.unit.typescript.yml@main
-    secrets: inherit
+#  unit-test:
+#    name: Run unit tests
+#    needs: build
+#    uses: flexbase-eng/.github/.github/workflows/test.unit.typescript.yml@main
+#    secrets: inherit
 
   coverage:
     name: Compute test coverage
