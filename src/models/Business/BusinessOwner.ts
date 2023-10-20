@@ -1,3 +1,3 @@
 export interface BusinessOwner {
-    id: string;
+  id: string;
 }

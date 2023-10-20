@@ -1,13 +1,13 @@
 import { DateTime } from 'luxon';
-import { Statement } from '../models/Banking/Statement';
-import { FlexbaseClientBase } from './FlexbaseClient.Base';
-import { FlexbaseResponse } from '../models/FlexbaseResponse';
-import { Payment, PaymentForm } from '../models/Banking/Payment';
-import { BankingTransaction } from '../models/Banking/Transaction';
-import { CreateTokenRequest } from '../models/Banking/UnitcoToken';
-import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit';
-import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty';
-import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard, PinStatus, ReportDebitCardRequest } from '../models/Banking/Cards';
+import { Statement } from '../models/Banking/Statement.js';
+import { FlexbaseClientBase } from './FlexbaseClient.Base.js';
+import { FlexbaseResponse } from '../models/FlexbaseResponse.js';
+import { Payment, PaymentForm } from '../models/Banking/Payment.js';
+import { BankingTransaction } from '../models/Banking/Transaction.js';
+import { CreateTokenRequest } from '../models/Banking/UnitcoToken.js';
+import { Deposit, DepositBalance, DepositLimits } from '../models/Banking/Deposit.js';
+import { Counterparty, CounterpartyRequest, CounterpartyApiResponse, CounterpartyData } from '../models/Banking/Counterparty.js';
+import { Card, CreateCardRequest, CardByUser, UpdateCardRequest, IssueCard, PinStatus, ReportDebitCardRequest } from '../models/Banking/Cards.js';
 
 interface BankingParameters {
   isPdf?: boolean;
