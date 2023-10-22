@@ -2,7 +2,6 @@
 
 import { defineConfig } from 'vite';
 import path from 'path';
-import typescript from '@rollup/plugin-typescript';
 import pkg from './package.json' assert { type: 'json' };
 import dts from 'vite-plugin-dts';
 
@@ -19,7 +18,6 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      plugins: [typescript()],
       external: [...Object.keys(pkg.dependencies || {})],
     },
   },
