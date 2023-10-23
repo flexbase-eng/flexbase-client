@@ -1,6 +1,6 @@
 {
   "name": "flexbase-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Flexbase api client",
   "author": "Flexbase",
   "license": "MIT",
@@ -42,7 +42,7 @@
     "src/**/*.{ts,tsx,css,json}": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@flexbase/http-client-middleware": "^2.0.3",
+    "@flexbase/http-client-middleware": "^2.0.13",
     "@flexbase/logger": "^3.0.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^2.5.2",
