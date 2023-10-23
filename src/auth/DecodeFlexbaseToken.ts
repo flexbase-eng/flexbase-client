@@ -1,11 +1,11 @@
-import jwt_decode from 'jwt-decode';
-import { FlexbaseJwt } from '../models/auth/FlexbaseJwt';
+import jwtDecode from 'jwt-decode';
+import { FlexbaseJwt } from '../models/auth/FlexbaseJwt.js';
 
 export const decodeFlexbaseToken = (token: string) => {
-    const decoded = jwt_decode<FlexbaseJwt>(token);
-    return {
-        email: decoded.email,
-        companyId: decoded.companyId,
-        id: decoded.id,
-    };
+  const decoded = jwtDecode.default<FlexbaseJwt>(token);
+  return {
+    email: decoded.email,
+    companyId: decoded.companyId,
+    id: decoded.id,
+  };
 };

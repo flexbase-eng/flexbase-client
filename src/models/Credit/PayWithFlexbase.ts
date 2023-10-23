@@ -1,24 +1,24 @@
-import { Merchant } from '../Merchant/Merchant';
+import { Merchant } from '../Merchant/Merchant.js';
 
 export type PayWithFlexbaseMode = 'immediate';
 
 export interface PayWithFlexbase {
-    apiKey: string;
-    amount: number;
-    session?: string;
-    mode: PayWithFlexbaseMode;
-    description?: string;
+  apiKey: string;
+  amount: number;
+  session?: string;
+  mode: PayWithFlexbaseMode;
+  description?: string;
 }
 
 export interface PayWithFlexbaseResponse {
-    approved: boolean;
-    invoice?: PayWithFlexbaseInvoice;
-    merchant?: Merchant;
+  approved: boolean;
+  invoice?: PayWithFlexbaseInvoice;
+  merchant?: Merchant;
 }
 
 export interface PayWithFlexbaseInvoice {
-    id: string;
-    amount: number;
-    status: string;
-    session: string;
+  id: string;
+  amount: number;
+  status: string;
+  session: string;
 }

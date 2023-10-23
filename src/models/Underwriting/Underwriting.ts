@@ -1,5 +1,5 @@
 export interface Underwriting {
-    approved: boolean;
-    maxLimit: number;
-    level: number;
+  approved: boolean;
+  maxLimit: number;
+  level: number;
 }
