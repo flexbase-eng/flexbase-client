@@ -341,10 +341,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.52.0.tgz#78fe5f117840f69dc4a353adf9b9cd926353378c"
   integrity sha512-mjZVbpaeMZludF2fsWLD0Z9gCref1Tk4i9+wddjRvpUNqqcndPkBD09N/Mapey0b3jaXbLm2kICwFv2E64QinA==
 
-"@flexbase/http-client-middleware@^2.0.12":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-2.0.12.tgz#39ca139b23cc82eb93dbe8072e213663be5aad83"
-  integrity sha512-36aeiYsznfPY7g2g0YX4KJWn94WiLJzhM/rslsnbmqtePpfeZ/wIK+AbLcz8M2ZdQKsiJ4LcefV2D9YZVCbjDw==
+"@flexbase/http-client-middleware@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@flexbase/http-client-middleware/-/http-client-middleware-2.0.13.tgz#b36129d7395cb944ed00526078bf0ef1be20e474"
+  integrity sha512-YD//F/phtKEHxoMXUAheNBbWHneHKIRCPOwhdQEse0ohgoe7WuZ3hiH/HGbu2Ds/xFB63jfhmH9TtlEWzO62Zg==
   dependencies:
     luxon "^3.1.0"
 
