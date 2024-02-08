@@ -20,6 +20,7 @@ interface PersonUpdateRequest {
   authorizedSignatory?: boolean;
   id?: string;
   roles?: string[];
+  status?: string;
   completedOnboarding?: string;
   completedOffboarding?: string;
   preferences?: {
